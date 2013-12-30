@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <propel>
+        <datasources default="pac">
+            <datasource id="pac">
+                <adapter>mysql</adapter>
+                <connection>
+                    <dsn>mysql:host=127.0.0.1;dbname=#{database}#</dsn>
+                    <user>#{username}#</user>
+                    <password>#{password}#</password>
+                </connection>
+            </datasource>
+        </datasources>
+    </propel>
+</config>

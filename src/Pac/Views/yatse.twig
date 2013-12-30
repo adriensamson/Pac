@@ -1,0 +1,179 @@
+{% extends "layout/_main.twig" %}
+
+{% block title %}
+Yatse, the XBMC remote
+{% endblock %}
+
+{% block content %}
+
+	<script src="{{ app.request.basepath }}/js/jqBootstrapValidation-2.0.0.min.js"></script>
+
+	{% embed "layout/_product_splash.twig" %}
+	    {% block title %}
+	        Yatse, the XBMC remote
+	    {% endblock %}
+
+	    {% block image %}
+               <img src="{{ app.request.basepath }}/image/yatse/header_640.jpg" class="img-responsive" alt="">
+	    {% endblock %}
+
+	   	{% block desc %}
+		<mark>Full featured XBMC remote with widgets and streaming capabilities</mark>
+		Yatse is the most complete and stable <b>XBMC remote</b> available in Play Store and the only one with a <b>4.9 rating</b>.
+		Take <b>full control</b> of your XBMC with complete library support, beautiful widgets, and <b>streaming functions</b> optimized for phones and tablets.
+	    {% endblock %}
+
+  	   	{% block links %}
+
+<div class="well download clearfix">
+		<span>Yatse</span>
+		<img src="https://chart.googleapis.com/chart?cht=qr&amp;chs=100x100&amp;chld=L|0&amp;chl=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dorg.leetzone.android.yatsewidgetfree" alt="Yatse widget free qrcode" class="qrcode">
+		<a href="https://play.google.com/store/apps/details?id=org.leetzone.android.yatsewidgetfree" class="playstore"><img src="{{ app.request.basepath }}/image/PlayStoreLogo.png" /></a>
+</div>
+	    {% endblock %}
+
+	{% endembed %}
+
+
+	<div class="content">
+        <div class="row content-ribbon">
+            <div class="col-md-8">
+                <div class="l-box">
+                    <h4 class="content-subhead">Enjoy a full feaured media center remote</h4>
+
+                    <h3>Main functions</h3>
+					<p>
+					<ul>
+						<li>Offline library synchronization. List your XBMC medias everywhere.</li>
+						<li>Modern and intuitive Holo interface</li>
+						<li>Support Multiple XMBC installation (And centralized Mysql database). Fast XBMC selection from widget or home.</li>
+						<li>XBMC Starter for Windows. Start XBMC directly from your remote, no need for additional Android application.</li>
+						<li>Multiple Widgets included for fast remote actions or now playing details.</li>
+						<li>Optimized for phones and tablets. Multiple configurable views to fit your needs.</li>
+						<li>Full support for Media Player Classic (MPC or MPC-HC) as an external player.</li>
+						<li>Full support for XBMC Frodo.</li>
+						<li>Pvr support.</li>
+						<li>Streaming support.<span class="label label-warning">* Pro *</span></li>
+						<li>Completely configurable to make Yatse fills all your needs.</li>
+					</ul>
+					</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="l-box video-container">
+                    {#<img src="http://placehold.it/400x250"
+                         alt="Placeholder image for example."
+                         class="img-responsive">#}
+                    <iframe width="480" height="390" src="http://www.youtube.com/embed/88KU5nK6mXE" frameborder="0" allowfullscreen=""></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="row content-ribbon">
+            <div class="col-md-4">
+                <div class="l-box">
+                    <img src="http://placehold.it/400x250"
+                         alt="Placeholder image for example."
+                         class="img-responsive">
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="l-box">
+                    <h4 class="content-subhead">Some more small text</h4>
+
+                    <h3>Etiam iaculis iaculis lobortis.</h3>
+                    <p>
+                        Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum. Morbi fermentum dui sit amet libero tincidunt rutrum. Nam sodales consequat metus sed accumsan.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+        	<h2>Yatse on the web</h2>
+            <div class="col-md-3">
+                <div class="l-box">
+                    <h3>The best XBMC remote</h3>
+                    <p>
+                        Yatse is the best XBMC remote in this list, hands down. With it you can browser practically everything your media center has to offer, and to top everything off there’s a widget on your homescreen for quick access.[...] If there’s a better Android XBMC remote out there I’ve never heard of it.
+                        <a href="http://www.makeuseof.com/tag/android-xbmc-remote-apps-compared-which-one-should-you-use/">MakeUseOf</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="l-box">
+                    <h3>Subheading</h3>
+                    <p>
+                        Donec suscipit, risus vel venenatis ornare, nibh massa ultrices diam, a elementum metus felis sit amet eros. Phasellus pellentesque euismod massa sed pellentesque.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="l-box">
+                    <h3>Subheading</h3>
+                    <p>
+                        Donec suscipit, risus vel venenatis ornare, nibh massa ultrices diam, a elementum metus felis sit amet eros. Phasellus pellentesque euismod massa sed pellentesque.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="l-box">
+                    <h3>Subheading</h3>
+                    <p>
+                        Donec suscipit, risus vel venenatis ornare, nibh massa ultrices diam, a elementum metus felis sit amet eros. Phasellus pellentesque euismod massa sed pellentesque.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row l-box ribbon">
+	        <!-- Button trigger modal -->
+			<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+			  Get Pro, unlock additional features
+			</button>
+
+			<!-- Modal -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Get Yatse Pro version</h4>
+                  </div>
+                  <div class="modal-body">
+			      <form id="emailForm" class="form-horizontal" action="{{ path('validate_email') }}" method="POST">
+                    <h3>Buy it on the Google Play Store</h3>
+					<a href="https://play.google.com/store/apps/details?id=org.leetzone.android.yatsewidgetunlocker" class="playstore"><img src="{{ app.request.basepath }}/image/PlayStoreLogo.png" /></a>
+   					<img src="https://chart.googleapis.com/chart?cht=qr&amp;chs=100x100&amp;chld=L|0&amp;chl=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dorg.leetzone.android.yatsewidgetunlocker" alt="Yatse widget unlocker qrcode" class="qrcode">
+					<h3>Buy it on Paypal</h3>
+			        Please enter the gmail address used on your Android device. The Pro version will only work on Android devices where this email account is registered.
+			        <div class="form-group">
+                        <div class="controls">
+                        <input type="email" name="email" style="width:60%;margin:auto;" class="form-control" placeholder="your android email account" required>
+                            <button type="submit" class="btn btn-primary">Ok</button>
+				        	<p class="help-block"></p>
+				        </div>
+				    </div>
+                  </form>
+                  <div class="paypal-button hidden">
+                    {% include "layout/_yatse_buy_now.twig" %}
+                  </div>
+                  <div class="purchase-message hidden">
+                    Vous avez déjà payé l'application pelo
+                  </div>
+			    </div><!-- /.modal-content -->
+			  </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+        </div>
+    </div>
+
+	<script>
+	  $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
+	</script>
+
+{% endblock %}

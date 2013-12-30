@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="pac" namespace="Pac\Model" defaultIdMethod="native">
+
+    <table name="user">
+        <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+        <column name="email" type="varchar" />
+
+        <behavior name="timestampable" />
+    </table>
+
+    <table name="product">
+        <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+        <column name="name" type="varchar" />
+        <column name="version" type="varchar" />
+
+        <behavior name="timestampable" />
+    </table>
+
+    <table name="purchase">
+        <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+        <column name="user_id" type="integer" />
+        <column name="product_id" type="integer" />
+
+        <column name="state" type="enum" valueSet="done,rejected,undone" defaultValue="done" />
+        <column name="amount" type="double" />
+        <column name="paypal_callback" type="varchar" />
+        <column name="version" type="varchar" />
+        <column name="generation_date" type="timestamp" />
+        <column name="total_download_count" type="integer" defaultValue="0" />
+
+        <foreign-key foreignTable="user" onDelete="cascade">
+            <reference local="user_id" foreign="id"/>
+        </foreign-key>
+
+        <foreign-key foreignTable="product" onDelete="cascade">
+            <reference local="product_id" foreign="id"/>
+        </foreign-key>
+
+        <behavior name="timestampable" />
+    </table>
+
+</database>
