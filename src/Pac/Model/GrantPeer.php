@@ -2,11 +2,11 @@
 
 namespace Pac\Model;
 
-use Pac\Model\om\BaseProductPeer;
+use Pac\Model\om\BaseGrantPeer;
 
 
 /**
- * Skeleton subclass for performing query and update operations on the 'product' table.
+ * Skeleton subclass for performing query and update operations on the 'grant' table.
  *
  *
  *
@@ -16,6 +16,6 @@ use Pac\Model\om\BaseProductPeer;
  *
  * @package    propel.generator.Pac.Model
  */
-class ProductPeer extends BaseProductPeer
+class GrantPeer extends BaseGrantPeer
 {
 }

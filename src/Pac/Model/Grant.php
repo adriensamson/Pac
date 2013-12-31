@@ -2,11 +2,11 @@
 
 namespace Pac\Model;
 
-use Pac\Model\om\BaseUser;
+use Pac\Model\om\BaseGrant;
 
 
 /**
- * Skeleton subclass for representing a row from the 'user' table.
+ * Skeleton subclass for representing a row from the 'grant' table.
  *
  *
  *
@@ -16,6 +16,6 @@ use Pac\Model\om\BaseUser;
  *
  * @package    propel.generator.Pac.Model
  */
-class User extends BaseUser
+class Grant extends BaseGrant
 {
 }

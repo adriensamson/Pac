@@ -5,41 +5,39 @@ namespace Pac\Model\om;
 use \BaseObject;
 use \BasePeer;
 use \Criteria;
-use \DateTime;
 use \Exception;
 use \PDO;
 use \Persistent;
 use \Propel;
 use \PropelCollection;
-use \PropelDateTime;
 use \PropelException;
 use \PropelObjectCollection;
 use \PropelPDO;
-use Pac\Model\Product;
-use Pac\Model\ProductPeer;
-use Pac\Model\ProductQuery;
-use Pac\Model\Purchase;
-use Pac\Model\PurchaseQuery;
+use Pac\Model\Company;
+use Pac\Model\CompanyPeer;
+use Pac\Model\CompanyQuery;
+use Pac\Model\Grant;
+use Pac\Model\GrantQuery;
 
 /**
- * Base class that represents a row from the 'product' table.
+ * Base class that represents a row from the 'company' table.
  *
  *
  *
  * @package    propel.generator.Pac.Model.om
  */
-abstract class BaseProduct extends BaseObject implements Persistent
+abstract class BaseCompany extends BaseObject implements Persistent
 {
     /**
      * Peer class name
      */
-    const PEER = 'Pac\\Model\\ProductPeer';
+    const PEER = 'Pac\\Model\\CompanyPeer';
 
     /**
      * The Peer class.
      * Instance provides a convenient way of calling static methods on a class
      * that calling code may not be able to identify.
-     * @var        ProductPeer
+     * @var        CompanyPeer
      */
     protected static $peer;
 
@@ -62,28 +60,22 @@ abstract class BaseProduct extends BaseObject implements Persistent
     protected $name;
 
     /**
-     * The value for the version field.
+     * The value for the city field.
      * @var        string
      */
-    protected $version;
+    protected $city;
 
     /**
-     * The value for the created_at field.
-     * @var        string
+     * The value for the postal_code field.
+     * @var        int
      */
-    protected $created_at;
+    protected $postal_code;
 
     /**
-     * The value for the updated_at field.
-     * @var        string
+     * @var        PropelObjectCollection|Grant[] Collection to store aggregation of Grant objects.
      */
-    protected $updated_at;
-
-    /**
-     * @var        PropelObjectCollection|Purchase[] Collection to store aggregation of Purchase objects.
-     */
-    protected $collPurchases;
-    protected $collPurchasesPartial;
+    protected $collGrants;
+    protected $collGrantsPartial;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -109,7 +101,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      * An array of objects scheduled for deletion.
      * @var		PropelObjectCollection
      */
-    protected $purchasesScheduledForDeletion = null;
+    protected $grantsScheduledForDeletion = null;
 
     /**
      * Get the [id] column value.
@@ -134,101 +126,32 @@ abstract class BaseProduct extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [version] column value.
+     * Get the [city] column value.
      *
      * @return string
      */
-    public function getVersion()
+    public function getCity()
     {
 
-        return $this->version;
+        return $this->city;
     }
 
     /**
-     * Get the [optionally formatted] temporal [created_at] column value.
+     * Get the [postal_code] column value.
      *
-     *
-     * @param string $format The date/time format string (either date()-style or strftime()-style).
-     *				 If format is null, then the raw DateTime object will be returned.
-     * @return mixed Formatted date/time value as string or DateTime object (if format is null), null if column is null, and 0 if column value is 0000-00-00 00:00:00
-     * @throws PropelException - if unable to parse/validate the date/time value.
+     * @return int
      */
-    public function getCreatedAt($format = 'Y-m-d H:i:s')
+    public function getPostalCode()
     {
-        if ($this->created_at === null) {
-            return null;
-        }
 
-        if ($this->created_at === '0000-00-00 00:00:00') {
-            // while technically this is not a default value of null,
-            // this seems to be closest in meaning.
-            return null;
-        }
-
-        try {
-            $dt = new DateTime($this->created_at);
-        } catch (Exception $x) {
-            throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->created_at, true), $x);
-        }
-
-        if ($format === null) {
-            // Because propel.useDateTimeClass is true, we return a DateTime object.
-            return $dt;
-        }
-
-        if (strpos($format, '%') !== false) {
-            return strftime($format, $dt->format('U'));
-        }
-
-        return $dt->format($format);
-
-    }
-
-    /**
-     * Get the [optionally formatted] temporal [updated_at] column value.
-     *
-     *
-     * @param string $format The date/time format string (either date()-style or strftime()-style).
-     *				 If format is null, then the raw DateTime object will be returned.
-     * @return mixed Formatted date/time value as string or DateTime object (if format is null), null if column is null, and 0 if column value is 0000-00-00 00:00:00
-     * @throws PropelException - if unable to parse/validate the date/time value.
-     */
-    public function getUpdatedAt($format = 'Y-m-d H:i:s')
-    {
-        if ($this->updated_at === null) {
-            return null;
-        }
-
-        if ($this->updated_at === '0000-00-00 00:00:00') {
-            // while technically this is not a default value of null,
-            // this seems to be closest in meaning.
-            return null;
-        }
-
-        try {
-            $dt = new DateTime($this->updated_at);
-        } catch (Exception $x) {
-            throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->updated_at, true), $x);
-        }
-
-        if ($format === null) {
-            // Because propel.useDateTimeClass is true, we return a DateTime object.
-            return $dt;
-        }
-
-        if (strpos($format, '%') !== false) {
-            return strftime($format, $dt->format('U'));
-        }
-
-        return $dt->format($format);
-
+        return $this->postal_code;
     }
 
     /**
      * Set the value of [id] column.
      *
      * @param  int $v new value
-     * @return Product The current object (for fluent API support)
+     * @return Company The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -238,7 +161,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[] = ProductPeer::ID;
+            $this->modifiedColumns[] = CompanyPeer::ID;
         }
 
 
@@ -249,7 +172,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      * Set the value of [name] column.
      *
      * @param  string $v new value
-     * @return Product The current object (for fluent API support)
+     * @return Company The current object (for fluent API support)
      */
     public function setName($v)
     {
@@ -259,7 +182,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
 
         if ($this->name !== $v) {
             $this->name = $v;
-            $this->modifiedColumns[] = ProductPeer::NAME;
+            $this->modifiedColumns[] = CompanyPeer::NAME;
         }
 
 
@@ -267,71 +190,46 @@ abstract class BaseProduct extends BaseObject implements Persistent
     } // setName()
 
     /**
-     * Set the value of [version] column.
+     * Set the value of [city] column.
      *
      * @param  string $v new value
-     * @return Product The current object (for fluent API support)
+     * @return Company The current object (for fluent API support)
      */
-    public function setVersion($v)
+    public function setCity($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->version !== $v) {
-            $this->version = $v;
-            $this->modifiedColumns[] = ProductPeer::VERSION;
+        if ($this->city !== $v) {
+            $this->city = $v;
+            $this->modifiedColumns[] = CompanyPeer::CITY;
         }
 
 
         return $this;
-    } // setVersion()
+    } // setCity()
 
     /**
-     * Sets the value of [created_at] column to a normalized version of the date/time value specified.
+     * Set the value of [postal_code] column.
      *
-     * @param mixed $v string, integer (timestamp), or DateTime value.
-     *               Empty strings are treated as null.
-     * @return Product The current object (for fluent API support)
+     * @param  int $v new value
+     * @return Company The current object (for fluent API support)
      */
-    public function setCreatedAt($v)
+    public function setPostalCode($v)
     {
-        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->created_at !== null || $dt !== null) {
-            $currentDateAsString = ($this->created_at !== null && $tmpDt = new DateTime($this->created_at)) ? $tmpDt->format('Y-m-d H:i:s') : null;
-            $newDateAsString = $dt ? $dt->format('Y-m-d H:i:s') : null;
-            if ($currentDateAsString !== $newDateAsString) {
-                $this->created_at = $newDateAsString;
-                $this->modifiedColumns[] = ProductPeer::CREATED_AT;
-            }
-        } // if either are not null
+        if ($v !== null && is_numeric($v)) {
+            $v = (int) $v;
+        }
+
+        if ($this->postal_code !== $v) {
+            $this->postal_code = $v;
+            $this->modifiedColumns[] = CompanyPeer::POSTAL_CODE;
+        }
 
 
         return $this;
-    } // setCreatedAt()
-
-    /**
-     * Sets the value of [updated_at] column to a normalized version of the date/time value specified.
-     *
-     * @param mixed $v string, integer (timestamp), or DateTime value.
-     *               Empty strings are treated as null.
-     * @return Product The current object (for fluent API support)
-     */
-    public function setUpdatedAt($v)
-    {
-        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->updated_at !== null || $dt !== null) {
-            $currentDateAsString = ($this->updated_at !== null && $tmpDt = new DateTime($this->updated_at)) ? $tmpDt->format('Y-m-d H:i:s') : null;
-            $newDateAsString = $dt ? $dt->format('Y-m-d H:i:s') : null;
-            if ($currentDateAsString !== $newDateAsString) {
-                $this->updated_at = $newDateAsString;
-                $this->modifiedColumns[] = ProductPeer::UPDATED_AT;
-            }
-        } // if either are not null
-
-
-        return $this;
-    } // setUpdatedAt()
+    } // setPostalCode()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -367,9 +265,8 @@ abstract class BaseProduct extends BaseObject implements Persistent
 
             $this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
             $this->name = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
-            $this->version = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-            $this->created_at = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->updated_at = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+            $this->city = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
+            $this->postal_code = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -379,10 +276,10 @@ abstract class BaseProduct extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 5; // 5 = ProductPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 4; // 4 = CompanyPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException("Error populating Product object", $e);
+            throw new PropelException("Error populating Company object", $e);
         }
     }
 
@@ -425,13 +322,13 @@ abstract class BaseProduct extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(CompanyPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $stmt = ProductPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
+        $stmt = CompanyPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
         $row = $stmt->fetch(PDO::FETCH_NUM);
         $stmt->closeCursor();
         if (!$row) {
@@ -441,7 +338,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->collPurchases = null;
+            $this->collGrants = null;
 
         } // if (deep)
     }
@@ -463,12 +360,12 @@ abstract class BaseProduct extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(CompanyPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
         try {
-            $deleteQuery = ProductQuery::create()
+            $deleteQuery = CompanyQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -506,7 +403,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(ProductPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(CompanyPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
@@ -515,19 +412,8 @@ abstract class BaseProduct extends BaseObject implements Persistent
             $ret = $this->preSave($con);
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
-                // timestampable behavior
-                if (!$this->isColumnModified(ProductPeer::CREATED_AT)) {
-                    $this->setCreatedAt(time());
-                }
-                if (!$this->isColumnModified(ProductPeer::UPDATED_AT)) {
-                    $this->setUpdatedAt(time());
-                }
             } else {
                 $ret = $ret && $this->preUpdate($con);
-                // timestampable behavior
-                if ($this->isModified() && !$this->isColumnModified(ProductPeer::UPDATED_AT)) {
-                    $this->setUpdatedAt(time());
-                }
             }
             if ($ret) {
                 $affectedRows = $this->doSave($con);
@@ -537,7 +423,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                ProductPeer::addInstanceToPool($this);
+                CompanyPeer::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -578,17 +464,17 @@ abstract class BaseProduct extends BaseObject implements Persistent
                 $this->resetModified();
             }
 
-            if ($this->purchasesScheduledForDeletion !== null) {
-                if (!$this->purchasesScheduledForDeletion->isEmpty()) {
-                    PurchaseQuery::create()
-                        ->filterByPrimaryKeys($this->purchasesScheduledForDeletion->getPrimaryKeys(false))
+            if ($this->grantsScheduledForDeletion !== null) {
+                if (!$this->grantsScheduledForDeletion->isEmpty()) {
+                    GrantQuery::create()
+                        ->filterByPrimaryKeys($this->grantsScheduledForDeletion->getPrimaryKeys(false))
                         ->delete($con);
-                    $this->purchasesScheduledForDeletion = null;
+                    $this->grantsScheduledForDeletion = null;
                 }
             }
 
-            if ($this->collPurchases !== null) {
-                foreach ($this->collPurchases as $referrerFK) {
+            if ($this->collGrants !== null) {
+                foreach ($this->collGrants as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -615,30 +501,27 @@ abstract class BaseProduct extends BaseObject implements Persistent
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = ProductPeer::ID;
+        $this->modifiedColumns[] = CompanyPeer::ID;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . ProductPeer::ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . CompanyPeer::ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(ProductPeer::ID)) {
+        if ($this->isColumnModified(CompanyPeer::ID)) {
             $modifiedColumns[':p' . $index++]  = '`id`';
         }
-        if ($this->isColumnModified(ProductPeer::NAME)) {
+        if ($this->isColumnModified(CompanyPeer::NAME)) {
             $modifiedColumns[':p' . $index++]  = '`name`';
         }
-        if ($this->isColumnModified(ProductPeer::VERSION)) {
-            $modifiedColumns[':p' . $index++]  = '`version`';
+        if ($this->isColumnModified(CompanyPeer::CITY)) {
+            $modifiedColumns[':p' . $index++]  = '`city`';
         }
-        if ($this->isColumnModified(ProductPeer::CREATED_AT)) {
-            $modifiedColumns[':p' . $index++]  = '`created_at`';
-        }
-        if ($this->isColumnModified(ProductPeer::UPDATED_AT)) {
-            $modifiedColumns[':p' . $index++]  = '`updated_at`';
+        if ($this->isColumnModified(CompanyPeer::POSTAL_CODE)) {
+            $modifiedColumns[':p' . $index++]  = '`postal_code`';
         }
 
         $sql = sprintf(
-            'INSERT INTO `product` (%s) VALUES (%s)',
+            'INSERT INTO `company` (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -653,14 +536,11 @@ abstract class BaseProduct extends BaseObject implements Persistent
                     case '`name`':
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
-                    case '`version`':
-                        $stmt->bindValue($identifier, $this->version, PDO::PARAM_STR);
+                    case '`city`':
+                        $stmt->bindValue($identifier, $this->city, PDO::PARAM_STR);
                         break;
-                    case '`created_at`':
-                        $stmt->bindValue($identifier, $this->created_at, PDO::PARAM_STR);
-                        break;
-                    case '`updated_at`':
-                        $stmt->bindValue($identifier, $this->updated_at, PDO::PARAM_STR);
+                    case '`postal_code`':
+                        $stmt->bindValue($identifier, $this->postal_code, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -756,13 +636,13 @@ abstract class BaseProduct extends BaseObject implements Persistent
             $failureMap = array();
 
 
-            if (($retval = ProductPeer::doValidate($this, $columns)) !== true) {
+            if (($retval = CompanyPeer::doValidate($this, $columns)) !== true) {
                 $failureMap = array_merge($failureMap, $retval);
             }
 
 
-                if ($this->collPurchases !== null) {
-                    foreach ($this->collPurchases as $referrerFK) {
+                if ($this->collGrants !== null) {
+                    foreach ($this->collGrants as $referrerFK) {
                         if (!$referrerFK->validate($columns)) {
                             $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
                         }
@@ -788,7 +668,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
     {
-        $pos = ProductPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = CompanyPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -811,13 +691,10 @@ abstract class BaseProduct extends BaseObject implements Persistent
                 return $this->getName();
                 break;
             case 2:
-                return $this->getVersion();
+                return $this->getCity();
                 break;
             case 3:
-                return $this->getCreatedAt();
-                break;
-            case 4:
-                return $this->getUpdatedAt();
+                return $this->getPostalCode();
                 break;
             default:
                 return null;
@@ -842,17 +719,16 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
-        if (isset($alreadyDumpedObjects['Product'][$this->getPrimaryKey()])) {
+        if (isset($alreadyDumpedObjects['Company'][$this->getPrimaryKey()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Product'][$this->getPrimaryKey()] = true;
-        $keys = ProductPeer::getFieldNames($keyType);
+        $alreadyDumpedObjects['Company'][$this->getPrimaryKey()] = true;
+        $keys = CompanyPeer::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getName(),
-            $keys[2] => $this->getVersion(),
-            $keys[3] => $this->getCreatedAt(),
-            $keys[4] => $this->getUpdatedAt(),
+            $keys[2] => $this->getCity(),
+            $keys[3] => $this->getPostalCode(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -860,8 +736,8 @@ abstract class BaseProduct extends BaseObject implements Persistent
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->collPurchases) {
-                $result['Purchases'] = $this->collPurchases->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            if (null !== $this->collGrants) {
+                $result['Grants'] = $this->collGrants->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -881,7 +757,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
     {
-        $pos = ProductPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = CompanyPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 
         $this->setByPosition($pos, $value);
     }
@@ -904,13 +780,10 @@ abstract class BaseProduct extends BaseObject implements Persistent
                 $this->setName($value);
                 break;
             case 2:
-                $this->setVersion($value);
+                $this->setCity($value);
                 break;
             case 3:
-                $this->setCreatedAt($value);
-                break;
-            case 4:
-                $this->setUpdatedAt($value);
+                $this->setPostalCode($value);
                 break;
         } // switch()
     }
@@ -934,13 +807,12 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
     {
-        $keys = ProductPeer::getFieldNames($keyType);
+        $keys = CompanyPeer::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setVersion($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setCreatedAt($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setUpdatedAt($arr[$keys[4]]);
+        if (array_key_exists($keys[2], $arr)) $this->setCity($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setPostalCode($arr[$keys[3]]);
     }
 
     /**
@@ -950,13 +822,12 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(ProductPeer::DATABASE_NAME);
+        $criteria = new Criteria(CompanyPeer::DATABASE_NAME);
 
-        if ($this->isColumnModified(ProductPeer::ID)) $criteria->add(ProductPeer::ID, $this->id);
-        if ($this->isColumnModified(ProductPeer::NAME)) $criteria->add(ProductPeer::NAME, $this->name);
-        if ($this->isColumnModified(ProductPeer::VERSION)) $criteria->add(ProductPeer::VERSION, $this->version);
-        if ($this->isColumnModified(ProductPeer::CREATED_AT)) $criteria->add(ProductPeer::CREATED_AT, $this->created_at);
-        if ($this->isColumnModified(ProductPeer::UPDATED_AT)) $criteria->add(ProductPeer::UPDATED_AT, $this->updated_at);
+        if ($this->isColumnModified(CompanyPeer::ID)) $criteria->add(CompanyPeer::ID, $this->id);
+        if ($this->isColumnModified(CompanyPeer::NAME)) $criteria->add(CompanyPeer::NAME, $this->name);
+        if ($this->isColumnModified(CompanyPeer::CITY)) $criteria->add(CompanyPeer::CITY, $this->city);
+        if ($this->isColumnModified(CompanyPeer::POSTAL_CODE)) $criteria->add(CompanyPeer::POSTAL_CODE, $this->postal_code);
 
         return $criteria;
     }
@@ -971,8 +842,8 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function buildPkeyCriteria()
     {
-        $criteria = new Criteria(ProductPeer::DATABASE_NAME);
-        $criteria->add(ProductPeer::ID, $this->id);
+        $criteria = new Criteria(CompanyPeer::DATABASE_NAME);
+        $criteria->add(CompanyPeer::ID, $this->id);
 
         return $criteria;
     }
@@ -1013,7 +884,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param object $copyObj An object of Product (or compatible) type.
+     * @param object $copyObj An object of Company (or compatible) type.
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -1021,9 +892,8 @@ abstract class BaseProduct extends BaseObject implements Persistent
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setName($this->getName());
-        $copyObj->setVersion($this->getVersion());
-        $copyObj->setCreatedAt($this->getCreatedAt());
-        $copyObj->setUpdatedAt($this->getUpdatedAt());
+        $copyObj->setCity($this->getCity());
+        $copyObj->setPostalCode($this->getPostalCode());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1032,9 +902,9 @@ abstract class BaseProduct extends BaseObject implements Persistent
             // store object hash to prevent cycle
             $this->startCopy = true;
 
-            foreach ($this->getPurchases() as $relObj) {
+            foreach ($this->getGrants() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addPurchase($relObj->copy($deepCopy));
+                    $copyObj->addGrant($relObj->copy($deepCopy));
                 }
             }
 
@@ -1057,7 +927,7 @@ abstract class BaseProduct extends BaseObject implements Persistent
      * objects.
      *
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return Product Clone of current object.
+     * @return Company Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1077,12 +947,12 @@ abstract class BaseProduct extends BaseObject implements Persistent
      * same instance for all member of this class. The method could therefore
      * be static, but this would prevent one from overriding the behavior.
      *
-     * @return ProductPeer
+     * @return CompanyPeer
      */
     public function getPeer()
     {
         if (self::$peer === null) {
-            self::$peer = new ProductPeer();
+            self::$peer = new CompanyPeer();
         }
 
         return self::$peer;
@@ -1099,42 +969,42 @@ abstract class BaseProduct extends BaseObject implements Persistent
      */
     public function initRelation($relationName)
     {
-        if ('Purchase' == $relationName) {
-            $this->initPurchases();
+        if ('Grant' == $relationName) {
+            $this->initGrants();
         }
     }
 
     /**
-     * Clears out the collPurchases collection
+     * Clears out the collGrants collection
      *
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
-     * @return Product The current object (for fluent API support)
-     * @see        addPurchases()
+     * @return Company The current object (for fluent API support)
+     * @see        addGrants()
      */
-    public function clearPurchases()
+    public function clearGrants()
     {
-        $this->collPurchases = null; // important to set this to null since that means it is uninitialized
-        $this->collPurchasesPartial = null;
+        $this->collGrants = null; // important to set this to null since that means it is uninitialized
+        $this->collGrantsPartial = null;
 
         return $this;
     }
 
     /**
-     * reset is the collPurchases collection loaded partially
+     * reset is the collGrants collection loaded partially
      *
      * @return void
      */
-    public function resetPartialPurchases($v = true)
+    public function resetPartialGrants($v = true)
     {
-        $this->collPurchasesPartial = $v;
+        $this->collGrantsPartial = $v;
     }
 
     /**
-     * Initializes the collPurchases collection.
+     * Initializes the collGrants collection.
      *
-     * By default this just sets the collPurchases collection to an empty array (like clearcollPurchases());
+     * By default this just sets the collGrants collection to an empty array (like clearcollGrants());
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
@@ -1143,158 +1013,158 @@ abstract class BaseProduct extends BaseObject implements Persistent
      *
      * @return void
      */
-    public function initPurchases($overrideExisting = true)
+    public function initGrants($overrideExisting = true)
     {
-        if (null !== $this->collPurchases && !$overrideExisting) {
+        if (null !== $this->collGrants && !$overrideExisting) {
             return;
         }
-        $this->collPurchases = new PropelObjectCollection();
-        $this->collPurchases->setModel('Purchase');
+        $this->collGrants = new PropelObjectCollection();
+        $this->collGrants->setModel('Grant');
     }
 
     /**
-     * Gets an array of Purchase objects which contain a foreign key that references this object.
+     * Gets an array of Grant objects which contain a foreign key that references this object.
      *
      * If the $criteria is not null, it is used to always fetch the results from the database.
      * Otherwise the results are fetched from the database the first time, then cached.
      * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this Product is new, it will return
+     * If this Company is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
      * @param Criteria $criteria optional Criteria object to narrow the query
      * @param PropelPDO $con optional connection object
-     * @return PropelObjectCollection|Purchase[] List of Purchase objects
+     * @return PropelObjectCollection|Grant[] List of Grant objects
      * @throws PropelException
      */
-    public function getPurchases($criteria = null, PropelPDO $con = null)
+    public function getGrants($criteria = null, PropelPDO $con = null)
     {
-        $partial = $this->collPurchasesPartial && !$this->isNew();
-        if (null === $this->collPurchases || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collPurchases) {
+        $partial = $this->collGrantsPartial && !$this->isNew();
+        if (null === $this->collGrants || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collGrants) {
                 // return empty collection
-                $this->initPurchases();
+                $this->initGrants();
             } else {
-                $collPurchases = PurchaseQuery::create(null, $criteria)
-                    ->filterByProduct($this)
+                $collGrants = GrantQuery::create(null, $criteria)
+                    ->filterByCompany($this)
                     ->find($con);
                 if (null !== $criteria) {
-                    if (false !== $this->collPurchasesPartial && count($collPurchases)) {
-                      $this->initPurchases(false);
+                    if (false !== $this->collGrantsPartial && count($collGrants)) {
+                      $this->initGrants(false);
 
-                      foreach ($collPurchases as $obj) {
-                        if (false == $this->collPurchases->contains($obj)) {
-                          $this->collPurchases->append($obj);
+                      foreach ($collGrants as $obj) {
+                        if (false == $this->collGrants->contains($obj)) {
+                          $this->collGrants->append($obj);
                         }
                       }
 
-                      $this->collPurchasesPartial = true;
+                      $this->collGrantsPartial = true;
                     }
 
-                    $collPurchases->getInternalIterator()->rewind();
+                    $collGrants->getInternalIterator()->rewind();
 
-                    return $collPurchases;
+                    return $collGrants;
                 }
 
-                if ($partial && $this->collPurchases) {
-                    foreach ($this->collPurchases as $obj) {
+                if ($partial && $this->collGrants) {
+                    foreach ($this->collGrants as $obj) {
                         if ($obj->isNew()) {
-                            $collPurchases[] = $obj;
+                            $collGrants[] = $obj;
                         }
                     }
                 }
 
-                $this->collPurchases = $collPurchases;
-                $this->collPurchasesPartial = false;
+                $this->collGrants = $collGrants;
+                $this->collGrantsPartial = false;
             }
         }
 
-        return $this->collPurchases;
+        return $this->collGrants;
     }
 
     /**
-     * Sets a collection of Purchase objects related by a one-to-many relationship
+     * Sets a collection of Grant objects related by a one-to-many relationship
      * to the current object.
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param PropelCollection $purchases A Propel collection.
+     * @param PropelCollection $grants A Propel collection.
      * @param PropelPDO $con Optional connection object
-     * @return Product The current object (for fluent API support)
+     * @return Company The current object (for fluent API support)
      */
-    public function setPurchases(PropelCollection $purchases, PropelPDO $con = null)
+    public function setGrants(PropelCollection $grants, PropelPDO $con = null)
     {
-        $purchasesToDelete = $this->getPurchases(new Criteria(), $con)->diff($purchases);
+        $grantsToDelete = $this->getGrants(new Criteria(), $con)->diff($grants);
 
 
-        $this->purchasesScheduledForDeletion = $purchasesToDelete;
+        $this->grantsScheduledForDeletion = $grantsToDelete;
 
-        foreach ($purchasesToDelete as $purchaseRemoved) {
-            $purchaseRemoved->setProduct(null);
+        foreach ($grantsToDelete as $grantRemoved) {
+            $grantRemoved->setCompany(null);
         }
 
-        $this->collPurchases = null;
-        foreach ($purchases as $purchase) {
-            $this->addPurchase($purchase);
+        $this->collGrants = null;
+        foreach ($grants as $grant) {
+            $this->addGrant($grant);
         }
 
-        $this->collPurchases = $purchases;
-        $this->collPurchasesPartial = false;
+        $this->collGrants = $grants;
+        $this->collGrantsPartial = false;
 
         return $this;
     }
 
     /**
-     * Returns the number of related Purchase objects.
+     * Returns the number of related Grant objects.
      *
      * @param Criteria $criteria
      * @param boolean $distinct
      * @param PropelPDO $con
-     * @return int             Count of related Purchase objects.
+     * @return int             Count of related Grant objects.
      * @throws PropelException
      */
-    public function countPurchases(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    public function countGrants(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
     {
-        $partial = $this->collPurchasesPartial && !$this->isNew();
-        if (null === $this->collPurchases || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collPurchases) {
+        $partial = $this->collGrantsPartial && !$this->isNew();
+        if (null === $this->collGrants || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collGrants) {
                 return 0;
             }
 
             if ($partial && !$criteria) {
-                return count($this->getPurchases());
+                return count($this->getGrants());
             }
-            $query = PurchaseQuery::create(null, $criteria);
+            $query = GrantQuery::create(null, $criteria);
             if ($distinct) {
                 $query->distinct();
             }
 
             return $query
-                ->filterByProduct($this)
+                ->filterByCompany($this)
                 ->count($con);
         }
 
-        return count($this->collPurchases);
+        return count($this->collGrants);
     }
 
     /**
-     * Method called to associate a Purchase object to this object
-     * through the Purchase foreign key attribute.
+     * Method called to associate a Grant object to this object
+     * through the Grant foreign key attribute.
      *
-     * @param    Purchase $l Purchase
-     * @return Product The current object (for fluent API support)
+     * @param    Grant $l Grant
+     * @return Company The current object (for fluent API support)
      */
-    public function addPurchase(Purchase $l)
+    public function addGrant(Grant $l)
     {
-        if ($this->collPurchases === null) {
-            $this->initPurchases();
-            $this->collPurchasesPartial = true;
+        if ($this->collGrants === null) {
+            $this->initGrants();
+            $this->collGrantsPartial = true;
         }
 
-        if (!in_array($l, $this->collPurchases->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
-            $this->doAddPurchase($l);
+        if (!in_array($l, $this->collGrants->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddGrant($l);
 
-            if ($this->purchasesScheduledForDeletion and $this->purchasesScheduledForDeletion->contains($l)) {
-                $this->purchasesScheduledForDeletion->remove($this->purchasesScheduledForDeletion->search($l));
+            if ($this->grantsScheduledForDeletion and $this->grantsScheduledForDeletion->contains($l)) {
+                $this->grantsScheduledForDeletion->remove($this->grantsScheduledForDeletion->search($l));
             }
         }
 
@@ -1302,56 +1172,31 @@ abstract class BaseProduct extends BaseObject implements Persistent
     }
 
     /**
-     * @param	Purchase $purchase The purchase object to add.
+     * @param	Grant $grant The grant object to add.
      */
-    protected function doAddPurchase($purchase)
+    protected function doAddGrant($grant)
     {
-        $this->collPurchases[]= $purchase;
-        $purchase->setProduct($this);
+        $this->collGrants[]= $grant;
+        $grant->setCompany($this);
     }
 
     /**
-     * @param	Purchase $purchase The purchase object to remove.
-     * @return Product The current object (for fluent API support)
+     * @param	Grant $grant The grant object to remove.
+     * @return Company The current object (for fluent API support)
      */
-    public function removePurchase($purchase)
+    public function removeGrant($grant)
     {
-        if ($this->getPurchases()->contains($purchase)) {
-            $this->collPurchases->remove($this->collPurchases->search($purchase));
-            if (null === $this->purchasesScheduledForDeletion) {
-                $this->purchasesScheduledForDeletion = clone $this->collPurchases;
-                $this->purchasesScheduledForDeletion->clear();
+        if ($this->getGrants()->contains($grant)) {
+            $this->collGrants->remove($this->collGrants->search($grant));
+            if (null === $this->grantsScheduledForDeletion) {
+                $this->grantsScheduledForDeletion = clone $this->collGrants;
+                $this->grantsScheduledForDeletion->clear();
             }
-            $this->purchasesScheduledForDeletion[]= $purchase;
-            $purchase->setProduct(null);
+            $this->grantsScheduledForDeletion[]= $grant;
+            $grant->setCompany(null);
         }
 
         return $this;
-    }
-
-
-    /**
-     * If this collection has already been initialized with
-     * an identical criteria, it returns the collection.
-     * Otherwise if this Product is new, it will return
-     * an empty collection; or if this Product has previously
-     * been saved, it will retrieve related Purchases from storage.
-     *
-     * This method is protected by default in order to keep the public
-     * api reasonable.  You can provide public methods for those you
-     * actually need in Product.
-     *
-     * @param Criteria $criteria optional Criteria object to narrow the query
-     * @param PropelPDO $con optional connection object
-     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return PropelObjectCollection|Purchase[] List of Purchase objects
-     */
-    public function getPurchasesJoinUser($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        $query = PurchaseQuery::create(null, $criteria);
-        $query->joinWith('User', $join_behavior);
-
-        return $this->getPurchases($query, $con);
     }
 
     /**
@@ -1361,9 +1206,8 @@ abstract class BaseProduct extends BaseObject implements Persistent
     {
         $this->id = null;
         $this->name = null;
-        $this->version = null;
-        $this->created_at = null;
-        $this->updated_at = null;
+        $this->city = null;
+        $this->postal_code = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;
@@ -1386,8 +1230,8 @@ abstract class BaseProduct extends BaseObject implements Persistent
     {
         if ($deep && !$this->alreadyInClearAllReferencesDeep) {
             $this->alreadyInClearAllReferencesDeep = true;
-            if ($this->collPurchases) {
-                foreach ($this->collPurchases as $o) {
+            if ($this->collGrants) {
+                foreach ($this->collGrants as $o) {
                     $o->clearAllReferences($deep);
                 }
             }
@@ -1395,20 +1239,20 @@ abstract class BaseProduct extends BaseObject implements Persistent
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
 
-        if ($this->collPurchases instanceof PropelCollection) {
-            $this->collPurchases->clearIterator();
+        if ($this->collGrants instanceof PropelCollection) {
+            $this->collGrants->clearIterator();
         }
-        $this->collPurchases = null;
+        $this->collGrants = null;
     }
 
     /**
      * return the string representation of this object
      *
-     * @return string
+     * @return string The value of the 'name' column
      */
     public function __toString()
     {
-        return (string) $this->exportTo(ProductPeer::DEFAULT_STRING_FORMAT);
+        return (string) $this->getName();
     }
 
     /**
@@ -1419,20 +1263,6 @@ abstract class BaseProduct extends BaseObject implements Persistent
     public function isAlreadyInSave()
     {
         return $this->alreadyInSave;
-    }
-
-    // timestampable behavior
-
-    /**
-     * Mark the current object so that the update date doesn't get updated during next save
-     *
-     * @return     Product The current object (for fluent API support)
-     */
-    public function keepUpdateDateUnchanged()
-    {
-        $this->modifiedColumns[] = ProductPeer::UPDATED_AT;
-
-        return $this;
     }
 
 }

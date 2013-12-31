@@ -2,11 +2,11 @@
 
 namespace Pac\Model;
 
-use Pac\Model\om\BaseUserPeer;
+use Pac\Model\om\BaseCompany;
 
 
 /**
- * Skeleton subclass for performing query and update operations on the 'user' table.
+ * Skeleton subclass for representing a row from the 'company' table.
  *
  *
  *
@@ -16,6 +16,6 @@ use Pac\Model\om\BaseUserPeer;
  *
  * @package    propel.generator.Pac.Model
  */
-class UserPeer extends BaseUserPeer
+class Company extends BaseCompany
 {
 }

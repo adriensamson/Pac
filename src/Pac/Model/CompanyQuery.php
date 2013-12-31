@@ -2,11 +2,11 @@
 
 namespace Pac\Model;
 
-use Pac\Model\om\BaseProductQuery;
+use Pac\Model\om\BaseCompanyQuery;
 
 
 /**
- * Skeleton subclass for performing query and update operations on the 'product' table.
+ * Skeleton subclass for performing query and update operations on the 'company' table.
  *
  *
  *
@@ -16,6 +16,6 @@ use Pac\Model\om\BaseProductQuery;
  *
  * @package    propel.generator.Pac.Model
  */
-class ProductQuery extends BaseProductQuery
+class CompanyQuery extends BaseCompanyQuery
 {
 }

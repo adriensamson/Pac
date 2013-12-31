@@ -2,11 +2,11 @@
 
 namespace Pac\Model;
 
-use Pac\Model\om\BasePurchase;
+use Pac\Model\om\BaseGrantQuery;
 
 
 /**
- * Skeleton subclass for representing a row from the 'purchase' table.
+ * Skeleton subclass for performing query and update operations on the 'grant' table.
  *
  *
  *
@@ -16,6 +16,6 @@ use Pac\Model\om\BasePurchase;
  *
  * @package    propel.generator.Pac.Model
  */
-class Purchase extends BasePurchase
+class GrantQuery extends BaseGrantQuery
 {
 }

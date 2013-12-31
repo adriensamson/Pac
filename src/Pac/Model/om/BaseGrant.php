@@ -5,44 +5,42 @@ namespace Pac\Model\om;
 use \BaseObject;
 use \BasePeer;
 use \Criteria;
-use \DateTime;
 use \Exception;
 use \PDO;
 use \Persistent;
 use \Propel;
-use \PropelDateTime;
 use \PropelException;
 use \PropelPDO;
-use Pac\Model\Project;
-use Pac\Model\ProjectPeer;
-use Pac\Model\ProjectQuery;
-use Pac\Model\User;
-use Pac\Model\UserQuery;
+use Pac\Model\Company;
+use Pac\Model\CompanyQuery;
+use Pac\Model\Grant;
+use Pac\Model\GrantPeer;
+use Pac\Model\GrantQuery;
 
 /**
- * Base class that represents a row from the 'project' table.
+ * Base class that represents a row from the 'grant' table.
  *
  *
  *
  * @package    propel.generator.Pac.Model.om
  */
-abstract class BaseProject extends BaseObject implements Persistent
+abstract class BaseGrant extends BaseObject implements Persistent
 {
     /**
      * Peer class name
      */
-    const PEER = 'Pac\\Model\\ProjectPeer';
+    const PEER = 'Pac\\Model\\GrantPeer';
 
     /**
      * The Peer class.
      * Instance provides a convenient way of calling static methods on a class
      * that calling code may not be able to identify.
-     * @var        ProjectPeer
+     * @var        GrantPeer
      */
     protected static $peer;
 
     /**
-     * The flag var to prevent infinit loop in deep copy
+     * The flag var to prevent infinite loop in deep copy
      * @var       boolean
      */
     protected $startCopy = false;
@@ -54,52 +52,27 @@ abstract class BaseProject extends BaseObject implements Persistent
     protected $id;
 
     /**
-     * The value for the user_id field.
+     * The value for the company_id field.
      * @var        int
      */
-    protected $user_id;
+    protected $company_id;
 
     /**
-     * The value for the name field.
-     * @var        string
+     * The value for the year field.
+     * @var        int
      */
-    protected $name;
+    protected $year;
 
     /**
-     * The value for the description field.
-     * @var        string
+     * The value for the amount field.
+     * @var        double
      */
-    protected $description;
+    protected $amount;
 
     /**
-     * The value for the url field.
-     * @var        string
+     * @var        Company
      */
-    protected $url;
-
-    /**
-     * The value for the active field.
-     * Note: this column has a database default value of: false
-     * @var        boolean
-     */
-    protected $active;
-
-    /**
-     * The value for the created_at field.
-     * @var        string
-     */
-    protected $created_at;
-
-    /**
-     * The value for the updated_at field.
-     * @var        string
-     */
-    protected $updated_at;
-
-    /**
-     * @var        User
-     */
-    protected $aUser;
+    protected $aCompany;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -122,171 +95,54 @@ abstract class BaseProject extends BaseObject implements Persistent
     protected $alreadyInClearAllReferencesDeep = false;
 
     /**
-     * Applies default values to this object.
-     * This method should be called from the object's constructor (or
-     * equivalent initialization method).
-     * @see        __construct()
-     */
-    public function applyDefaultValues()
-    {
-        $this->active = false;
-    }
-
-    /**
-     * Initializes internal state of BaseProject object.
-     * @see        applyDefaults()
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->applyDefaultValues();
-    }
-
-    /**
      * Get the [id] column value.
      *
      * @return int
      */
     public function getId()
     {
+
         return $this->id;
     }
 
     /**
-     * Get the [user_id] column value.
+     * Get the [company_id] column value.
      *
      * @return int
      */
-    public function getUserId()
+    public function getCompanyId()
     {
-        return $this->user_id;
+
+        return $this->company_id;
     }
 
     /**
-     * Get the [name] column value.
+     * Get the [year] column value.
      *
-     * @return string
+     * @return int
      */
-    public function getName()
+    public function getYear()
     {
-        return $this->name;
+
+        return $this->year;
     }
 
     /**
-     * Get the [description] column value.
+     * Get the [amount] column value.
      *
-     * @return string
+     * @return double
      */
-    public function getDescription()
+    public function getAmount()
     {
-        return $this->description;
-    }
 
-    /**
-     * Get the [url] column value.
-     *
-     * @return string
-     */
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    /**
-     * Get the [active] column value.
-     *
-     * @return boolean
-     */
-    public function getActive()
-    {
-        return $this->active;
-    }
-
-    /**
-     * Get the [optionally formatted] temporal [created_at] column value.
-     *
-     *
-     * @param string $format The date/time format string (either date()-style or strftime()-style).
-     *				 If format is null, then the raw DateTime object will be returned.
-     * @return mixed Formatted date/time value as string or DateTime object (if format is null), null if column is null, and 0 if column value is 0000-00-00 00:00:00
-     * @throws PropelException - if unable to parse/validate the date/time value.
-     */
-    public function getCreatedAt($format = 'Y-m-d H:i:s')
-    {
-        if ($this->created_at === null) {
-            return null;
-        }
-
-        if ($this->created_at === '0000-00-00 00:00:00') {
-            // while technically this is not a default value of null,
-            // this seems to be closest in meaning.
-            return null;
-        }
-
-        try {
-            $dt = new DateTime($this->created_at);
-        } catch (Exception $x) {
-            throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->created_at, true), $x);
-        }
-
-        if ($format === null) {
-            // Because propel.useDateTimeClass is true, we return a DateTime object.
-            return $dt;
-        }
-
-        if (strpos($format, '%') !== false) {
-            return strftime($format, $dt->format('U'));
-        }
-
-        return $dt->format($format);
-
-    }
-
-    /**
-     * Get the [optionally formatted] temporal [updated_at] column value.
-     *
-     *
-     * @param string $format The date/time format string (either date()-style or strftime()-style).
-     *				 If format is null, then the raw DateTime object will be returned.
-     * @return mixed Formatted date/time value as string or DateTime object (if format is null), null if column is null, and 0 if column value is 0000-00-00 00:00:00
-     * @throws PropelException - if unable to parse/validate the date/time value.
-     */
-    public function getUpdatedAt($format = 'Y-m-d H:i:s')
-    {
-        if ($this->updated_at === null) {
-            return null;
-        }
-
-        if ($this->updated_at === '0000-00-00 00:00:00') {
-            // while technically this is not a default value of null,
-            // this seems to be closest in meaning.
-            return null;
-        }
-
-        try {
-            $dt = new DateTime($this->updated_at);
-        } catch (Exception $x) {
-            throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->updated_at, true), $x);
-        }
-
-        if ($format === null) {
-            // Because propel.useDateTimeClass is true, we return a DateTime object.
-            return $dt;
-        }
-
-        if (strpos($format, '%') !== false) {
-            return strftime($format, $dt->format('U'));
-        }
-
-        return $dt->format($format);
-
+        return $this->amount;
     }
 
     /**
      * Set the value of [id] column.
      *
-     * @param int $v new value
-     * @return Project The current object (for fluent API support)
+     * @param  int $v new value
+     * @return Grant The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -296,7 +152,7 @@ abstract class BaseProject extends BaseObject implements Persistent
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[] = ProjectPeer::ID;
+            $this->modifiedColumns[] = GrantPeer::ID;
         }
 
 
@@ -304,167 +160,71 @@ abstract class BaseProject extends BaseObject implements Persistent
     } // setId()
 
     /**
-     * Set the value of [user_id] column.
+     * Set the value of [company_id] column.
      *
-     * @param int $v new value
-     * @return Project The current object (for fluent API support)
+     * @param  int $v new value
+     * @return Grant The current object (for fluent API support)
      */
-    public function setUserId($v)
+    public function setCompanyId($v)
     {
         if ($v !== null && is_numeric($v)) {
             $v = (int) $v;
         }
 
-        if ($this->user_id !== $v) {
-            $this->user_id = $v;
-            $this->modifiedColumns[] = ProjectPeer::USER_ID;
+        if ($this->company_id !== $v) {
+            $this->company_id = $v;
+            $this->modifiedColumns[] = GrantPeer::COMPANY_ID;
         }
 
-        if ($this->aUser !== null && $this->aUser->getId() !== $v) {
-            $this->aUser = null;
+        if ($this->aCompany !== null && $this->aCompany->getId() !== $v) {
+            $this->aCompany = null;
         }
 
 
         return $this;
-    } // setUserId()
+    } // setCompanyId()
 
     /**
-     * Set the value of [name] column.
+     * Set the value of [year] column.
      *
-     * @param string $v new value
-     * @return Project The current object (for fluent API support)
+     * @param  int $v new value
+     * @return Grant The current object (for fluent API support)
      */
-    public function setName($v)
+    public function setYear($v)
     {
         if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
-        if ($this->name !== $v) {
-            $this->name = $v;
-            $this->modifiedColumns[] = ProjectPeer::NAME;
+        if ($this->year !== $v) {
+            $this->year = $v;
+            $this->modifiedColumns[] = GrantPeer::YEAR;
         }
 
 
         return $this;
-    } // setName()
+    } // setYear()
 
     /**
-     * Set the value of [description] column.
+     * Set the value of [amount] column.
      *
-     * @param string $v new value
-     * @return Project The current object (for fluent API support)
+     * @param  double $v new value
+     * @return Grant The current object (for fluent API support)
      */
-    public function setDescription($v)
+    public function setAmount($v)
     {
         if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
+            $v = (double) $v;
         }
 
-        if ($this->description !== $v) {
-            $this->description = $v;
-            $this->modifiedColumns[] = ProjectPeer::DESCRIPTION;
-        }
-
-
-        return $this;
-    } // setDescription()
-
-    /**
-     * Set the value of [url] column.
-     *
-     * @param string $v new value
-     * @return Project The current object (for fluent API support)
-     */
-    public function setUrl($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->url !== $v) {
-            $this->url = $v;
-            $this->modifiedColumns[] = ProjectPeer::URL;
+        if ($this->amount !== $v) {
+            $this->amount = $v;
+            $this->modifiedColumns[] = GrantPeer::AMOUNT;
         }
 
 
         return $this;
-    } // setUrl()
-
-    /**
-     * Sets the value of the [active] column.
-     * Non-boolean arguments are converted using the following rules:
-     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
-     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
-     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     *
-     * @param boolean|integer|string $v The new value
-     * @return Project The current object (for fluent API support)
-     */
-    public function setActive($v)
-    {
-        if ($v !== null) {
-            if (is_string($v)) {
-                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
-            } else {
-                $v = (boolean) $v;
-            }
-        }
-
-        if ($this->active !== $v) {
-            $this->active = $v;
-            $this->modifiedColumns[] = ProjectPeer::ACTIVE;
-        }
-
-
-        return $this;
-    } // setActive()
-
-    /**
-     * Sets the value of [created_at] column to a normalized version of the date/time value specified.
-     *
-     * @param mixed $v string, integer (timestamp), or DateTime value.
-     *               Empty strings are treated as null.
-     * @return Project The current object (for fluent API support)
-     */
-    public function setCreatedAt($v)
-    {
-        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->created_at !== null || $dt !== null) {
-            $currentDateAsString = ($this->created_at !== null && $tmpDt = new DateTime($this->created_at)) ? $tmpDt->format('Y-m-d H:i:s') : null;
-            $newDateAsString = $dt ? $dt->format('Y-m-d H:i:s') : null;
-            if ($currentDateAsString !== $newDateAsString) {
-                $this->created_at = $newDateAsString;
-                $this->modifiedColumns[] = ProjectPeer::CREATED_AT;
-            }
-        } // if either are not null
-
-
-        return $this;
-    } // setCreatedAt()
-
-    /**
-     * Sets the value of [updated_at] column to a normalized version of the date/time value specified.
-     *
-     * @param mixed $v string, integer (timestamp), or DateTime value.
-     *               Empty strings are treated as null.
-     * @return Project The current object (for fluent API support)
-     */
-    public function setUpdatedAt($v)
-    {
-        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
-        if ($this->updated_at !== null || $dt !== null) {
-            $currentDateAsString = ($this->updated_at !== null && $tmpDt = new DateTime($this->updated_at)) ? $tmpDt->format('Y-m-d H:i:s') : null;
-            $newDateAsString = $dt ? $dt->format('Y-m-d H:i:s') : null;
-            if ($currentDateAsString !== $newDateAsString) {
-                $this->updated_at = $newDateAsString;
-                $this->modifiedColumns[] = ProjectPeer::UPDATED_AT;
-            }
-        } // if either are not null
-
-
-        return $this;
-    } // setUpdatedAt()
+    } // setAmount()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -476,10 +236,6 @@ abstract class BaseProject extends BaseObject implements Persistent
      */
     public function hasOnlyDefaultValues()
     {
-            if ($this->active !== false) {
-                return false;
-            }
-
         // otherwise, everything was equal, so return true
         return true;
     } // hasOnlyDefaultValues()
@@ -493,7 +249,7 @@ abstract class BaseProject extends BaseObject implements Persistent
      * more tables.
      *
      * @param array $row The row returned by PDOStatement->fetch(PDO::FETCH_NUM)
-     * @param int $startcol 0-based offset column which indicates which restultset column to start with.
+     * @param int $startcol 0-based offset column which indicates which resultset column to start with.
      * @param boolean $rehydrate Whether this object is being re-hydrated from the database.
      * @return int             next starting column
      * @throws PropelException - Any caught Exception will be rewrapped as a PropelException.
@@ -503,13 +259,9 @@ abstract class BaseProject extends BaseObject implements Persistent
         try {
 
             $this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-            $this->user_id = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
-            $this->name = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-            $this->description = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->url = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
-            $this->active = ($row[$startcol + 5] !== null) ? (boolean) $row[$startcol + 5] : null;
-            $this->created_at = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
-            $this->updated_at = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
+            $this->company_id = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
+            $this->year = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
+            $this->amount = ($row[$startcol + 3] !== null) ? (double) $row[$startcol + 3] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -518,10 +270,11 @@ abstract class BaseProject extends BaseObject implements Persistent
                 $this->ensureConsistency();
             }
             $this->postHydrate($row, $startcol, $rehydrate);
-            return $startcol + 8; // 8 = ProjectPeer::NUM_HYDRATE_COLUMNS.
+
+            return $startcol + 4; // 4 = GrantPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException("Error populating Project object", $e);
+            throw new PropelException("Error populating Grant object", $e);
         }
     }
 
@@ -541,8 +294,8 @@ abstract class BaseProject extends BaseObject implements Persistent
     public function ensureConsistency()
     {
 
-        if ($this->aUser !== null && $this->user_id !== $this->aUser->getId()) {
-            $this->aUser = null;
+        if ($this->aCompany !== null && $this->company_id !== $this->aCompany->getId()) {
+            $this->aCompany = null;
         }
     } // ensureConsistency
 
@@ -567,13 +320,13 @@ abstract class BaseProject extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(ProjectPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(GrantPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $stmt = ProjectPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
+        $stmt = GrantPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
         $row = $stmt->fetch(PDO::FETCH_NUM);
         $stmt->closeCursor();
         if (!$row) {
@@ -583,7 +336,7 @@ abstract class BaseProject extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aUser = null;
+            $this->aCompany = null;
         } // if (deep)
     }
 
@@ -604,12 +357,12 @@ abstract class BaseProject extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(ProjectPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(GrantPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
         try {
-            $deleteQuery = ProjectQuery::create()
+            $deleteQuery = GrantQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -647,7 +400,7 @@ abstract class BaseProject extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(ProjectPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(GrantPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
@@ -656,19 +409,8 @@ abstract class BaseProject extends BaseObject implements Persistent
             $ret = $this->preSave($con);
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
-                // timestampable behavior
-                if (!$this->isColumnModified(ProjectPeer::CREATED_AT)) {
-                    $this->setCreatedAt(time());
-                }
-                if (!$this->isColumnModified(ProjectPeer::UPDATED_AT)) {
-                    $this->setUpdatedAt(time());
-                }
             } else {
                 $ret = $ret && $this->preUpdate($con);
-                // timestampable behavior
-                if ($this->isModified() && !$this->isColumnModified(ProjectPeer::UPDATED_AT)) {
-                    $this->setUpdatedAt(time());
-                }
             }
             if ($ret) {
                 $affectedRows = $this->doSave($con);
@@ -678,7 +420,7 @@ abstract class BaseProject extends BaseObject implements Persistent
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                ProjectPeer::addInstanceToPool($this);
+                GrantPeer::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -709,15 +451,15 @@ abstract class BaseProject extends BaseObject implements Persistent
             $this->alreadyInSave = true;
 
             // We call the save method on the following object(s) if they
-            // were passed to this object by their coresponding set
+            // were passed to this object by their corresponding set
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aUser !== null) {
-                if ($this->aUser->isModified() || $this->aUser->isNew()) {
-                    $affectedRows += $this->aUser->save($con);
+            if ($this->aCompany !== null) {
+                if ($this->aCompany->isModified() || $this->aCompany->isNew()) {
+                    $affectedRows += $this->aCompany->save($con);
                 }
-                $this->setUser($this->aUser);
+                $this->setCompany($this->aCompany);
             }
 
             if ($this->isNew() || $this->isModified()) {
@@ -751,39 +493,27 @@ abstract class BaseProject extends BaseObject implements Persistent
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = ProjectPeer::ID;
+        $this->modifiedColumns[] = GrantPeer::ID;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . ProjectPeer::ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . GrantPeer::ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(ProjectPeer::ID)) {
+        if ($this->isColumnModified(GrantPeer::ID)) {
             $modifiedColumns[':p' . $index++]  = '`id`';
         }
-        if ($this->isColumnModified(ProjectPeer::USER_ID)) {
-            $modifiedColumns[':p' . $index++]  = '`user_id`';
+        if ($this->isColumnModified(GrantPeer::COMPANY_ID)) {
+            $modifiedColumns[':p' . $index++]  = '`company_id`';
         }
-        if ($this->isColumnModified(ProjectPeer::NAME)) {
-            $modifiedColumns[':p' . $index++]  = '`name`';
+        if ($this->isColumnModified(GrantPeer::YEAR)) {
+            $modifiedColumns[':p' . $index++]  = '`year`';
         }
-        if ($this->isColumnModified(ProjectPeer::DESCRIPTION)) {
-            $modifiedColumns[':p' . $index++]  = '`description`';
-        }
-        if ($this->isColumnModified(ProjectPeer::URL)) {
-            $modifiedColumns[':p' . $index++]  = '`url`';
-        }
-        if ($this->isColumnModified(ProjectPeer::ACTIVE)) {
-            $modifiedColumns[':p' . $index++]  = '`active`';
-        }
-        if ($this->isColumnModified(ProjectPeer::CREATED_AT)) {
-            $modifiedColumns[':p' . $index++]  = '`created_at`';
-        }
-        if ($this->isColumnModified(ProjectPeer::UPDATED_AT)) {
-            $modifiedColumns[':p' . $index++]  = '`updated_at`';
+        if ($this->isColumnModified(GrantPeer::AMOUNT)) {
+            $modifiedColumns[':p' . $index++]  = '`amount`';
         }
 
         $sql = sprintf(
-            'INSERT INTO `project` (%s) VALUES (%s)',
+            'INSERT INTO `grant` (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -795,26 +525,14 @@ abstract class BaseProject extends BaseObject implements Persistent
                     case '`id`':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case '`user_id`':
-                        $stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
+                    case '`company_id`':
+                        $stmt->bindValue($identifier, $this->company_id, PDO::PARAM_INT);
                         break;
-                    case '`name`':
-                        $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
+                    case '`year`':
+                        $stmt->bindValue($identifier, $this->year, PDO::PARAM_INT);
                         break;
-                    case '`description`':
-                        $stmt->bindValue($identifier, $this->description, PDO::PARAM_STR);
-                        break;
-                    case '`url`':
-                        $stmt->bindValue($identifier, $this->url, PDO::PARAM_STR);
-                        break;
-                    case '`active`':
-                        $stmt->bindValue($identifier, (int) $this->active, PDO::PARAM_INT);
-                        break;
-                    case '`created_at`':
-                        $stmt->bindValue($identifier, $this->created_at, PDO::PARAM_STR);
-                        break;
-                    case '`updated_at`':
-                        $stmt->bindValue($identifier, $this->updated_at, PDO::PARAM_STR);
+                    case '`amount`':
+                        $stmt->bindValue($identifier, $this->amount, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -896,10 +614,10 @@ abstract class BaseProject extends BaseObject implements Persistent
      *
      * In addition to checking the current object, all related objects will
      * also be validated.  If all pass then <code>true</code> is returned; otherwise
-     * an aggreagated array of ValidationFailed objects will be returned.
+     * an aggregated array of ValidationFailed objects will be returned.
      *
      * @param array $columns Array of column names to validate.
-     * @return mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
+     * @return mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objects otherwise.
      */
     protected function doValidate($columns = null)
     {
@@ -911,18 +629,18 @@ abstract class BaseProject extends BaseObject implements Persistent
 
 
             // We call the validate method on the following object(s) if they
-            // were passed to this object by their coresponding set
+            // were passed to this object by their corresponding set
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aUser !== null) {
-                if (!$this->aUser->validate($columns)) {
-                    $failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
+            if ($this->aCompany !== null) {
+                if (!$this->aCompany->validate($columns)) {
+                    $failureMap = array_merge($failureMap, $this->aCompany->getValidationFailures());
                 }
             }
 
 
-            if (($retval = ProjectPeer::doValidate($this, $columns)) !== true) {
+            if (($retval = GrantPeer::doValidate($this, $columns)) !== true) {
                 $failureMap = array_merge($failureMap, $retval);
             }
 
@@ -946,7 +664,7 @@ abstract class BaseProject extends BaseObject implements Persistent
      */
     public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
     {
-        $pos = ProjectPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = GrantPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -966,25 +684,13 @@ abstract class BaseProject extends BaseObject implements Persistent
                 return $this->getId();
                 break;
             case 1:
-                return $this->getUserId();
+                return $this->getCompanyId();
                 break;
             case 2:
-                return $this->getName();
+                return $this->getYear();
                 break;
             case 3:
-                return $this->getDescription();
-                break;
-            case 4:
-                return $this->getUrl();
-                break;
-            case 5:
-                return $this->getActive();
-                break;
-            case 6:
-                return $this->getCreatedAt();
-                break;
-            case 7:
-                return $this->getUpdatedAt();
+                return $this->getAmount();
                 break;
             default:
                 return null;
@@ -1009,24 +715,25 @@ abstract class BaseProject extends BaseObject implements Persistent
      */
     public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
-        if (isset($alreadyDumpedObjects['Project'][$this->getPrimaryKey()])) {
+        if (isset($alreadyDumpedObjects['Grant'][$this->getPrimaryKey()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Project'][$this->getPrimaryKey()] = true;
-        $keys = ProjectPeer::getFieldNames($keyType);
+        $alreadyDumpedObjects['Grant'][$this->getPrimaryKey()] = true;
+        $keys = GrantPeer::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getUserId(),
-            $keys[2] => $this->getName(),
-            $keys[3] => $this->getDescription(),
-            $keys[4] => $this->getUrl(),
-            $keys[5] => $this->getActive(),
-            $keys[6] => $this->getCreatedAt(),
-            $keys[7] => $this->getUpdatedAt(),
+            $keys[1] => $this->getCompanyId(),
+            $keys[2] => $this->getYear(),
+            $keys[3] => $this->getAmount(),
         );
+        $virtualColumns = $this->virtualColumns;
+        foreach ($virtualColumns as $key => $virtualColumn) {
+            $result[$key] = $virtualColumn;
+        }
+
         if ($includeForeignObjects) {
-            if (null !== $this->aUser) {
-                $result['User'] = $this->aUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            if (null !== $this->aCompany) {
+                $result['Company'] = $this->aCompany->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -1046,7 +753,7 @@ abstract class BaseProject extends BaseObject implements Persistent
      */
     public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
     {
-        $pos = ProjectPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = GrantPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 
         $this->setByPosition($pos, $value);
     }
@@ -1066,25 +773,13 @@ abstract class BaseProject extends BaseObject implements Persistent
                 $this->setId($value);
                 break;
             case 1:
-                $this->setUserId($value);
+                $this->setCompanyId($value);
                 break;
             case 2:
-                $this->setName($value);
+                $this->setYear($value);
                 break;
             case 3:
-                $this->setDescription($value);
-                break;
-            case 4:
-                $this->setUrl($value);
-                break;
-            case 5:
-                $this->setActive($value);
-                break;
-            case 6:
-                $this->setCreatedAt($value);
-                break;
-            case 7:
-                $this->setUpdatedAt($value);
+                $this->setAmount($value);
                 break;
         } // switch()
     }
@@ -1108,16 +803,12 @@ abstract class BaseProject extends BaseObject implements Persistent
      */
     public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
     {
-        $keys = ProjectPeer::getFieldNames($keyType);
+        $keys = GrantPeer::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setUserId($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setName($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setDescription($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setUrl($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setActive($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setCreatedAt($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setUpdatedAt($arr[$keys[7]]);
+        if (array_key_exists($keys[1], $arr)) $this->setCompanyId($arr[$keys[1]]);
+        if (array_key_exists($keys[2], $arr)) $this->setYear($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setAmount($arr[$keys[3]]);
     }
 
     /**
@@ -1127,16 +818,12 @@ abstract class BaseProject extends BaseObject implements Persistent
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(ProjectPeer::DATABASE_NAME);
+        $criteria = new Criteria(GrantPeer::DATABASE_NAME);
 
-        if ($this->isColumnModified(ProjectPeer::ID)) $criteria->add(ProjectPeer::ID, $this->id);
-        if ($this->isColumnModified(ProjectPeer::USER_ID)) $criteria->add(ProjectPeer::USER_ID, $this->user_id);
-        if ($this->isColumnModified(ProjectPeer::NAME)) $criteria->add(ProjectPeer::NAME, $this->name);
-        if ($this->isColumnModified(ProjectPeer::DESCRIPTION)) $criteria->add(ProjectPeer::DESCRIPTION, $this->description);
-        if ($this->isColumnModified(ProjectPeer::URL)) $criteria->add(ProjectPeer::URL, $this->url);
-        if ($this->isColumnModified(ProjectPeer::ACTIVE)) $criteria->add(ProjectPeer::ACTIVE, $this->active);
-        if ($this->isColumnModified(ProjectPeer::CREATED_AT)) $criteria->add(ProjectPeer::CREATED_AT, $this->created_at);
-        if ($this->isColumnModified(ProjectPeer::UPDATED_AT)) $criteria->add(ProjectPeer::UPDATED_AT, $this->updated_at);
+        if ($this->isColumnModified(GrantPeer::ID)) $criteria->add(GrantPeer::ID, $this->id);
+        if ($this->isColumnModified(GrantPeer::COMPANY_ID)) $criteria->add(GrantPeer::COMPANY_ID, $this->company_id);
+        if ($this->isColumnModified(GrantPeer::YEAR)) $criteria->add(GrantPeer::YEAR, $this->year);
+        if ($this->isColumnModified(GrantPeer::AMOUNT)) $criteria->add(GrantPeer::AMOUNT, $this->amount);
 
         return $criteria;
     }
@@ -1151,8 +838,8 @@ abstract class BaseProject extends BaseObject implements Persistent
      */
     public function buildPkeyCriteria()
     {
-        $criteria = new Criteria(ProjectPeer::DATABASE_NAME);
-        $criteria->add(ProjectPeer::ID, $this->id);
+        $criteria = new Criteria(GrantPeer::DATABASE_NAME);
+        $criteria->add(GrantPeer::ID, $this->id);
 
         return $criteria;
     }
@@ -1193,20 +880,16 @@ abstract class BaseProject extends BaseObject implements Persistent
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param object $copyObj An object of Project (or compatible) type.
+     * @param object $copyObj An object of Grant (or compatible) type.
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setUserId($this->getUserId());
-        $copyObj->setName($this->getName());
-        $copyObj->setDescription($this->getDescription());
-        $copyObj->setUrl($this->getUrl());
-        $copyObj->setActive($this->getActive());
-        $copyObj->setCreatedAt($this->getCreatedAt());
-        $copyObj->setUpdatedAt($this->getUpdatedAt());
+        $copyObj->setCompanyId($this->getCompanyId());
+        $copyObj->setYear($this->getYear());
+        $copyObj->setAmount($this->getAmount());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1234,7 +917,7 @@ abstract class BaseProject extends BaseObject implements Persistent
      * objects.
      *
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return Project Clone of current object.
+     * @return Grant Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1254,38 +937,38 @@ abstract class BaseProject extends BaseObject implements Persistent
      * same instance for all member of this class. The method could therefore
      * be static, but this would prevent one from overriding the behavior.
      *
-     * @return ProjectPeer
+     * @return GrantPeer
      */
     public function getPeer()
     {
         if (self::$peer === null) {
-            self::$peer = new ProjectPeer();
+            self::$peer = new GrantPeer();
         }
 
         return self::$peer;
     }
 
     /**
-     * Declares an association between this object and a User object.
+     * Declares an association between this object and a Company object.
      *
-     * @param             User $v
-     * @return Project The current object (for fluent API support)
+     * @param                  Company $v
+     * @return Grant The current object (for fluent API support)
      * @throws PropelException
      */
-    public function setUser(User $v = null)
+    public function setCompany(Company $v = null)
     {
         if ($v === null) {
-            $this->setUserId(NULL);
+            $this->setCompanyId(NULL);
         } else {
-            $this->setUserId($v->getId());
+            $this->setCompanyId($v->getId());
         }
 
-        $this->aUser = $v;
+        $this->aCompany = $v;
 
         // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the User object, it will not be re-added.
+        // If this object has already been added to the Company object, it will not be re-added.
         if ($v !== null) {
-            $v->addProject($this);
+            $v->addGrant($this);
         }
 
 
@@ -1294,27 +977,27 @@ abstract class BaseProject extends BaseObject implements Persistent
 
 
     /**
-     * Get the associated User object
+     * Get the associated Company object
      *
      * @param PropelPDO $con Optional Connection object.
      * @param $doQuery Executes a query to get the object if required
-     * @return User The associated User object.
+     * @return Company The associated Company object.
      * @throws PropelException
      */
-    public function getUser(PropelPDO $con = null, $doQuery = true)
+    public function getCompany(PropelPDO $con = null, $doQuery = true)
     {
-        if ($this->aUser === null && ($this->user_id !== null) && $doQuery) {
-            $this->aUser = UserQuery::create()->findPk($this->user_id, $con);
+        if ($this->aCompany === null && ($this->company_id !== null) && $doQuery) {
+            $this->aCompany = CompanyQuery::create()->findPk($this->company_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aUser->addProjects($this);
+                $this->aCompany->addGrants($this);
              */
         }
 
-        return $this->aUser;
+        return $this->aCompany;
     }
 
     /**
@@ -1323,18 +1006,13 @@ abstract class BaseProject extends BaseObject implements Persistent
     public function clear()
     {
         $this->id = null;
-        $this->user_id = null;
-        $this->name = null;
-        $this->description = null;
-        $this->url = null;
-        $this->active = null;
-        $this->created_at = null;
-        $this->updated_at = null;
+        $this->company_id = null;
+        $this->year = null;
+        $this->amount = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;
         $this->clearAllReferences();
-        $this->applyDefaultValues();
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);
@@ -1345,7 +1023,7 @@ abstract class BaseProject extends BaseObject implements Persistent
      *
      * This method is a user-space workaround for PHP's inability to garbage collect
      * objects with circular references (even in PHP 5.3). This is currently necessary
-     * when using Propel in certain daemon or large-volumne/high-memory operations.
+     * when using Propel in certain daemon or large-volume/high-memory operations.
      *
      * @param boolean $deep Whether to also clear the references on all referrer objects.
      */
@@ -1353,14 +1031,14 @@ abstract class BaseProject extends BaseObject implements Persistent
     {
         if ($deep && !$this->alreadyInClearAllReferencesDeep) {
             $this->alreadyInClearAllReferencesDeep = true;
-            if ($this->aUser instanceof Persistent) {
-              $this->aUser->clearAllReferences($deep);
+            if ($this->aCompany instanceof Persistent) {
+              $this->aCompany->clearAllReferences($deep);
             }
 
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
 
-        $this->aUser = null;
+        $this->aCompany = null;
     }
 
     /**
@@ -1370,7 +1048,7 @@ abstract class BaseProject extends BaseObject implements Persistent
      */
     public function __toString()
     {
-        return (string) $this->exportTo(ProjectPeer::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(GrantPeer::DEFAULT_STRING_FORMAT);
     }
 
     /**
@@ -1381,20 +1059,6 @@ abstract class BaseProject extends BaseObject implements Persistent
     public function isAlreadyInSave()
     {
         return $this->alreadyInSave;
-    }
-
-    // timestampable behavior
-
-    /**
-     * Mark the current object so that the update date doesn't get updated during next save
-     *
-     * @return     Project The current object (for fluent API support)
-     */
-    public function keepUpdateDateUnchanged()
-    {
-        $this->modifiedColumns[] = ProjectPeer::UPDATED_AT;
-
-        return $this;
     }
 
 }

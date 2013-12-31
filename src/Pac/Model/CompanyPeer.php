@@ -2,11 +2,11 @@
 
 namespace Pac\Model;
 
-use Pac\Model\om\BaseProjectPeer;
+use Pac\Model\om\BaseCompanyPeer;
 
 
 /**
- * Skeleton subclass for performing query and update operations on the 'project' table.
+ * Skeleton subclass for performing query and update operations on the 'company' table.
  *
  *
  *
@@ -16,6 +16,6 @@ use Pac\Model\om\BaseProjectPeer;
  *
  * @package    propel.generator.Pac.Model
  */
-class ProjectPeer extends BaseProjectPeer
+class CompanyPeer extends BaseCompanyPeer
 {
 }
