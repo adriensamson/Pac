@@ -34,7 +34,7 @@ class ParseCommand extends Command
             ->setName('parse')
             ->setDescription('Parse open data pac file')
             ->addArgument('year', InputArgument::REQUIRED, 'Year')
-            ->addArgument('file', InputArgument::REQUIRED, 'Open data csv pac file')
+            ->addArgument('file', InputArgument::OPTIONAL, 'Open data csv pac file')
         ;
     }
 
@@ -43,6 +43,14 @@ class ParseCommand extends Command
         $year    = $input->getArgument('year');
         $csvFile = $input->getArgument('file');
 
+        if (!in_array($year, array(2010, 2011, 2012))) {
+            throw new \Exception("Only year 2010, 2011 and 2013 are supported");
+        }
+
+        if (!$csvFile) {
+            $csvFile = sprintf("app/resources/%s.txt", $year);
+        }
+
         if (!file_exists($csvFile)) {
             throw new \Exception(sprintf("CSV file %s does not exists", $csvFile));
         }
@@ -50,12 +58,19 @@ class ParseCommand extends Command
         $reader = new CSVReader($csvFile);
         $reader->setDelimiter(';');
 
-        // remove all grant by current year
-        $grantRowsToDelete = SubventionQuery::create()
+        // remove all subvention by current year
+        SubventionQuery::create()
             ->findByYear($year)
             ->delete();
 
         while ($row = $reader->getRow()) {
+            // prepare new subvention
+            $subvention = new Subvention();
+            $subvention
+                ->setYear($year)
+                ->setAmount($row[self::SUBVENTION_AMOUNT]);
+
+            // find company
             $company = CompanyQuery::create()
                 ->filterByName($row[self::COMPANY_NAME])
                 ->filterByZipcode($row[self::COMPANY_ZIPCODE])
@@ -69,20 +84,32 @@ class ParseCommand extends Command
                     ->setCity($row[self::COMPANY_CITY])
                     ->setZipcode($row[self::COMPANY_ZIPCODE])
                     ->save();
+            } else {
+                // find last subvention
+                $lastSubvention = SubventionQuery::create()
+                    ->filterByCompanyId($company->getId())
+                    ->filterByYear($year - 1)
+                    ->findOne();
+
+                if ($lastSubvention) {
+                    $growthAmount  = $row[self::SUBVENTION_AMOUNT] - $lastSubvention->getAmount();
+                    $growthPercent = $growthAmount / $lastSubvention->getAmount() * 100;
+
+                    $subvention
+                        ->setGrowthAmount($growthAmount)
+                        ->setGrowthPercent(round($growthPercent, 1));
+                }
             }
 
-            // create new grant
-            $grant = new Subvention();
-            $grant
-                ->setYear($year)
-                ->setAmount($row[self::SUBVENTION_AMOUNT]);
+            // save subvention
+            $subvention->save();
 
-            // adding new grant
+            // adding new subvention
             $company
-                ->addSubvention($grant)
+                ->addSubvention($subvention)
                 ->save();
 
-            $output->writeln(sprintf("line %d : %s", $reader->getLineNumber(), $company->getName()));
+            $output->writeln(sprintf("line %d : %s %s (%s)", $reader->getLineNumber(), $company->getZipcode(), $company->getName(), $subvention->getGrowthPercent()));
         }
 
         return true;

@@ -74,3 +74,11 @@ $ mysql -upac -ppac++ pac < app/config/Propel/sql/Pac.Model.schema.sql
 $ cp app/config/Propel/runtime-conf.xml.dist app/config/Propel/runtime-conf.xml
 ```
 Il faut ensuite éditer pour configurer avec les paramètres de connexion MySQL
+
+### Imporation des données :
+
+```shell
+$ ./console parse 2010
+$ ./console parse 2011
+$ ./console parse 2012
+```
