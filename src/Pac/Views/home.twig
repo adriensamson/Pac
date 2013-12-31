@@ -5,17 +5,24 @@
 
 <p>Présentation du site</p>
 
-<label>Plus grosse 2012</label>
+<h2>Plus grosse 2012</h2>
 <table>
+    <thead>
+        <tr>
+            <th>NOM PRENOM OU RAISON SOCIALE</th>
+            <th>LIBELLE DE LA COMMUNE DE RESIDENCE</th>
+            <th>MONTANT TOTAL</th>
+        </tr>
+    </thead>
     {% for subvention in biggestAmount %}
     <tr>
         <td>{{ subvention.company }}</td>
         <td>{{ subvention.company.postalCode }}</td>
-        <td>{{ subvention.amount }}</td>
+        <td>{{ subvention.amount|number_format(2, ',', ' ')}}</td>
     </tr>
     {% endfor %}
 </table>
 
-<label>Geocodeur plus grosse 2012</label>
+<h2>Geocodeur plus grosse 2012</h2>
 <table></table>
 {% endblock %}
