@@ -1,10 +1,39 @@
 <!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="utf-8">
-  <title>PAC</title>
-</head>
-<body>
-    {% block content '' %}
-</body>
+    <head>
+        <meta charset="utf-8">
+        <title>PAC</title>
+        <link rel="stylesheet" href="/css/normalize.css" />
+        <link rel="stylesheet" href="/css/furatto.css" />
+        <link rel="stylesheet" href="/css/docs.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    </head>
+    <body>
+        <div class="panels">
+            <div class="panel panel-inverse panel-left">
+            </div>
+        </div>
+        <div class="panel-content">
+            <div class="navbar navbar-inverse navbar-fixed-top">
+                <div class="navbar-inner docs-navbar-inner">
+                    <div class="container">
+                        <a href="#menu" class="menu-trigger meteocon" data-meteocon="M" data-toggle="panel" data-target="#menu"></a>
+                        <div class="nav-collapse collapse">
+                            <nav id="menu">
+                                <ul class="nav docs-navbar-menu">
+                                    <li><a class="brand" href="{{ path('home') }}">MaPAC</a></li>
+                                </ul>
+                                <div class="navbar-text pull-right">
+                                    Par <a href="https://twitter.com/oziks" title="Morgan Brunot">@oziks</a> et <a href="https://twitter.com/dondouny" title="Denis Roussel">@dondouny</a>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% block content '' %}
+        </div>
+        <script src="/js/jquery.js"></script>
+        <script src="/js/furatto.min.js"></script>
+    </body>
 </html>

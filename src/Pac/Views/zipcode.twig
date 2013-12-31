@@ -1,36 +1,40 @@
 {% extends "layout/_main.twig" %}
 
 {% block content %}
-<h1>Zipcode</h1>
+<div class="container-center">
+    <div class="row">
+        <br />
+        <h1>Code postal {{ "%05d"|format(zipcode) }}</h1>
+        {% if subventions|length %}
+            <h4>Répartition et évolution des <strong>{{ subventions|length }}</strong> aides perçues au titre de la PAC sur le territoire dont le code postal est <strong>{{ "%05d"|format(zipcode) }}</strong> pour un montant total de <strong>{{ subventionsSum|number_format(2, ',', ' ') }} €</strong>.</h4>
+        {% else %}
+            <div class="alert alert-danger">Le code postal {{ "%05d"|format(zipcode) }} n'existe pas ou aucune aide n'a été allouée sur ce territoire.</div>
+        {% endif %}
 
-{% if subventions|length %}
-<p>Présentation du site {{ zipcode }} {{ subventions|length }} Sum {{ subventionsSum|number_format(2, ',', ' ') }}</p>
-{% else %}
-<p>bad zipcode {{ zipcode }} </p>
-{% endif %}
+        {% include 'forms/zipcode.twig' %}
 
-{% include 'forms/zipcode.twig' %}
-
-<h2>Les plus importantes subventions de {{ year }}</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Nom ou raison sociale</th>
-            <th>Commune</th>
-            <th>Montant</th>
-            <th>Progression (€)</th>
-            <th>Progression (%)</th>
-        </tr>
-    </thead>
-    {% for subvention in subventions %}
-    <tr>
-        <td>{{ subvention.company }}</td>
-        <td>{{ subvention.company.city }}</td>
-        <td>{{ subvention.amount|number_format(2, ',', ' ') }}</td>
-        <td>{% if subvention.growthAmount %}{{ subvention.growthAmount|number_format(2, ',', ' ') }}{% endif %}</td>
-        <td>{{ subvention.growthPercent }}</td>
-    </tr>
-    {% endfor %}
-</table>
-
+        {% if subventions|length %}
+            <table class="table table-condensed table-striped">
+                <thead>
+                    <tr>
+                        <th>Nom ou raison sociale</th>
+                        <th>Commune</th>
+                        <th>Montant</th>
+                        <th>Evolution / {{ year - 1 }} (€)</th>
+                        <th>Evolution / {{ year - 1 }} (%)</th>
+                    </tr>
+                </thead>
+                {% for subvention in subventions %}
+                <tr>
+                    <td>{{ subvention.company }}</td>
+                    <td>{{ subvention.company.city }}</td>
+                    <td>{{ subvention.amount|number_format(2, ',', ' ') }}</td>
+                    <td>{% if subvention.growthAmount != '' %}{{ subvention.growthAmount|number_format(2, ',', ' ') }}{% endif %}</td>
+                    <td>{% if subvention.growthPercent != '' %}{{ subvention.growthPercent }}{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

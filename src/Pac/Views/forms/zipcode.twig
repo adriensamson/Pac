@@ -1,4 +1,6 @@
 <form action="{{ path('by_zipcode') }}" method="post">
-    <input type="text" name="zipcode" value="{{ zipcode|default('') }}" />
-    <button type="submit">Voir</button>
+    <div class="form-fields">
+        <input type="text" name="zipcode" value="{{ zipcode|default('') }}" placeholder="Saisir un code postal" class="input-mini" />
+        <input type="submit" value="Voir" class="btn btn-primary btn-small">
+    </div>
 </form>
