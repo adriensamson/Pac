@@ -7,7 +7,7 @@ use \TableMap;
 
 
 /**
- * This class defines the structure of the 'grant' table.
+ * This class defines the structure of the 'subvention' table.
  *
  *
  *
@@ -18,13 +18,13 @@ use \TableMap;
  *
  * @package    propel.generator.Pac.Model.map
  */
-class GrantTableMap extends TableMap
+class SubventionTableMap extends TableMap
 {
 
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'Pac.Model.map.GrantTableMap';
+    const CLASS_NAME = 'Pac.Model.map.SubventionTableMap';
 
     /**
      * Initialize the table attributes, columns and validators
@@ -36,9 +36,9 @@ class GrantTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('grant');
-        $this->setPhpName('Grant');
-        $this->setClassname('Pac\\Model\\Grant');
+        $this->setName('subvention');
+        $this->setPhpName('Subvention');
+        $this->setClassname('Pac\\Model\\Subvention');
         $this->setPackage('Pac.Model');
         $this->setUseIdGenerator(true);
         // columns
@@ -57,4 +57,4 @@ class GrantTableMap extends TableMap
         $this->addRelation('Company', 'Pac\\Model\\Company', RelationMap::MANY_TO_ONE, array('company_id' => 'id', ), 'CASCADE', null);
     } // buildRelations()
 
-} // GrantTableMap
+} // SubventionTableMap

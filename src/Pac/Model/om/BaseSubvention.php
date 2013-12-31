@@ -13,29 +13,29 @@ use \PropelException;
 use \PropelPDO;
 use Pac\Model\Company;
 use Pac\Model\CompanyQuery;
-use Pac\Model\Grant;
-use Pac\Model\GrantPeer;
-use Pac\Model\GrantQuery;
+use Pac\Model\Subvention;
+use Pac\Model\SubventionPeer;
+use Pac\Model\SubventionQuery;
 
 /**
- * Base class that represents a row from the 'grant' table.
+ * Base class that represents a row from the 'subvention' table.
  *
  *
  *
  * @package    propel.generator.Pac.Model.om
  */
-abstract class BaseGrant extends BaseObject implements Persistent
+abstract class BaseSubvention extends BaseObject implements Persistent
 {
     /**
      * Peer class name
      */
-    const PEER = 'Pac\\Model\\GrantPeer';
+    const PEER = 'Pac\\Model\\SubventionPeer';
 
     /**
      * The Peer class.
      * Instance provides a convenient way of calling static methods on a class
      * that calling code may not be able to identify.
-     * @var        GrantPeer
+     * @var        SubventionPeer
      */
     protected static $peer;
 
@@ -142,7 +142,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
      * Set the value of [id] column.
      *
      * @param  int $v new value
-     * @return Grant The current object (for fluent API support)
+     * @return Subvention The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -152,7 +152,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[] = GrantPeer::ID;
+            $this->modifiedColumns[] = SubventionPeer::ID;
         }
 
 
@@ -163,7 +163,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
      * Set the value of [company_id] column.
      *
      * @param  int $v new value
-     * @return Grant The current object (for fluent API support)
+     * @return Subvention The current object (for fluent API support)
      */
     public function setCompanyId($v)
     {
@@ -173,7 +173,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
 
         if ($this->company_id !== $v) {
             $this->company_id = $v;
-            $this->modifiedColumns[] = GrantPeer::COMPANY_ID;
+            $this->modifiedColumns[] = SubventionPeer::COMPANY_ID;
         }
 
         if ($this->aCompany !== null && $this->aCompany->getId() !== $v) {
@@ -188,7 +188,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
      * Set the value of [year] column.
      *
      * @param  int $v new value
-     * @return Grant The current object (for fluent API support)
+     * @return Subvention The current object (for fluent API support)
      */
     public function setYear($v)
     {
@@ -198,7 +198,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
 
         if ($this->year !== $v) {
             $this->year = $v;
-            $this->modifiedColumns[] = GrantPeer::YEAR;
+            $this->modifiedColumns[] = SubventionPeer::YEAR;
         }
 
 
@@ -209,7 +209,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
      * Set the value of [amount] column.
      *
      * @param  double $v new value
-     * @return Grant The current object (for fluent API support)
+     * @return Subvention The current object (for fluent API support)
      */
     public function setAmount($v)
     {
@@ -219,7 +219,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
 
         if ($this->amount !== $v) {
             $this->amount = $v;
-            $this->modifiedColumns[] = GrantPeer::AMOUNT;
+            $this->modifiedColumns[] = SubventionPeer::AMOUNT;
         }
 
 
@@ -271,10 +271,10 @@ abstract class BaseGrant extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 4; // 4 = GrantPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 4; // 4 = SubventionPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException("Error populating Grant object", $e);
+            throw new PropelException("Error populating Subvention object", $e);
         }
     }
 
@@ -320,13 +320,13 @@ abstract class BaseGrant extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(GrantPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(SubventionPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $stmt = GrantPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
+        $stmt = SubventionPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
         $row = $stmt->fetch(PDO::FETCH_NUM);
         $stmt->closeCursor();
         if (!$row) {
@@ -357,12 +357,12 @@ abstract class BaseGrant extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(GrantPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(SubventionPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
         try {
-            $deleteQuery = GrantQuery::create()
+            $deleteQuery = SubventionQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -400,7 +400,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(GrantPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(SubventionPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
@@ -420,7 +420,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                GrantPeer::addInstanceToPool($this);
+                SubventionPeer::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -493,27 +493,27 @@ abstract class BaseGrant extends BaseObject implements Persistent
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = GrantPeer::ID;
+        $this->modifiedColumns[] = SubventionPeer::ID;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . GrantPeer::ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . SubventionPeer::ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(GrantPeer::ID)) {
+        if ($this->isColumnModified(SubventionPeer::ID)) {
             $modifiedColumns[':p' . $index++]  = '`id`';
         }
-        if ($this->isColumnModified(GrantPeer::COMPANY_ID)) {
+        if ($this->isColumnModified(SubventionPeer::COMPANY_ID)) {
             $modifiedColumns[':p' . $index++]  = '`company_id`';
         }
-        if ($this->isColumnModified(GrantPeer::YEAR)) {
+        if ($this->isColumnModified(SubventionPeer::YEAR)) {
             $modifiedColumns[':p' . $index++]  = '`year`';
         }
-        if ($this->isColumnModified(GrantPeer::AMOUNT)) {
+        if ($this->isColumnModified(SubventionPeer::AMOUNT)) {
             $modifiedColumns[':p' . $index++]  = '`amount`';
         }
 
         $sql = sprintf(
-            'INSERT INTO `grant` (%s) VALUES (%s)',
+            'INSERT INTO `subvention` (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -640,7 +640,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
             }
 
 
-            if (($retval = GrantPeer::doValidate($this, $columns)) !== true) {
+            if (($retval = SubventionPeer::doValidate($this, $columns)) !== true) {
                 $failureMap = array_merge($failureMap, $retval);
             }
 
@@ -664,7 +664,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
      */
     public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
     {
-        $pos = GrantPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = SubventionPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -715,11 +715,11 @@ abstract class BaseGrant extends BaseObject implements Persistent
      */
     public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
-        if (isset($alreadyDumpedObjects['Grant'][$this->getPrimaryKey()])) {
+        if (isset($alreadyDumpedObjects['Subvention'][$this->getPrimaryKey()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Grant'][$this->getPrimaryKey()] = true;
-        $keys = GrantPeer::getFieldNames($keyType);
+        $alreadyDumpedObjects['Subvention'][$this->getPrimaryKey()] = true;
+        $keys = SubventionPeer::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getCompanyId(),
@@ -753,7 +753,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
      */
     public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
     {
-        $pos = GrantPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = SubventionPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 
         $this->setByPosition($pos, $value);
     }
@@ -803,7 +803,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
      */
     public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
     {
-        $keys = GrantPeer::getFieldNames($keyType);
+        $keys = SubventionPeer::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setCompanyId($arr[$keys[1]]);
@@ -818,12 +818,12 @@ abstract class BaseGrant extends BaseObject implements Persistent
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(GrantPeer::DATABASE_NAME);
+        $criteria = new Criteria(SubventionPeer::DATABASE_NAME);
 
-        if ($this->isColumnModified(GrantPeer::ID)) $criteria->add(GrantPeer::ID, $this->id);
-        if ($this->isColumnModified(GrantPeer::COMPANY_ID)) $criteria->add(GrantPeer::COMPANY_ID, $this->company_id);
-        if ($this->isColumnModified(GrantPeer::YEAR)) $criteria->add(GrantPeer::YEAR, $this->year);
-        if ($this->isColumnModified(GrantPeer::AMOUNT)) $criteria->add(GrantPeer::AMOUNT, $this->amount);
+        if ($this->isColumnModified(SubventionPeer::ID)) $criteria->add(SubventionPeer::ID, $this->id);
+        if ($this->isColumnModified(SubventionPeer::COMPANY_ID)) $criteria->add(SubventionPeer::COMPANY_ID, $this->company_id);
+        if ($this->isColumnModified(SubventionPeer::YEAR)) $criteria->add(SubventionPeer::YEAR, $this->year);
+        if ($this->isColumnModified(SubventionPeer::AMOUNT)) $criteria->add(SubventionPeer::AMOUNT, $this->amount);
 
         return $criteria;
     }
@@ -838,8 +838,8 @@ abstract class BaseGrant extends BaseObject implements Persistent
      */
     public function buildPkeyCriteria()
     {
-        $criteria = new Criteria(GrantPeer::DATABASE_NAME);
-        $criteria->add(GrantPeer::ID, $this->id);
+        $criteria = new Criteria(SubventionPeer::DATABASE_NAME);
+        $criteria->add(SubventionPeer::ID, $this->id);
 
         return $criteria;
     }
@@ -880,7 +880,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param object $copyObj An object of Grant (or compatible) type.
+     * @param object $copyObj An object of Subvention (or compatible) type.
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -917,7 +917,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
      * objects.
      *
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return Grant Clone of current object.
+     * @return Subvention Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -937,12 +937,12 @@ abstract class BaseGrant extends BaseObject implements Persistent
      * same instance for all member of this class. The method could therefore
      * be static, but this would prevent one from overriding the behavior.
      *
-     * @return GrantPeer
+     * @return SubventionPeer
      */
     public function getPeer()
     {
         if (self::$peer === null) {
-            self::$peer = new GrantPeer();
+            self::$peer = new SubventionPeer();
         }
 
         return self::$peer;
@@ -952,7 +952,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
      * Declares an association between this object and a Company object.
      *
      * @param                  Company $v
-     * @return Grant The current object (for fluent API support)
+     * @return Subvention The current object (for fluent API support)
      * @throws PropelException
      */
     public function setCompany(Company $v = null)
@@ -968,7 +968,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
         // Add binding for other direction of this n:n relationship.
         // If this object has already been added to the Company object, it will not be re-added.
         if ($v !== null) {
-            $v->addGrant($this);
+            $v->addSubvention($this);
         }
 
 
@@ -993,7 +993,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aCompany->addGrants($this);
+                $this->aCompany->addSubventions($this);
              */
         }
 
@@ -1048,7 +1048,7 @@ abstract class BaseGrant extends BaseObject implements Persistent
      */
     public function __toString()
     {
-        return (string) $this->exportTo(GrantPeer::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(SubventionPeer::DEFAULT_STRING_FORMAT);
     }
 
     /**

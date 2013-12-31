@@ -13,6 +13,6 @@ $app->run();
 $console  = new \Pac\Console($app, 'Pac', '0.1');
 
 // some command
-$console->add(new \Pac\Command\Check\DaemonCommand());
+$console->add(new \Pac\Command\ParseCommand());
 
 $console->run();

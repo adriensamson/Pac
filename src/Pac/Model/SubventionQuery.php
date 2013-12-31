@@ -2,11 +2,11 @@
 
 namespace Pac\Model;
 
-use Pac\Model\om\BaseGrantQuery;
+use Pac\Model\om\BaseSubventionQuery;
 
 
 /**
- * Skeleton subclass for performing query and update operations on the 'grant' table.
+ * Skeleton subclass for performing query and update operations on the 'subvention' table.
  *
  *
  *
@@ -16,6 +16,6 @@ use Pac\Model\om\BaseGrantQuery;
  *
  * @package    propel.generator.Pac.Model
  */
-class GrantQuery extends BaseGrantQuery
+class SubventionQuery extends BaseSubventionQuery
 {
 }

@@ -13,51 +13,51 @@ use \PropelException;
 use \PropelObjectCollection;
 use \PropelPDO;
 use Pac\Model\Company;
-use Pac\Model\Grant;
-use Pac\Model\GrantPeer;
-use Pac\Model\GrantQuery;
+use Pac\Model\Subvention;
+use Pac\Model\SubventionPeer;
+use Pac\Model\SubventionQuery;
 
 /**
- * Base class that represents a query for the 'grant' table.
+ * Base class that represents a query for the 'subvention' table.
  *
  *
  *
- * @method GrantQuery orderById($order = Criteria::ASC) Order by the id column
- * @method GrantQuery orderByCompanyId($order = Criteria::ASC) Order by the company_id column
- * @method GrantQuery orderByYear($order = Criteria::ASC) Order by the year column
- * @method GrantQuery orderByAmount($order = Criteria::ASC) Order by the amount column
+ * @method SubventionQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method SubventionQuery orderByCompanyId($order = Criteria::ASC) Order by the company_id column
+ * @method SubventionQuery orderByYear($order = Criteria::ASC) Order by the year column
+ * @method SubventionQuery orderByAmount($order = Criteria::ASC) Order by the amount column
  *
- * @method GrantQuery groupById() Group by the id column
- * @method GrantQuery groupByCompanyId() Group by the company_id column
- * @method GrantQuery groupByYear() Group by the year column
- * @method GrantQuery groupByAmount() Group by the amount column
+ * @method SubventionQuery groupById() Group by the id column
+ * @method SubventionQuery groupByCompanyId() Group by the company_id column
+ * @method SubventionQuery groupByYear() Group by the year column
+ * @method SubventionQuery groupByAmount() Group by the amount column
  *
- * @method GrantQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
- * @method GrantQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
- * @method GrantQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ * @method SubventionQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
+ * @method SubventionQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
+ * @method SubventionQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method GrantQuery leftJoinCompany($relationAlias = null) Adds a LEFT JOIN clause to the query using the Company relation
- * @method GrantQuery rightJoinCompany($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Company relation
- * @method GrantQuery innerJoinCompany($relationAlias = null) Adds a INNER JOIN clause to the query using the Company relation
+ * @method SubventionQuery leftJoinCompany($relationAlias = null) Adds a LEFT JOIN clause to the query using the Company relation
+ * @method SubventionQuery rightJoinCompany($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Company relation
+ * @method SubventionQuery innerJoinCompany($relationAlias = null) Adds a INNER JOIN clause to the query using the Company relation
  *
- * @method Grant findOne(PropelPDO $con = null) Return the first Grant matching the query
- * @method Grant findOneOrCreate(PropelPDO $con = null) Return the first Grant matching the query, or a new Grant object populated from the query conditions when no match is found
+ * @method Subvention findOne(PropelPDO $con = null) Return the first Subvention matching the query
+ * @method Subvention findOneOrCreate(PropelPDO $con = null) Return the first Subvention matching the query, or a new Subvention object populated from the query conditions when no match is found
  *
- * @method Grant findOneByCompanyId(int $company_id) Return the first Grant filtered by the company_id column
- * @method Grant findOneByYear(int $year) Return the first Grant filtered by the year column
- * @method Grant findOneByAmount(double $amount) Return the first Grant filtered by the amount column
+ * @method Subvention findOneByCompanyId(int $company_id) Return the first Subvention filtered by the company_id column
+ * @method Subvention findOneByYear(int $year) Return the first Subvention filtered by the year column
+ * @method Subvention findOneByAmount(double $amount) Return the first Subvention filtered by the amount column
  *
- * @method array findById(int $id) Return Grant objects filtered by the id column
- * @method array findByCompanyId(int $company_id) Return Grant objects filtered by the company_id column
- * @method array findByYear(int $year) Return Grant objects filtered by the year column
- * @method array findByAmount(double $amount) Return Grant objects filtered by the amount column
+ * @method array findById(int $id) Return Subvention objects filtered by the id column
+ * @method array findByCompanyId(int $company_id) Return Subvention objects filtered by the company_id column
+ * @method array findByYear(int $year) Return Subvention objects filtered by the year column
+ * @method array findByAmount(double $amount) Return Subvention objects filtered by the amount column
  *
  * @package    propel.generator.Pac.Model.om
  */
-abstract class BaseGrantQuery extends ModelCriteria
+abstract class BaseSubventionQuery extends ModelCriteria
 {
     /**
-     * Initializes internal state of BaseGrantQuery object.
+     * Initializes internal state of BaseSubventionQuery object.
      *
      * @param     string $dbName The dabase name
      * @param     string $modelName The phpName of a model, e.g. 'Book'
@@ -69,25 +69,25 @@ abstract class BaseGrantQuery extends ModelCriteria
             $dbName = 'pac';
         }
         if (null === $modelName) {
-            $modelName = 'Pac\\Model\\Grant';
+            $modelName = 'Pac\\Model\\Subvention';
         }
         parent::__construct($dbName, $modelName, $modelAlias);
     }
 
     /**
-     * Returns a new GrantQuery object.
+     * Returns a new SubventionQuery object.
      *
      * @param     string $modelAlias The alias of a model in the query
-     * @param   GrantQuery|Criteria $criteria Optional Criteria to build the query from
+     * @param   SubventionQuery|Criteria $criteria Optional Criteria to build the query from
      *
-     * @return GrantQuery
+     * @return SubventionQuery
      */
     public static function create($modelAlias = null, $criteria = null)
     {
-        if ($criteria instanceof GrantQuery) {
+        if ($criteria instanceof SubventionQuery) {
             return $criteria;
         }
-        $query = new GrantQuery(null, null, $modelAlias);
+        $query = new SubventionQuery(null, null, $modelAlias);
 
         if ($criteria instanceof Criteria) {
             $query->mergeWith($criteria);
@@ -108,19 +108,19 @@ abstract class BaseGrantQuery extends ModelCriteria
      * @param mixed $key Primary key to use for the query
      * @param     PropelPDO $con an optional connection object
      *
-     * @return   Grant|Grant[]|mixed the result, formatted by the current formatter
+     * @return   Subvention|Subvention[]|mixed the result, formatted by the current formatter
      */
     public function findPk($key, $con = null)
     {
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = GrantPeer::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = SubventionPeer::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
         if ($con === null) {
-            $con = Propel::getConnection(GrantPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(SubventionPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
         $this->basePreSelect($con);
         if ($this->formatter || $this->modelAlias || $this->with || $this->select
@@ -138,7 +138,7 @@ abstract class BaseGrantQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     PropelPDO $con A connection object
      *
-     * @return                 Grant A model object, or null if the key is not found
+     * @return                 Subvention A model object, or null if the key is not found
      * @throws PropelException
      */
      public function findOneById($key, $con = null)
@@ -153,12 +153,12 @@ abstract class BaseGrantQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     PropelPDO $con A connection object
      *
-     * @return                 Grant A model object, or null if the key is not found
+     * @return                 Subvention A model object, or null if the key is not found
      * @throws PropelException
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `company_id`, `year`, `amount` FROM `grant` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `company_id`, `year`, `amount` FROM `subvention` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -169,9 +169,9 @@ abstract class BaseGrantQuery extends ModelCriteria
         }
         $obj = null;
         if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $obj = new Grant();
+            $obj = new Subvention();
             $obj->hydrate($row);
-            GrantPeer::addInstanceToPool($obj, (string) $key);
+            SubventionPeer::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -184,7 +184,7 @@ abstract class BaseGrantQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     PropelPDO $con A connection object
      *
-     * @return Grant|Grant[]|mixed the result, formatted by the current formatter
+     * @return Subvention|Subvention[]|mixed the result, formatted by the current formatter
      */
     protected function findPkComplex($key, $con)
     {
@@ -205,7 +205,7 @@ abstract class BaseGrantQuery extends ModelCriteria
      * @param     array $keys Primary keys to use for the query
      * @param     PropelPDO $con an optional connection object
      *
-     * @return PropelObjectCollection|Grant[]|mixed the list of results, formatted by the current formatter
+     * @return PropelObjectCollection|Subvention[]|mixed the list of results, formatted by the current formatter
      */
     public function findPks($keys, $con = null)
     {
@@ -226,12 +226,12 @@ abstract class BaseGrantQuery extends ModelCriteria
      *
      * @param     mixed $key Primary key to use for the query
      *
-     * @return GrantQuery The current query, for fluid interface
+     * @return SubventionQuery The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(GrantPeer::ID, $key, Criteria::EQUAL);
+        return $this->addUsingAlias(SubventionPeer::ID, $key, Criteria::EQUAL);
     }
 
     /**
@@ -239,12 +239,12 @@ abstract class BaseGrantQuery extends ModelCriteria
      *
      * @param     array $keys The list of primary key to use for the query
      *
-     * @return GrantQuery The current query, for fluid interface
+     * @return SubventionQuery The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(GrantPeer::ID, $keys, Criteria::IN);
+        return $this->addUsingAlias(SubventionPeer::ID, $keys, Criteria::IN);
     }
 
     /**
@@ -264,18 +264,18 @@ abstract class BaseGrantQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return GrantQuery The current query, for fluid interface
+     * @return SubventionQuery The current query, for fluid interface
      */
     public function filterById($id = null, $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
             if (isset($id['min'])) {
-                $this->addUsingAlias(GrantPeer::ID, $id['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(SubventionPeer::ID, $id['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($id['max'])) {
-                $this->addUsingAlias(GrantPeer::ID, $id['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(SubventionPeer::ID, $id['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -286,7 +286,7 @@ abstract class BaseGrantQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(GrantPeer::ID, $id, $comparison);
+        return $this->addUsingAlias(SubventionPeer::ID, $id, $comparison);
     }
 
     /**
@@ -308,18 +308,18 @@ abstract class BaseGrantQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return GrantQuery The current query, for fluid interface
+     * @return SubventionQuery The current query, for fluid interface
      */
     public function filterByCompanyId($companyId = null, $comparison = null)
     {
         if (is_array($companyId)) {
             $useMinMax = false;
             if (isset($companyId['min'])) {
-                $this->addUsingAlias(GrantPeer::COMPANY_ID, $companyId['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(SubventionPeer::COMPANY_ID, $companyId['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($companyId['max'])) {
-                $this->addUsingAlias(GrantPeer::COMPANY_ID, $companyId['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(SubventionPeer::COMPANY_ID, $companyId['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -330,7 +330,7 @@ abstract class BaseGrantQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(GrantPeer::COMPANY_ID, $companyId, $comparison);
+        return $this->addUsingAlias(SubventionPeer::COMPANY_ID, $companyId, $comparison);
     }
 
     /**
@@ -350,18 +350,18 @@ abstract class BaseGrantQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return GrantQuery The current query, for fluid interface
+     * @return SubventionQuery The current query, for fluid interface
      */
     public function filterByYear($year = null, $comparison = null)
     {
         if (is_array($year)) {
             $useMinMax = false;
             if (isset($year['min'])) {
-                $this->addUsingAlias(GrantPeer::YEAR, $year['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(SubventionPeer::YEAR, $year['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($year['max'])) {
-                $this->addUsingAlias(GrantPeer::YEAR, $year['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(SubventionPeer::YEAR, $year['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -372,7 +372,7 @@ abstract class BaseGrantQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(GrantPeer::YEAR, $year, $comparison);
+        return $this->addUsingAlias(SubventionPeer::YEAR, $year, $comparison);
     }
 
     /**
@@ -392,18 +392,18 @@ abstract class BaseGrantQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return GrantQuery The current query, for fluid interface
+     * @return SubventionQuery The current query, for fluid interface
      */
     public function filterByAmount($amount = null, $comparison = null)
     {
         if (is_array($amount)) {
             $useMinMax = false;
             if (isset($amount['min'])) {
-                $this->addUsingAlias(GrantPeer::AMOUNT, $amount['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(SubventionPeer::AMOUNT, $amount['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($amount['max'])) {
-                $this->addUsingAlias(GrantPeer::AMOUNT, $amount['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(SubventionPeer::AMOUNT, $amount['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -414,7 +414,7 @@ abstract class BaseGrantQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(GrantPeer::AMOUNT, $amount, $comparison);
+        return $this->addUsingAlias(SubventionPeer::AMOUNT, $amount, $comparison);
     }
 
     /**
@@ -423,21 +423,21 @@ abstract class BaseGrantQuery extends ModelCriteria
      * @param   Company|PropelObjectCollection $company The related object(s) to use as filter
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return                 GrantQuery The current query, for fluid interface
+     * @return                 SubventionQuery The current query, for fluid interface
      * @throws PropelException - if the provided filter is invalid.
      */
     public function filterByCompany($company, $comparison = null)
     {
         if ($company instanceof Company) {
             return $this
-                ->addUsingAlias(GrantPeer::COMPANY_ID, $company->getId(), $comparison);
+                ->addUsingAlias(SubventionPeer::COMPANY_ID, $company->getId(), $comparison);
         } elseif ($company instanceof PropelObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(GrantPeer::COMPANY_ID, $company->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->addUsingAlias(SubventionPeer::COMPANY_ID, $company->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
             throw new PropelException('filterByCompany() only accepts arguments of type Company or PropelCollection');
         }
@@ -449,7 +449,7 @@ abstract class BaseGrantQuery extends ModelCriteria
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return GrantQuery The current query, for fluid interface
+     * @return SubventionQuery The current query, for fluid interface
      */
     public function joinCompany($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
@@ -496,14 +496,14 @@ abstract class BaseGrantQuery extends ModelCriteria
     /**
      * Exclude object from result
      *
-     * @param   Grant $grant Object to remove from the list of results
+     * @param   Subvention $subvention Object to remove from the list of results
      *
-     * @return GrantQuery The current query, for fluid interface
+     * @return SubventionQuery The current query, for fluid interface
      */
-    public function prune($grant = null)
+    public function prune($subvention = null)
     {
-        if ($grant) {
-            $this->addUsingAlias(GrantPeer::ID, $grant->getId(), Criteria::NOT_EQUAL);
+        if ($subvention) {
+            $this->addUsingAlias(SubventionPeer::ID, $subvention->getId(), Criteria::NOT_EQUAL);
         }
 
         return $this;

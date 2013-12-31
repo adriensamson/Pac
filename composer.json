@@ -14,7 +14,8 @@
         "twig/twig": ">=1.8.0,<2.0-dev",
         "propel/propel-service-provider": "dev-master",
         "symfony/monolog-bridge": "2.1.*",
-        "monolog/monolog": ">=1.0.0,<1.2-dev"
+        "monolog/monolog": ">=1.0.0,<1.2-dev",
+        "jwage/easy-csv": "0.0.1"
     },
     "minimum-stability": "dev",
     "autoload": {

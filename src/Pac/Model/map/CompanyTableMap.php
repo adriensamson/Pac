@@ -55,7 +55,7 @@ class CompanyTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Grant', 'Pac\\Model\\Grant', RelationMap::ONE_TO_MANY, array('id' => 'company_id', ), 'CASCADE', null, 'Grants');
+        $this->addRelation('Subvention', 'Pac\\Model\\Subvention', RelationMap::ONE_TO_MANY, array('id' => 'company_id', ), 'CASCADE', null, 'Subventions');
     } // buildRelations()
 
 } // CompanyTableMap

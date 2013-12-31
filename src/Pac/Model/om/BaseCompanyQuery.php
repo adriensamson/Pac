@@ -15,7 +15,7 @@ use \PropelPDO;
 use Pac\Model\Company;
 use Pac\Model\CompanyPeer;
 use Pac\Model\CompanyQuery;
-use Pac\Model\Grant;
+use Pac\Model\Subvention;
 
 /**
  * Base class that represents a query for the 'company' table.
@@ -36,9 +36,9 @@ use Pac\Model\Grant;
  * @method CompanyQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method CompanyQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method CompanyQuery leftJoinGrant($relationAlias = null) Adds a LEFT JOIN clause to the query using the Grant relation
- * @method CompanyQuery rightJoinGrant($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Grant relation
- * @method CompanyQuery innerJoinGrant($relationAlias = null) Adds a INNER JOIN clause to the query using the Grant relation
+ * @method CompanyQuery leftJoinSubvention($relationAlias = null) Adds a LEFT JOIN clause to the query using the Subvention relation
+ * @method CompanyQuery rightJoinSubvention($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Subvention relation
+ * @method CompanyQuery innerJoinSubvention($relationAlias = null) Adds a INNER JOIN clause to the query using the Subvention relation
  *
  * @method Company findOne(PropelPDO $con = null) Return the first Company matching the query
  * @method Company findOneOrCreate(PropelPDO $con = null) Return the first Company matching the query, or a new Company object populated from the query conditions when no match is found
@@ -390,41 +390,41 @@ abstract class BaseCompanyQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related Grant object
+     * Filter the query by a related Subvention object
      *
-     * @param   Grant|PropelObjectCollection $grant  the related object to use as filter
+     * @param   Subvention|PropelObjectCollection $subvention  the related object to use as filter
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return                 CompanyQuery The current query, for fluid interface
      * @throws PropelException - if the provided filter is invalid.
      */
-    public function filterByGrant($grant, $comparison = null)
+    public function filterBySubvention($subvention, $comparison = null)
     {
-        if ($grant instanceof Grant) {
+        if ($subvention instanceof Subvention) {
             return $this
-                ->addUsingAlias(CompanyPeer::ID, $grant->getCompanyId(), $comparison);
-        } elseif ($grant instanceof PropelObjectCollection) {
+                ->addUsingAlias(CompanyPeer::ID, $subvention->getCompanyId(), $comparison);
+        } elseif ($subvention instanceof PropelObjectCollection) {
             return $this
-                ->useGrantQuery()
-                ->filterByPrimaryKeys($grant->getPrimaryKeys())
+                ->useSubventionQuery()
+                ->filterByPrimaryKeys($subvention->getPrimaryKeys())
                 ->endUse();
         } else {
-            throw new PropelException('filterByGrant() only accepts arguments of type Grant or PropelCollection');
+            throw new PropelException('filterBySubvention() only accepts arguments of type Subvention or PropelCollection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the Grant relation
+     * Adds a JOIN clause to the query using the Subvention relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return CompanyQuery The current query, for fluid interface
      */
-    public function joinGrant($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function joinSubvention($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Grant');
+        $relationMap = $tableMap->getRelation('Subvention');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -439,14 +439,14 @@ abstract class BaseCompanyQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'Grant');
+            $this->addJoinObject($join, 'Subvention');
         }
 
         return $this;
     }
 
     /**
-     * Use the Grant relation Grant object
+     * Use the Subvention relation Subvention object
      *
      * @see       useQuery()
      *
@@ -454,13 +454,13 @@ abstract class BaseCompanyQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return   \Pac\Model\GrantQuery A secondary query class using the current class as primary query
+     * @return   \Pac\Model\SubventionQuery A secondary query class using the current class as primary query
      */
-    public function useGrantQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    public function useSubventionQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         return $this
-            ->joinGrant($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Grant', '\Pac\Model\GrantQuery');
+            ->joinSubvention($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Subvention', '\Pac\Model\SubventionQuery');
     }
 
     /**

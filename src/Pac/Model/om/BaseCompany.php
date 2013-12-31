@@ -16,8 +16,8 @@ use \PropelPDO;
 use Pac\Model\Company;
 use Pac\Model\CompanyPeer;
 use Pac\Model\CompanyQuery;
-use Pac\Model\Grant;
-use Pac\Model\GrantQuery;
+use Pac\Model\Subvention;
+use Pac\Model\SubventionQuery;
 
 /**
  * Base class that represents a row from the 'company' table.
@@ -72,10 +72,10 @@ abstract class BaseCompany extends BaseObject implements Persistent
     protected $postal_code;
 
     /**
-     * @var        PropelObjectCollection|Grant[] Collection to store aggregation of Grant objects.
+     * @var        PropelObjectCollection|Subvention[] Collection to store aggregation of Subvention objects.
      */
-    protected $collGrants;
-    protected $collGrantsPartial;
+    protected $collSubventions;
+    protected $collSubventionsPartial;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -101,7 +101,7 @@ abstract class BaseCompany extends BaseObject implements Persistent
      * An array of objects scheduled for deletion.
      * @var		PropelObjectCollection
      */
-    protected $grantsScheduledForDeletion = null;
+    protected $subventionsScheduledForDeletion = null;
 
     /**
      * Get the [id] column value.
@@ -338,7 +338,7 @@ abstract class BaseCompany extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->collGrants = null;
+            $this->collSubventions = null;
 
         } // if (deep)
     }
@@ -464,17 +464,17 @@ abstract class BaseCompany extends BaseObject implements Persistent
                 $this->resetModified();
             }
 
-            if ($this->grantsScheduledForDeletion !== null) {
-                if (!$this->grantsScheduledForDeletion->isEmpty()) {
-                    GrantQuery::create()
-                        ->filterByPrimaryKeys($this->grantsScheduledForDeletion->getPrimaryKeys(false))
+            if ($this->subventionsScheduledForDeletion !== null) {
+                if (!$this->subventionsScheduledForDeletion->isEmpty()) {
+                    SubventionQuery::create()
+                        ->filterByPrimaryKeys($this->subventionsScheduledForDeletion->getPrimaryKeys(false))
                         ->delete($con);
-                    $this->grantsScheduledForDeletion = null;
+                    $this->subventionsScheduledForDeletion = null;
                 }
             }
 
-            if ($this->collGrants !== null) {
-                foreach ($this->collGrants as $referrerFK) {
+            if ($this->collSubventions !== null) {
+                foreach ($this->collSubventions as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -641,8 +641,8 @@ abstract class BaseCompany extends BaseObject implements Persistent
             }
 
 
-                if ($this->collGrants !== null) {
-                    foreach ($this->collGrants as $referrerFK) {
+                if ($this->collSubventions !== null) {
+                    foreach ($this->collSubventions as $referrerFK) {
                         if (!$referrerFK->validate($columns)) {
                             $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
                         }
@@ -736,8 +736,8 @@ abstract class BaseCompany extends BaseObject implements Persistent
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->collGrants) {
-                $result['Grants'] = $this->collGrants->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            if (null !== $this->collSubventions) {
+                $result['Subventions'] = $this->collSubventions->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -902,9 +902,9 @@ abstract class BaseCompany extends BaseObject implements Persistent
             // store object hash to prevent cycle
             $this->startCopy = true;
 
-            foreach ($this->getGrants() as $relObj) {
+            foreach ($this->getSubventions() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addGrant($relObj->copy($deepCopy));
+                    $copyObj->addSubvention($relObj->copy($deepCopy));
                 }
             }
 
@@ -969,42 +969,42 @@ abstract class BaseCompany extends BaseObject implements Persistent
      */
     public function initRelation($relationName)
     {
-        if ('Grant' == $relationName) {
-            $this->initGrants();
+        if ('Subvention' == $relationName) {
+            $this->initSubventions();
         }
     }
 
     /**
-     * Clears out the collGrants collection
+     * Clears out the collSubventions collection
      *
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
      * @return Company The current object (for fluent API support)
-     * @see        addGrants()
+     * @see        addSubventions()
      */
-    public function clearGrants()
+    public function clearSubventions()
     {
-        $this->collGrants = null; // important to set this to null since that means it is uninitialized
-        $this->collGrantsPartial = null;
+        $this->collSubventions = null; // important to set this to null since that means it is uninitialized
+        $this->collSubventionsPartial = null;
 
         return $this;
     }
 
     /**
-     * reset is the collGrants collection loaded partially
+     * reset is the collSubventions collection loaded partially
      *
      * @return void
      */
-    public function resetPartialGrants($v = true)
+    public function resetPartialSubventions($v = true)
     {
-        $this->collGrantsPartial = $v;
+        $this->collSubventionsPartial = $v;
     }
 
     /**
-     * Initializes the collGrants collection.
+     * Initializes the collSubventions collection.
      *
-     * By default this just sets the collGrants collection to an empty array (like clearcollGrants());
+     * By default this just sets the collSubventions collection to an empty array (like clearcollSubventions());
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
@@ -1013,17 +1013,17 @@ abstract class BaseCompany extends BaseObject implements Persistent
      *
      * @return void
      */
-    public function initGrants($overrideExisting = true)
+    public function initSubventions($overrideExisting = true)
     {
-        if (null !== $this->collGrants && !$overrideExisting) {
+        if (null !== $this->collSubventions && !$overrideExisting) {
             return;
         }
-        $this->collGrants = new PropelObjectCollection();
-        $this->collGrants->setModel('Grant');
+        $this->collSubventions = new PropelObjectCollection();
+        $this->collSubventions->setModel('Subvention');
     }
 
     /**
-     * Gets an array of Grant objects which contain a foreign key that references this object.
+     * Gets an array of Subvention objects which contain a foreign key that references this object.
      *
      * If the $criteria is not null, it is used to always fetch the results from the database.
      * Otherwise the results are fetched from the database the first time, then cached.
@@ -1033,107 +1033,107 @@ abstract class BaseCompany extends BaseObject implements Persistent
      *
      * @param Criteria $criteria optional Criteria object to narrow the query
      * @param PropelPDO $con optional connection object
-     * @return PropelObjectCollection|Grant[] List of Grant objects
+     * @return PropelObjectCollection|Subvention[] List of Subvention objects
      * @throws PropelException
      */
-    public function getGrants($criteria = null, PropelPDO $con = null)
+    public function getSubventions($criteria = null, PropelPDO $con = null)
     {
-        $partial = $this->collGrantsPartial && !$this->isNew();
-        if (null === $this->collGrants || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collGrants) {
+        $partial = $this->collSubventionsPartial && !$this->isNew();
+        if (null === $this->collSubventions || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collSubventions) {
                 // return empty collection
-                $this->initGrants();
+                $this->initSubventions();
             } else {
-                $collGrants = GrantQuery::create(null, $criteria)
+                $collSubventions = SubventionQuery::create(null, $criteria)
                     ->filterByCompany($this)
                     ->find($con);
                 if (null !== $criteria) {
-                    if (false !== $this->collGrantsPartial && count($collGrants)) {
-                      $this->initGrants(false);
+                    if (false !== $this->collSubventionsPartial && count($collSubventions)) {
+                      $this->initSubventions(false);
 
-                      foreach ($collGrants as $obj) {
-                        if (false == $this->collGrants->contains($obj)) {
-                          $this->collGrants->append($obj);
+                      foreach ($collSubventions as $obj) {
+                        if (false == $this->collSubventions->contains($obj)) {
+                          $this->collSubventions->append($obj);
                         }
                       }
 
-                      $this->collGrantsPartial = true;
+                      $this->collSubventionsPartial = true;
                     }
 
-                    $collGrants->getInternalIterator()->rewind();
+                    $collSubventions->getInternalIterator()->rewind();
 
-                    return $collGrants;
+                    return $collSubventions;
                 }
 
-                if ($partial && $this->collGrants) {
-                    foreach ($this->collGrants as $obj) {
+                if ($partial && $this->collSubventions) {
+                    foreach ($this->collSubventions as $obj) {
                         if ($obj->isNew()) {
-                            $collGrants[] = $obj;
+                            $collSubventions[] = $obj;
                         }
                     }
                 }
 
-                $this->collGrants = $collGrants;
-                $this->collGrantsPartial = false;
+                $this->collSubventions = $collSubventions;
+                $this->collSubventionsPartial = false;
             }
         }
 
-        return $this->collGrants;
+        return $this->collSubventions;
     }
 
     /**
-     * Sets a collection of Grant objects related by a one-to-many relationship
+     * Sets a collection of Subvention objects related by a one-to-many relationship
      * to the current object.
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param PropelCollection $grants A Propel collection.
+     * @param PropelCollection $subventions A Propel collection.
      * @param PropelPDO $con Optional connection object
      * @return Company The current object (for fluent API support)
      */
-    public function setGrants(PropelCollection $grants, PropelPDO $con = null)
+    public function setSubventions(PropelCollection $subventions, PropelPDO $con = null)
     {
-        $grantsToDelete = $this->getGrants(new Criteria(), $con)->diff($grants);
+        $subventionsToDelete = $this->getSubventions(new Criteria(), $con)->diff($subventions);
 
 
-        $this->grantsScheduledForDeletion = $grantsToDelete;
+        $this->subventionsScheduledForDeletion = $subventionsToDelete;
 
-        foreach ($grantsToDelete as $grantRemoved) {
-            $grantRemoved->setCompany(null);
+        foreach ($subventionsToDelete as $subventionRemoved) {
+            $subventionRemoved->setCompany(null);
         }
 
-        $this->collGrants = null;
-        foreach ($grants as $grant) {
-            $this->addGrant($grant);
+        $this->collSubventions = null;
+        foreach ($subventions as $subvention) {
+            $this->addSubvention($subvention);
         }
 
-        $this->collGrants = $grants;
-        $this->collGrantsPartial = false;
+        $this->collSubventions = $subventions;
+        $this->collSubventionsPartial = false;
 
         return $this;
     }
 
     /**
-     * Returns the number of related Grant objects.
+     * Returns the number of related Subvention objects.
      *
      * @param Criteria $criteria
      * @param boolean $distinct
      * @param PropelPDO $con
-     * @return int             Count of related Grant objects.
+     * @return int             Count of related Subvention objects.
      * @throws PropelException
      */
-    public function countGrants(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    public function countSubventions(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
     {
-        $partial = $this->collGrantsPartial && !$this->isNew();
-        if (null === $this->collGrants || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collGrants) {
+        $partial = $this->collSubventionsPartial && !$this->isNew();
+        if (null === $this->collSubventions || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collSubventions) {
                 return 0;
             }
 
             if ($partial && !$criteria) {
-                return count($this->getGrants());
+                return count($this->getSubventions());
             }
-            $query = GrantQuery::create(null, $criteria);
+            $query = SubventionQuery::create(null, $criteria);
             if ($distinct) {
                 $query->distinct();
             }
@@ -1143,28 +1143,28 @@ abstract class BaseCompany extends BaseObject implements Persistent
                 ->count($con);
         }
 
-        return count($this->collGrants);
+        return count($this->collSubventions);
     }
 
     /**
-     * Method called to associate a Grant object to this object
-     * through the Grant foreign key attribute.
+     * Method called to associate a Subvention object to this object
+     * through the Subvention foreign key attribute.
      *
-     * @param    Grant $l Grant
+     * @param    Subvention $l Subvention
      * @return Company The current object (for fluent API support)
      */
-    public function addGrant(Grant $l)
+    public function addSubvention(Subvention $l)
     {
-        if ($this->collGrants === null) {
-            $this->initGrants();
-            $this->collGrantsPartial = true;
+        if ($this->collSubventions === null) {
+            $this->initSubventions();
+            $this->collSubventionsPartial = true;
         }
 
-        if (!in_array($l, $this->collGrants->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
-            $this->doAddGrant($l);
+        if (!in_array($l, $this->collSubventions->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddSubvention($l);
 
-            if ($this->grantsScheduledForDeletion and $this->grantsScheduledForDeletion->contains($l)) {
-                $this->grantsScheduledForDeletion->remove($this->grantsScheduledForDeletion->search($l));
+            if ($this->subventionsScheduledForDeletion and $this->subventionsScheduledForDeletion->contains($l)) {
+                $this->subventionsScheduledForDeletion->remove($this->subventionsScheduledForDeletion->search($l));
             }
         }
 
@@ -1172,28 +1172,28 @@ abstract class BaseCompany extends BaseObject implements Persistent
     }
 
     /**
-     * @param	Grant $grant The grant object to add.
+     * @param	Subvention $subvention The subvention object to add.
      */
-    protected function doAddGrant($grant)
+    protected function doAddSubvention($subvention)
     {
-        $this->collGrants[]= $grant;
-        $grant->setCompany($this);
+        $this->collSubventions[]= $subvention;
+        $subvention->setCompany($this);
     }
 
     /**
-     * @param	Grant $grant The grant object to remove.
+     * @param	Subvention $subvention The subvention object to remove.
      * @return Company The current object (for fluent API support)
      */
-    public function removeGrant($grant)
+    public function removeSubvention($subvention)
     {
-        if ($this->getGrants()->contains($grant)) {
-            $this->collGrants->remove($this->collGrants->search($grant));
-            if (null === $this->grantsScheduledForDeletion) {
-                $this->grantsScheduledForDeletion = clone $this->collGrants;
-                $this->grantsScheduledForDeletion->clear();
+        if ($this->getSubventions()->contains($subvention)) {
+            $this->collSubventions->remove($this->collSubventions->search($subvention));
+            if (null === $this->subventionsScheduledForDeletion) {
+                $this->subventionsScheduledForDeletion = clone $this->collSubventions;
+                $this->subventionsScheduledForDeletion->clear();
             }
-            $this->grantsScheduledForDeletion[]= $grant;
-            $grant->setCompany(null);
+            $this->subventionsScheduledForDeletion[]= $subvention;
+            $subvention->setCompany(null);
         }
 
         return $this;
@@ -1230,8 +1230,8 @@ abstract class BaseCompany extends BaseObject implements Persistent
     {
         if ($deep && !$this->alreadyInClearAllReferencesDeep) {
             $this->alreadyInClearAllReferencesDeep = true;
-            if ($this->collGrants) {
-                foreach ($this->collGrants as $o) {
+            if ($this->collSubventions) {
+                foreach ($this->collSubventions as $o) {
                     $o->clearAllReferences($deep);
                 }
             }
@@ -1239,10 +1239,10 @@ abstract class BaseCompany extends BaseObject implements Persistent
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
 
-        if ($this->collGrants instanceof PropelCollection) {
-            $this->collGrants->clearIterator();
+        if ($this->collSubventions instanceof PropelCollection) {
+            $this->collSubventions->clearIterator();
         }
-        $this->collGrants = null;
+        $this->collSubventions = null;
     }
 
     /**

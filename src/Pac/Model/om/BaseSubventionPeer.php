@@ -10,31 +10,31 @@ use \Propel;
 use \PropelException;
 use \PropelPDO;
 use Pac\Model\CompanyPeer;
-use Pac\Model\Grant;
-use Pac\Model\GrantPeer;
-use Pac\Model\map\GrantTableMap;
+use Pac\Model\Subvention;
+use Pac\Model\SubventionPeer;
+use Pac\Model\map\SubventionTableMap;
 
 /**
- * Base static class for performing query and update operations on the 'grant' table.
+ * Base static class for performing query and update operations on the 'subvention' table.
  *
  *
  *
  * @package propel.generator.Pac.Model.om
  */
-abstract class BaseGrantPeer
+abstract class BaseSubventionPeer
 {
 
     /** the default database name for this class */
     const DATABASE_NAME = 'pac';
 
     /** the table name for this class */
-    const TABLE_NAME = 'grant';
+    const TABLE_NAME = 'subvention';
 
     /** the related Propel class for this table */
-    const OM_CLASS = 'Pac\\Model\\Grant';
+    const OM_CLASS = 'Pac\\Model\\Subvention';
 
     /** the related TableMap class for this table */
-    const TM_CLASS = 'Pac\\Model\\map\\GrantTableMap';
+    const TM_CLASS = 'Pac\\Model\\map\\SubventionTableMap';
 
     /** The total number of columns. */
     const NUM_COLUMNS = 4;
@@ -46,25 +46,25 @@ abstract class BaseGrantPeer
     const NUM_HYDRATE_COLUMNS = 4;
 
     /** the column name for the id field */
-    const ID = 'grant.id';
+    const ID = 'subvention.id';
 
     /** the column name for the company_id field */
-    const COMPANY_ID = 'grant.company_id';
+    const COMPANY_ID = 'subvention.company_id';
 
     /** the column name for the year field */
-    const YEAR = 'grant.year';
+    const YEAR = 'subvention.year';
 
     /** the column name for the amount field */
-    const AMOUNT = 'grant.amount';
+    const AMOUNT = 'subvention.amount';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
 
     /**
-     * An identity map to hold any loaded instances of Grant objects.
+     * An identity map to hold any loaded instances of Subvention objects.
      * This must be public so that other peer classes can access this when hydrating from JOIN
      * queries.
-     * @var        array Grant[]
+     * @var        array Subvention[]
      */
     public static $instances = array();
 
@@ -73,12 +73,12 @@ abstract class BaseGrantPeer
      * holds an array of fieldnames
      *
      * first dimension keys are the type constants
-     * e.g. GrantPeer::$fieldNames[GrantPeer::TYPE_PHPNAME][0] = 'Id'
+     * e.g. SubventionPeer::$fieldNames[SubventionPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
         BasePeer::TYPE_PHPNAME => array ('Id', 'CompanyId', 'Year', 'Amount', ),
         BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'companyId', 'year', 'amount', ),
-        BasePeer::TYPE_COLNAME => array (GrantPeer::ID, GrantPeer::COMPANY_ID, GrantPeer::YEAR, GrantPeer::AMOUNT, ),
+        BasePeer::TYPE_COLNAME => array (SubventionPeer::ID, SubventionPeer::COMPANY_ID, SubventionPeer::YEAR, SubventionPeer::AMOUNT, ),
         BasePeer::TYPE_RAW_COLNAME => array ('ID', 'COMPANY_ID', 'YEAR', 'AMOUNT', ),
         BasePeer::TYPE_FIELDNAME => array ('id', 'company_id', 'year', 'amount', ),
         BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
@@ -88,12 +88,12 @@ abstract class BaseGrantPeer
      * holds an array of keys for quick access to the fieldnames array
      *
      * first dimension keys are the type constants
-     * e.g. GrantPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
+     * e.g. SubventionPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
         BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CompanyId' => 1, 'Year' => 2, 'Amount' => 3, ),
         BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'companyId' => 1, 'year' => 2, 'amount' => 3, ),
-        BasePeer::TYPE_COLNAME => array (GrantPeer::ID => 0, GrantPeer::COMPANY_ID => 1, GrantPeer::YEAR => 2, GrantPeer::AMOUNT => 3, ),
+        BasePeer::TYPE_COLNAME => array (SubventionPeer::ID => 0, SubventionPeer::COMPANY_ID => 1, SubventionPeer::YEAR => 2, SubventionPeer::AMOUNT => 3, ),
         BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'COMPANY_ID' => 1, 'YEAR' => 2, 'AMOUNT' => 3, ),
         BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'company_id' => 1, 'year' => 2, 'amount' => 3, ),
         BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
@@ -111,10 +111,10 @@ abstract class BaseGrantPeer
      */
     public static function translateFieldName($name, $fromType, $toType)
     {
-        $toNames = GrantPeer::getFieldNames($toType);
-        $key = isset(GrantPeer::$fieldKeys[$fromType][$name]) ? GrantPeer::$fieldKeys[$fromType][$name] : null;
+        $toNames = SubventionPeer::getFieldNames($toType);
+        $key = isset(SubventionPeer::$fieldKeys[$fromType][$name]) ? SubventionPeer::$fieldKeys[$fromType][$name] : null;
         if ($key === null) {
-            throw new PropelException("'$name' could not be found in the field names of type '$fromType'. These are: " . print_r(GrantPeer::$fieldKeys[$fromType], true));
+            throw new PropelException("'$name' could not be found in the field names of type '$fromType'. These are: " . print_r(SubventionPeer::$fieldKeys[$fromType], true));
         }
 
         return $toNames[$key];
@@ -131,11 +131,11 @@ abstract class BaseGrantPeer
      */
     public static function getFieldNames($type = BasePeer::TYPE_PHPNAME)
     {
-        if (!array_key_exists($type, GrantPeer::$fieldNames)) {
+        if (!array_key_exists($type, SubventionPeer::$fieldNames)) {
             throw new PropelException('Method getFieldNames() expects the parameter $type to be one of the class constants BasePeer::TYPE_PHPNAME, BasePeer::TYPE_STUDLYPHPNAME, BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM. ' . $type . ' was given.');
         }
 
-        return GrantPeer::$fieldNames[$type];
+        return SubventionPeer::$fieldNames[$type];
     }
 
     /**
@@ -147,12 +147,12 @@ abstract class BaseGrantPeer
      *		$c->addJoin(TablePeer::alias("alias1", TablePeer::PRIMARY_KEY_COLUMN), TablePeer::PRIMARY_KEY_COLUMN);
      * </code>
      * @param      string $alias The alias for the current table.
-     * @param      string $column The column name for current table. (i.e. GrantPeer::COLUMN_NAME).
+     * @param      string $column The column name for current table. (i.e. SubventionPeer::COLUMN_NAME).
      * @return string
      */
     public static function alias($alias, $column)
     {
-        return str_replace(GrantPeer::TABLE_NAME.'.', $alias.'.', $column);
+        return str_replace(SubventionPeer::TABLE_NAME.'.', $alias.'.', $column);
     }
 
     /**
@@ -170,10 +170,10 @@ abstract class BaseGrantPeer
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(GrantPeer::ID);
-            $criteria->addSelectColumn(GrantPeer::COMPANY_ID);
-            $criteria->addSelectColumn(GrantPeer::YEAR);
-            $criteria->addSelectColumn(GrantPeer::AMOUNT);
+            $criteria->addSelectColumn(SubventionPeer::ID);
+            $criteria->addSelectColumn(SubventionPeer::COMPANY_ID);
+            $criteria->addSelectColumn(SubventionPeer::YEAR);
+            $criteria->addSelectColumn(SubventionPeer::AMOUNT);
         } else {
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.company_id');
@@ -198,21 +198,21 @@ abstract class BaseGrantPeer
         // We need to set the primary table name, since in the case that there are no WHERE columns
         // it will be impossible for the BasePeer::createSelectSql() method to determine which
         // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(GrantPeer::TABLE_NAME);
+        $criteria->setPrimaryTableName(SubventionPeer::TABLE_NAME);
 
         if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
             $criteria->setDistinct();
         }
 
         if (!$criteria->hasSelectClause()) {
-            GrantPeer::addSelectColumns($criteria);
+            SubventionPeer::addSelectColumns($criteria);
         }
 
         $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
-        $criteria->setDbName(GrantPeer::DATABASE_NAME); // Set the correct dbName
+        $criteria->setDbName(SubventionPeer::DATABASE_NAME); // Set the correct dbName
 
         if ($con === null) {
-            $con = Propel::getConnection(GrantPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(SubventionPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
         // BasePeer returns a PDOStatement
         $stmt = BasePeer::doCount($criteria, $con);
@@ -231,7 +231,7 @@ abstract class BaseGrantPeer
      *
      * @param      Criteria $criteria object used to create the SELECT statement.
      * @param      PropelPDO $con
-     * @return Grant
+     * @return Subvention
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
@@ -239,7 +239,7 @@ abstract class BaseGrantPeer
     {
         $critcopy = clone $criteria;
         $critcopy->setLimit(1);
-        $objects = GrantPeer::doSelect($critcopy, $con);
+        $objects = SubventionPeer::doSelect($critcopy, $con);
         if ($objects) {
             return $objects[0];
         }
@@ -257,7 +257,7 @@ abstract class BaseGrantPeer
      */
     public static function doSelect(Criteria $criteria, PropelPDO $con = null)
     {
-        return GrantPeer::populateObjects(GrantPeer::doSelectStmt($criteria, $con));
+        return SubventionPeer::populateObjects(SubventionPeer::doSelectStmt($criteria, $con));
     }
     /**
      * Prepares the Criteria object and uses the parent doSelect() method to execute a PDOStatement.
@@ -275,16 +275,16 @@ abstract class BaseGrantPeer
     public static function doSelectStmt(Criteria $criteria, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(GrantPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(SubventionPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         if (!$criteria->hasSelectClause()) {
             $criteria = clone $criteria;
-            GrantPeer::addSelectColumns($criteria);
+            SubventionPeer::addSelectColumns($criteria);
         }
 
         // Set the correct dbName
-        $criteria->setDbName(GrantPeer::DATABASE_NAME);
+        $criteria->setDbName(SubventionPeer::DATABASE_NAME);
 
         // BasePeer returns a PDOStatement
         return BasePeer::doSelect($criteria, $con);
@@ -298,7 +298,7 @@ abstract class BaseGrantPeer
      * to the cache in order to ensure that the same objects are always returned by doSelect*()
      * and retrieveByPK*() calls.
      *
-     * @param Grant $obj A Grant object.
+     * @param Subvention $obj A Subvention object.
      * @param      string $key (optional) key to use for instance map (for performance boost if key was already calculated externally).
      */
     public static function addInstanceToPool($obj, $key = null)
@@ -307,7 +307,7 @@ abstract class BaseGrantPeer
             if ($key === null) {
                 $key = (string) $obj->getId();
             } // if key === null
-            GrantPeer::$instances[$key] = $obj;
+            SubventionPeer::$instances[$key] = $obj;
         }
     }
 
@@ -319,7 +319,7 @@ abstract class BaseGrantPeer
      * methods in your stub classes -- you may need to explicitly remove objects
      * from the cache in order to prevent returning objects that no longer exist.
      *
-     * @param      mixed $value A Grant object or a primary key value.
+     * @param      mixed $value A Subvention object or a primary key value.
      *
      * @return void
      * @throws PropelException - if the value is invalid.
@@ -327,17 +327,17 @@ abstract class BaseGrantPeer
     public static function removeInstanceFromPool($value)
     {
         if (Propel::isInstancePoolingEnabled() && $value !== null) {
-            if (is_object($value) && $value instanceof Grant) {
+            if (is_object($value) && $value instanceof Subvention) {
                 $key = (string) $value->getId();
             } elseif (is_scalar($value)) {
                 // assume we've been passed a primary key
                 $key = (string) $value;
             } else {
-                $e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or Grant object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
+                $e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or Subvention object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
                 throw $e;
             }
 
-            unset(GrantPeer::$instances[$key]);
+            unset(SubventionPeer::$instances[$key]);
         }
     } // removeInstanceFromPool()
 
@@ -348,14 +348,14 @@ abstract class BaseGrantPeer
      * a multi-column primary key, a serialize()d version of the primary key will be returned.
      *
      * @param      string $key The key (@see getPrimaryKeyHash()) for this instance.
-     * @return Grant Found object or null if 1) no instance exists for specified key or 2) instance pooling has been disabled.
+     * @return Subvention Found object or null if 1) no instance exists for specified key or 2) instance pooling has been disabled.
      * @see        getPrimaryKeyHash()
      */
     public static function getInstanceFromPool($key)
     {
         if (Propel::isInstancePoolingEnabled()) {
-            if (isset(GrantPeer::$instances[$key])) {
-                return GrantPeer::$instances[$key];
+            if (isset(SubventionPeer::$instances[$key])) {
+                return SubventionPeer::$instances[$key];
             }
         }
 
@@ -370,15 +370,15 @@ abstract class BaseGrantPeer
     public static function clearInstancePool($and_clear_all_references = false)
     {
       if ($and_clear_all_references) {
-        foreach (GrantPeer::$instances as $instance) {
+        foreach (SubventionPeer::$instances as $instance) {
           $instance->clearAllReferences(true);
         }
       }
-        GrantPeer::$instances = array();
+        SubventionPeer::$instances = array();
     }
 
     /**
-     * Method to invalidate the instance pool of all tables related to grant
+     * Method to invalidate the instance pool of all tables related to subvention
      * by a foreign key with ON DELETE CASCADE
      */
     public static function clearRelatedInstancePool()
@@ -432,11 +432,11 @@ abstract class BaseGrantPeer
         $results = array();
 
         // set the class once to avoid overhead in the loop
-        $cls = GrantPeer::getOMClass();
+        $cls = SubventionPeer::getOMClass();
         // populate the object(s)
         while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key = GrantPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj = GrantPeer::getInstanceFromPool($key))) {
+            $key = SubventionPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj = SubventionPeer::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
@@ -445,7 +445,7 @@ abstract class BaseGrantPeer
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                GrantPeer::addInstanceToPool($obj, $key);
+                SubventionPeer::addInstanceToPool($obj, $key);
             } // if key exists
         }
         $stmt->closeCursor();
@@ -459,21 +459,21 @@ abstract class BaseGrantPeer
      * @param      int $startcol The 0-based offset for reading from the resultset row.
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
-     * @return array (Grant object, last column rank)
+     * @return array (Subvention object, last column rank)
      */
     public static function populateObject($row, $startcol = 0)
     {
-        $key = GrantPeer::getPrimaryKeyHashFromRow($row, $startcol);
-        if (null !== ($obj = GrantPeer::getInstanceFromPool($key))) {
+        $key = SubventionPeer::getPrimaryKeyHashFromRow($row, $startcol);
+        if (null !== ($obj = SubventionPeer::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $startcol, true); // rehydrate
-            $col = $startcol + GrantPeer::NUM_HYDRATE_COLUMNS;
+            $col = $startcol + SubventionPeer::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = GrantPeer::OM_CLASS;
+            $cls = SubventionPeer::OM_CLASS;
             $obj = new $cls();
             $col = $obj->hydrate($row, $startcol);
-            GrantPeer::addInstanceToPool($obj, $key);
+            SubventionPeer::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -497,26 +497,26 @@ abstract class BaseGrantPeer
         // We need to set the primary table name, since in the case that there are no WHERE columns
         // it will be impossible for the BasePeer::createSelectSql() method to determine which
         // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(GrantPeer::TABLE_NAME);
+        $criteria->setPrimaryTableName(SubventionPeer::TABLE_NAME);
 
         if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
             $criteria->setDistinct();
         }
 
         if (!$criteria->hasSelectClause()) {
-            GrantPeer::addSelectColumns($criteria);
+            SubventionPeer::addSelectColumns($criteria);
         }
 
         $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
 
         // Set the correct dbName
-        $criteria->setDbName(GrantPeer::DATABASE_NAME);
+        $criteria->setDbName(SubventionPeer::DATABASE_NAME);
 
         if ($con === null) {
-            $con = Propel::getConnection(GrantPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(SubventionPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria->addJoin(GrantPeer::COMPANY_ID, CompanyPeer::ID, $join_behavior);
+        $criteria->addJoin(SubventionPeer::COMPANY_ID, CompanyPeer::ID, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -532,11 +532,11 @@ abstract class BaseGrantPeer
 
 
     /**
-     * Selects a collection of Grant objects pre-filled with their Company objects.
+     * Selects a collection of Subvention objects pre-filled with their Company objects.
      * @param      Criteria  $criteria
      * @param      PropelPDO $con
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return array           Array of Grant objects.
+     * @return array           Array of Subvention objects.
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
@@ -546,31 +546,31 @@ abstract class BaseGrantPeer
 
         // Set the correct dbName if it has not been overridden
         if ($criteria->getDbName() == Propel::getDefaultDB()) {
-            $criteria->setDbName(GrantPeer::DATABASE_NAME);
+            $criteria->setDbName(SubventionPeer::DATABASE_NAME);
         }
 
-        GrantPeer::addSelectColumns($criteria);
-        $startcol = GrantPeer::NUM_HYDRATE_COLUMNS;
+        SubventionPeer::addSelectColumns($criteria);
+        $startcol = SubventionPeer::NUM_HYDRATE_COLUMNS;
         CompanyPeer::addSelectColumns($criteria);
 
-        $criteria->addJoin(GrantPeer::COMPANY_ID, CompanyPeer::ID, $join_behavior);
+        $criteria->addJoin(SubventionPeer::COMPANY_ID, CompanyPeer::ID, $join_behavior);
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
 
         while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key1 = GrantPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj1 = GrantPeer::getInstanceFromPool($key1))) {
+            $key1 = SubventionPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = SubventionPeer::getInstanceFromPool($key1))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj1->hydrate($row, 0, true); // rehydrate
             } else {
 
-                $cls = GrantPeer::getOMClass();
+                $cls = SubventionPeer::getOMClass();
 
                 $obj1 = new $cls();
                 $obj1->hydrate($row);
-                GrantPeer::addInstanceToPool($obj1, $key1);
+                SubventionPeer::addInstanceToPool($obj1, $key1);
             } // if $obj1 already loaded
 
             $key2 = CompanyPeer::getPrimaryKeyHashFromRow($row, $startcol);
@@ -585,8 +585,8 @@ abstract class BaseGrantPeer
                     CompanyPeer::addInstanceToPool($obj2, $key2);
                 } // if obj2 already loaded
 
-                // Add the $obj1 (Grant) to $obj2 (Company)
-                $obj2->addGrant($obj1);
+                // Add the $obj1 (Subvention) to $obj2 (Company)
+                $obj2->addSubvention($obj1);
 
             } // if joined row was not null
 
@@ -615,26 +615,26 @@ abstract class BaseGrantPeer
         // We need to set the primary table name, since in the case that there are no WHERE columns
         // it will be impossible for the BasePeer::createSelectSql() method to determine which
         // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(GrantPeer::TABLE_NAME);
+        $criteria->setPrimaryTableName(SubventionPeer::TABLE_NAME);
 
         if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
             $criteria->setDistinct();
         }
 
         if (!$criteria->hasSelectClause()) {
-            GrantPeer::addSelectColumns($criteria);
+            SubventionPeer::addSelectColumns($criteria);
         }
 
         $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
 
         // Set the correct dbName
-        $criteria->setDbName(GrantPeer::DATABASE_NAME);
+        $criteria->setDbName(SubventionPeer::DATABASE_NAME);
 
         if ($con === null) {
-            $con = Propel::getConnection(GrantPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(SubventionPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria->addJoin(GrantPeer::COMPANY_ID, CompanyPeer::ID, $join_behavior);
+        $criteria->addJoin(SubventionPeer::COMPANY_ID, CompanyPeer::ID, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -649,12 +649,12 @@ abstract class BaseGrantPeer
     }
 
     /**
-     * Selects a collection of Grant objects pre-filled with all related objects.
+     * Selects a collection of Subvention objects pre-filled with all related objects.
      *
      * @param      Criteria  $criteria
      * @param      PropelPDO $con
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return array           Array of Grant objects.
+     * @return array           Array of Subvention objects.
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
@@ -664,32 +664,32 @@ abstract class BaseGrantPeer
 
         // Set the correct dbName if it has not been overridden
         if ($criteria->getDbName() == Propel::getDefaultDB()) {
-            $criteria->setDbName(GrantPeer::DATABASE_NAME);
+            $criteria->setDbName(SubventionPeer::DATABASE_NAME);
         }
 
-        GrantPeer::addSelectColumns($criteria);
-        $startcol2 = GrantPeer::NUM_HYDRATE_COLUMNS;
+        SubventionPeer::addSelectColumns($criteria);
+        $startcol2 = SubventionPeer::NUM_HYDRATE_COLUMNS;
 
         CompanyPeer::addSelectColumns($criteria);
         $startcol3 = $startcol2 + CompanyPeer::NUM_HYDRATE_COLUMNS;
 
-        $criteria->addJoin(GrantPeer::COMPANY_ID, CompanyPeer::ID, $join_behavior);
+        $criteria->addJoin(SubventionPeer::COMPANY_ID, CompanyPeer::ID, $join_behavior);
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
 
         while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key1 = GrantPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj1 = GrantPeer::getInstanceFromPool($key1))) {
+            $key1 = SubventionPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = SubventionPeer::getInstanceFromPool($key1))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj1->hydrate($row, 0, true); // rehydrate
             } else {
-                $cls = GrantPeer::getOMClass();
+                $cls = SubventionPeer::getOMClass();
 
                 $obj1 = new $cls();
                 $obj1->hydrate($row);
-                GrantPeer::addInstanceToPool($obj1, $key1);
+                SubventionPeer::addInstanceToPool($obj1, $key1);
             } // if obj1 already loaded
 
             // Add objects for joined Company rows
@@ -706,8 +706,8 @@ abstract class BaseGrantPeer
                     CompanyPeer::addInstanceToPool($obj2, $key2);
                 } // if obj2 loaded
 
-                // Add the $obj1 (Grant) to the collection in $obj2 (Company)
-                $obj2->addGrant($obj1);
+                // Add the $obj1 (Subvention) to the collection in $obj2 (Company)
+                $obj2->addSubvention($obj1);
             } // if joined row not null
 
             $results[] = $obj1;
@@ -726,7 +726,7 @@ abstract class BaseGrantPeer
      */
     public static function getTableMap()
     {
-        return Propel::getDatabaseMap(GrantPeer::DATABASE_NAME)->getTable(GrantPeer::TABLE_NAME);
+        return Propel::getDatabaseMap(SubventionPeer::DATABASE_NAME)->getTable(SubventionPeer::TABLE_NAME);
     }
 
     /**
@@ -734,9 +734,9 @@ abstract class BaseGrantPeer
      */
     public static function buildTableMap()
     {
-      $dbMap = Propel::getDatabaseMap(BaseGrantPeer::DATABASE_NAME);
-      if (!$dbMap->hasTable(BaseGrantPeer::TABLE_NAME)) {
-        $dbMap->addTableObject(new \Pac\Model\map\GrantTableMap());
+      $dbMap = Propel::getDatabaseMap(BaseSubventionPeer::DATABASE_NAME);
+      if (!$dbMap->hasTable(BaseSubventionPeer::TABLE_NAME)) {
+        $dbMap->addTableObject(new \Pac\Model\map\SubventionTableMap());
       }
     }
 
@@ -748,13 +748,13 @@ abstract class BaseGrantPeer
      */
     public static function getOMClass($row = 0, $colnum = 0)
     {
-        return GrantPeer::OM_CLASS;
+        return SubventionPeer::OM_CLASS;
     }
 
     /**
-     * Performs an INSERT on the database, given a Grant or Criteria object.
+     * Performs an INSERT on the database, given a Subvention or Criteria object.
      *
-     * @param      mixed $values Criteria or Grant object containing data that is used to create the INSERT statement.
+     * @param      mixed $values Criteria or Subvention object containing data that is used to create the INSERT statement.
      * @param      PropelPDO $con the PropelPDO connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -763,22 +763,22 @@ abstract class BaseGrantPeer
     public static function doInsert($values, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(GrantPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(SubventionPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         if ($values instanceof Criteria) {
             $criteria = clone $values; // rename for clarity
         } else {
-            $criteria = $values->buildCriteria(); // build Criteria from Grant object
+            $criteria = $values->buildCriteria(); // build Criteria from Subvention object
         }
 
-        if ($criteria->containsKey(GrantPeer::ID) && $criteria->keyContainsValue(GrantPeer::ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.GrantPeer::ID.')');
+        if ($criteria->containsKey(SubventionPeer::ID) && $criteria->keyContainsValue(SubventionPeer::ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.SubventionPeer::ID.')');
         }
 
 
         // Set the correct dbName
-        $criteria->setDbName(GrantPeer::DATABASE_NAME);
+        $criteria->setDbName(SubventionPeer::DATABASE_NAME);
 
         try {
             // use transaction because $criteria could contain info
@@ -795,9 +795,9 @@ abstract class BaseGrantPeer
     }
 
     /**
-     * Performs an UPDATE on the database, given a Grant or Criteria object.
+     * Performs an UPDATE on the database, given a Subvention or Criteria object.
      *
-     * @param      mixed $values Criteria or Grant object containing data that is used to create the UPDATE statement.
+     * @param      mixed $values Criteria or Subvention object containing data that is used to create the UPDATE statement.
      * @param      PropelPDO $con The connection to use (specify PropelPDO connection object to exert more control over transactions).
      * @return int             The number of affected rows (if supported by underlying database driver).
      * @throws PropelException Any exceptions caught during processing will be
@@ -806,35 +806,35 @@ abstract class BaseGrantPeer
     public static function doUpdate($values, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(GrantPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(SubventionPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
-        $selectCriteria = new Criteria(GrantPeer::DATABASE_NAME);
+        $selectCriteria = new Criteria(SubventionPeer::DATABASE_NAME);
 
         if ($values instanceof Criteria) {
             $criteria = clone $values; // rename for clarity
 
-            $comparison = $criteria->getComparison(GrantPeer::ID);
-            $value = $criteria->remove(GrantPeer::ID);
+            $comparison = $criteria->getComparison(SubventionPeer::ID);
+            $value = $criteria->remove(SubventionPeer::ID);
             if ($value) {
-                $selectCriteria->add(GrantPeer::ID, $value, $comparison);
+                $selectCriteria->add(SubventionPeer::ID, $value, $comparison);
             } else {
-                $selectCriteria->setPrimaryTableName(GrantPeer::TABLE_NAME);
+                $selectCriteria->setPrimaryTableName(SubventionPeer::TABLE_NAME);
             }
 
-        } else { // $values is Grant object
+        } else { // $values is Subvention object
             $criteria = $values->buildCriteria(); // gets full criteria
             $selectCriteria = $values->buildPkeyCriteria(); // gets criteria w/ primary key(s)
         }
 
         // set the correct dbName
-        $criteria->setDbName(GrantPeer::DATABASE_NAME);
+        $criteria->setDbName(SubventionPeer::DATABASE_NAME);
 
         return BasePeer::doUpdate($selectCriteria, $criteria, $con);
     }
 
     /**
-     * Deletes all rows from the grant table.
+     * Deletes all rows from the subvention table.
      *
      * @param      PropelPDO $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).
@@ -843,19 +843,19 @@ abstract class BaseGrantPeer
     public static function doDeleteAll(PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(GrantPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(SubventionPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
         $affectedRows = 0; // initialize var to track total num of affected rows
         try {
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-            $affectedRows += BasePeer::doDeleteAll(GrantPeer::TABLE_NAME, $con, GrantPeer::DATABASE_NAME);
+            $affectedRows += BasePeer::doDeleteAll(SubventionPeer::TABLE_NAME, $con, SubventionPeer::DATABASE_NAME);
             // Because this db requires some delete cascade/set null emulation, we have to
             // clear the cached instance *after* the emulation has happened (since
             // instances get re-added by the select statement contained therein).
-            GrantPeer::clearInstancePool();
-            GrantPeer::clearRelatedInstancePool();
+            SubventionPeer::clearInstancePool();
+            SubventionPeer::clearRelatedInstancePool();
             $con->commit();
 
             return $affectedRows;
@@ -866,9 +866,9 @@ abstract class BaseGrantPeer
     }
 
     /**
-     * Performs a DELETE on the database, given a Grant or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Subvention or Criteria object OR a primary key value.
      *
-     * @param      mixed $values Criteria or Grant object or primary key or array of primary keys
+     * @param      mixed $values Criteria or Subvention object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param      PropelPDO $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -879,32 +879,32 @@ abstract class BaseGrantPeer
      public static function doDelete($values, PropelPDO $con = null)
      {
         if ($con === null) {
-            $con = Propel::getConnection(GrantPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(SubventionPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         if ($values instanceof Criteria) {
             // invalidate the cache for all objects of this type, since we have no
             // way of knowing (without running a query) what objects should be invalidated
             // from the cache based on this Criteria.
-            GrantPeer::clearInstancePool();
+            SubventionPeer::clearInstancePool();
             // rename for clarity
             $criteria = clone $values;
-        } elseif ($values instanceof Grant) { // it's a model object
+        } elseif ($values instanceof Subvention) { // it's a model object
             // invalidate the cache for this single object
-            GrantPeer::removeInstanceFromPool($values);
+            SubventionPeer::removeInstanceFromPool($values);
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(GrantPeer::DATABASE_NAME);
-            $criteria->add(GrantPeer::ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(SubventionPeer::DATABASE_NAME);
+            $criteria->add(SubventionPeer::ID, (array) $values, Criteria::IN);
             // invalidate the cache for this object(s)
             foreach ((array) $values as $singleval) {
-                GrantPeer::removeInstanceFromPool($singleval);
+                SubventionPeer::removeInstanceFromPool($singleval);
             }
         }
 
         // Set the correct dbName
-        $criteria->setDbName(GrantPeer::DATABASE_NAME);
+        $criteria->setDbName(SubventionPeer::DATABASE_NAME);
 
         $affectedRows = 0; // initialize var to track total num of affected rows
 
@@ -914,7 +914,7 @@ abstract class BaseGrantPeer
             $con->beginTransaction();
 
             $affectedRows += BasePeer::doDelete($criteria, $con);
-            GrantPeer::clearRelatedInstancePool();
+            SubventionPeer::clearRelatedInstancePool();
             $con->commit();
 
             return $affectedRows;
@@ -925,13 +925,13 @@ abstract class BaseGrantPeer
     }
 
     /**
-     * Validates all modified columns of given Grant object.
+     * Validates all modified columns of given Subvention object.
      * If parameter $columns is either a single column name or an array of column names
      * than only those columns are validated.
      *
      * NOTICE: This does not apply to primary or foreign keys for now.
      *
-     * @param Grant $obj The object to validate.
+     * @param Subvention $obj The object to validate.
      * @param      mixed $cols Column name or array of column names.
      *
      * @return mixed TRUE if all columns are valid or the error message of the first invalid column.
@@ -941,8 +941,8 @@ abstract class BaseGrantPeer
         $columns = array();
 
         if ($cols) {
-            $dbMap = Propel::getDatabaseMap(GrantPeer::DATABASE_NAME);
-            $tableMap = $dbMap->getTable(GrantPeer::TABLE_NAME);
+            $dbMap = Propel::getDatabaseMap(SubventionPeer::DATABASE_NAME);
+            $tableMap = $dbMap->getTable(SubventionPeer::TABLE_NAME);
 
             if (! is_array($cols)) {
                 $cols = array($cols);
@@ -958,7 +958,7 @@ abstract class BaseGrantPeer
 
         }
 
-        return BasePeer::doValidate(GrantPeer::DATABASE_NAME, GrantPeer::TABLE_NAME, $columns);
+        return BasePeer::doValidate(SubventionPeer::DATABASE_NAME, SubventionPeer::TABLE_NAME, $columns);
     }
 
     /**
@@ -966,23 +966,23 @@ abstract class BaseGrantPeer
      *
      * @param int $pk the primary key.
      * @param      PropelPDO $con the connection to use
-     * @return Grant
+     * @return Subvention
      */
     public static function retrieveByPK($pk, PropelPDO $con = null)
     {
 
-        if (null !== ($obj = GrantPeer::getInstanceFromPool((string) $pk))) {
+        if (null !== ($obj = SubventionPeer::getInstanceFromPool((string) $pk))) {
             return $obj;
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(GrantPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(SubventionPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria = new Criteria(GrantPeer::DATABASE_NAME);
-        $criteria->add(GrantPeer::ID, $pk);
+        $criteria = new Criteria(SubventionPeer::DATABASE_NAME);
+        $criteria->add(SubventionPeer::ID, $pk);
 
-        $v = GrantPeer::doSelect($criteria, $con);
+        $v = SubventionPeer::doSelect($criteria, $con);
 
         return !empty($v) > 0 ? $v[0] : null;
     }
@@ -992,31 +992,31 @@ abstract class BaseGrantPeer
      *
      * @param      array $pks List of primary keys
      * @param      PropelPDO $con the connection to use
-     * @return Grant[]
+     * @return Subvention[]
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
     public static function retrieveByPKs($pks, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(GrantPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(SubventionPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         $objs = null;
         if (empty($pks)) {
             $objs = array();
         } else {
-            $criteria = new Criteria(GrantPeer::DATABASE_NAME);
-            $criteria->add(GrantPeer::ID, $pks, Criteria::IN);
-            $objs = GrantPeer::doSelect($criteria, $con);
+            $criteria = new Criteria(SubventionPeer::DATABASE_NAME);
+            $criteria->add(SubventionPeer::ID, $pks, Criteria::IN);
+            $objs = SubventionPeer::doSelect($criteria, $con);
         }
 
         return $objs;
     }
 
-} // BaseGrantPeer
+} // BaseSubventionPeer
 
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-BaseGrantPeer::buildTableMap();
+BaseSubventionPeer::buildTableMap();
 

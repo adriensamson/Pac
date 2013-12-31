@@ -8,7 +8,7 @@
         <column name="postal_code" type="integer" />
     </table>
 
-    <table name="grant">
+    <table name="subvention">
         <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
         <column name="company_id" type="integer" />
         <column name="year" type="integer" />

@@ -11,7 +11,7 @@ use \PropelException;
 use \PropelPDO;
 use Pac\Model\Company;
 use Pac\Model\CompanyPeer;
-use Pac\Model\GrantPeer;
+use Pac\Model\SubventionPeer;
 use Pac\Model\map\CompanyTableMap;
 
 /**
@@ -383,9 +383,9 @@ abstract class BaseCompanyPeer
      */
     public static function clearRelatedInstancePool()
     {
-        // Invalidate objects in GrantPeer instance pool,
+        // Invalidate objects in SubventionPeer instance pool,
         // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
-        GrantPeer::clearInstancePool();
+        SubventionPeer::clearInstancePool();
     }
 
     /**
