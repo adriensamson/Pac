@@ -248,12 +248,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/propelorm/Propel.git",
-                "reference": "93f9fc84d1ee631f7b4d92bf3bdba4da82fef015"
+                "reference": "1eda8f318ef1e056a30b17ac7ddd0cf6bf0d4a07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/propelorm/Propel/zipball/93f9fc84d1ee631f7b4d92bf3bdba4da82fef015",
-                "reference": "93f9fc84d1ee631f7b4d92bf3bdba4da82fef015",
+                "url": "https://api.github.com/repos/propelorm/Propel/zipball/1eda8f318ef1e056a30b17ac7ddd0cf6bf0d4a07",
+                "reference": "1eda8f318ef1e056a30b17ac7ddd0cf6bf0d4a07",
                 "shasum": ""
             },
             "require": {
@@ -303,7 +303,7 @@
                 "orm",
                 "persistence"
             ],
-            "time": "2013-11-11 11:10:35"
+            "time": "2013-12-31 17:31:18"
         },
         {
             "name": "silex/silex",
@@ -908,12 +908,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Routing.git",
-                "reference": "4062580e1f31e72bd8a03fe718dac00f64885007"
+                "reference": "87d6b4bc7dc64576c5df76700940cc4b96e81979"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Routing/zipball/4062580e1f31e72bd8a03fe718dac00f64885007",
-                "reference": "4062580e1f31e72bd8a03fe718dac00f64885007",
+                "url": "https://api.github.com/repos/symfony/Routing/zipball/87d6b4bc7dc64576c5df76700940cc4b96e81979",
+                "reference": "87d6b4bc7dc64576c5df76700940cc4b96e81979",
                 "shasum": ""
             },
             "require": {
@@ -957,7 +957,7 @@
             ],
             "description": "Symfony Routing Component",
             "homepage": "http://symfony.com",
-            "time": "2013-12-30 21:13:42"
+            "time": "2013-12-31 15:41:26"
         },
         {
             "name": "symfony/twig-bridge",
