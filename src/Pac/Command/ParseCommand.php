@@ -50,49 +50,38 @@ class ParseCommand extends Command
         $reader = new CSVReader($csvFile);
         $reader->setDelimiter(';');
 
-        $con = \Propel::getConnection();
-        $con->beginTransaction();
+        // remove all grant by current year
+        $grantRowsToDelete = SubventionQuery::create()
+            ->findByYear($year)
+            ->delete();
 
-        try {
-            // remove all grant by current year
-            $grantRowsToDelete = SubventionQuery::create()
-                ->findByYear($year)
-                ->delete($con);
+        while ($row = $reader->getRow()) {
+            $company = CompanyQuery::create()
+                ->filterByName($row[self::COMPANY_NAME])
+                ->findOne();
 
-            while ($row = $reader->getRow()) {
-                $company = CompanyQuery::create()
-                    ->filterByName($row[self::COMPANY_NAME])
-                    ->findOne($con);
-
-                // check if company already exists
-                if (!$company) {
-                    $company = new Company();
-                    $company
-                        ->setName($row[self::COMPANY_NAME])
-                        ->setCity($row[self::COMPANY_CITY])
-                        ->setPostalCode($row[self::COMPANY_POSTAL_CODE])
-                        ->save($con);
-                }
-
-                // create new grant
-                $grant = new Subvention();
-                $grant
-                    ->setYear($year)
-                    ->setAmount($row[self::SUBVENTION_AMOUNT]);
-
-                // adding new grant
+            // check if company already exists
+            if (!$company) {
+                $company = new Company();
                 $company
-                    ->addSubvention($grant)
-                    ->save($con);
-
-                $output->writeln(sprintf("line %d : %s", $reader->getLineNumber(), $company->getName()));
+                    ->setName($row[self::COMPANY_NAME])
+                    ->setCity($row[self::COMPANY_CITY])
+                    ->setPostalCode($row[self::COMPANY_POSTAL_CODE])
+                    ->save();
             }
 
-            $con->commit();
-        } catch (\Exception $exception) {
-            $con->rollback();
+            // create new grant
+            $grant = new Subvention();
+            $grant
+                ->setYear($year)
+                ->setAmount($row[self::SUBVENTION_AMOUNT]);
 
-            throw new Exception("Error Processing Request", 1);
+            // adding new grant
+            $company
+                ->addSubvention($grant)
+                ->save();
+
+            $output->writeln(sprintf("line %d : %s", $reader->getLineNumber(), $company->getName()));
         }
 
         return true;

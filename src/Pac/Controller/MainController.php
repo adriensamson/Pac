@@ -2,14 +2,13 @@
 
 namespace Pac\Controller;
 
-use Silex\Application,
-    Silex\ControllerCollection,
-    Silex\ControllerProviderInterface;
+use Silex\Application;
+use Silex\ControllerCollection;
+use Silex\ControllerProviderInterface;
 
 use Symfony\Component\HttpFoundation\Request;
 
-use Pac\Model\Purchase,
-    Pac\Model\PurchasePeer;
+use Pac\Model\SubventionPeer;
 
 class MainController implements ControllerProviderInterface
 {
@@ -18,7 +17,9 @@ class MainController implements ControllerProviderInterface
         $controllers = $app['controllers_factory'];
 
         $controllers->match('/', function (Request $request, Application $app) {
-            return $app['twig']->render('home.twig', array());
+            return $app['twig']->render('home.twig', array(
+                'biggestAmount' => SubventionPeer::retrieveBiggestAmountByYear(2012),
+            ));
         })
         ->bind('home');
 

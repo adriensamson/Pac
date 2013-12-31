@@ -18,4 +18,20 @@ use Pac\Model\om\BaseSubventionPeer;
  */
 class SubventionPeer extends BaseSubventionPeer
 {
+    /**
+     * Retrieve biggest amount by year
+     *
+     * @param integer $year
+     * @param integer $limit
+     *
+     * @return \PropelObjectCollection
+     */
+    static public function retrieveBiggestAmountByYear($year, $limit = 10)
+    {
+        return SubventionQuery::create()
+            ->filterByYear($year)
+            ->orderByAmount(\Criteria::DESC)
+            ->limit($limit)
+            ->find();
+    }
 }
