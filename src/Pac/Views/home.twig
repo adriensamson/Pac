@@ -1,30 +1,70 @@
 {% extends "layout/_main.twig" %}
 
 {% block content %}
-<h1>PAc</h1>
+<h1>PAC</h1>
 
 <p>Présentation du site</p>
 
 {% include 'forms/zipcode.twig' %}
 
-<h2>Plus grosse 2012</h2>
+<h2>Les plus importantes subventions de {{ year }}</h2>
 <table>
     <thead>
         <tr>
-            <th>NOM PRENOM OU RAISON SOCIALE</th>
-            <th>COMMUNE</th>
-            <th>MONTANT TOTAL</th>
+            <th>Nom ou raison sociale</th>
+            <th>Code postal</th>
+            <th>Commune</th>
+            <th>Montant</th>
         </tr>
     </thead>
     {% for subvention in biggestAmount %}
     <tr>
         <td>{{ subvention.company }}</td>
+        <td>{{ subvention.company.zipcode }}</td>
         <td>{{ subvention.company.city }}</td>
-        <td>{{ subvention.amount|number_format(2, ',', ' ')}}</td>
+        <td>{{ subvention.amount|number_format(2, ',', ' ') }}</td>
     </tr>
     {% endfor %}
 </table>
 
-<h2>Geocodeur plus grosse 2012</h2>
-<table></table>
+<h2>Les plus importantes progressions (€) de {{ year }}</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Nom ou raison sociale</th>
+            <th>Code postal</th>
+            <th>Commune</th>
+            <th>Montant</th>
+        </tr>
+    </thead>
+    {% for subvention in biggestGrowthAmount %}
+    <tr>
+        <td>{{ subvention.company }}</td>
+        <td>{{ subvention.company.zipcode }}</td>
+        <td>{{ subvention.company.city }}</td>
+        <td>{% if subvention.growthAmount %}{{ subvention.growthAmount|number_format(2, ',', ' ') }}{% endif %}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Les plus importantes progesstions (%) de {{ year }}</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Nom ou raison sociale</th>
+            <th>Code postal</th>
+            <th>Commune</th>
+            <th>%</th>
+        </tr>
+    </thead>
+    {% for subvention in biggestGrowthPercent %}
+    <tr>
+        <td>{{ subvention.company }}</td>
+        <td>{{ subvention.company.zipcode }}</td>
+        <td>{{ subvention.company.city }}</td>
+        <td>{{ subvention.growthPercent }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
 {% endblock %}
