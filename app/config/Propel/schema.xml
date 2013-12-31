@@ -13,6 +13,8 @@
         <column name="company_id" type="integer" />
         <column name="year" type="integer" />
         <column name="amount" type="double" />
+        <column name="growth_amount" type="double" />
+        <column name="growth_percent" type="double" />
 
         <foreign-key foreignTable="company" onDelete="cascade">
             <reference local="company_id" foreign="id"/>

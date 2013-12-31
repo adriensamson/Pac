@@ -70,6 +70,18 @@ abstract class BaseSubvention extends BaseObject implements Persistent
     protected $amount;
 
     /**
+     * The value for the growth_amount field.
+     * @var        double
+     */
+    protected $growth_amount;
+
+    /**
+     * The value for the growth_percent field.
+     * @var        double
+     */
+    protected $growth_percent;
+
+    /**
      * @var        Company
      */
     protected $aCompany;
@@ -136,6 +148,28 @@ abstract class BaseSubvention extends BaseObject implements Persistent
     {
 
         return $this->amount;
+    }
+
+    /**
+     * Get the [growth_amount] column value.
+     *
+     * @return double
+     */
+    public function getGrowthAmount()
+    {
+
+        return $this->growth_amount;
+    }
+
+    /**
+     * Get the [growth_percent] column value.
+     *
+     * @return double
+     */
+    public function getGrowthPercent()
+    {
+
+        return $this->growth_percent;
     }
 
     /**
@@ -227,6 +261,48 @@ abstract class BaseSubvention extends BaseObject implements Persistent
     } // setAmount()
 
     /**
+     * Set the value of [growth_amount] column.
+     *
+     * @param  double $v new value
+     * @return Subvention The current object (for fluent API support)
+     */
+    public function setGrowthAmount($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (double) $v;
+        }
+
+        if ($this->growth_amount !== $v) {
+            $this->growth_amount = $v;
+            $this->modifiedColumns[] = SubventionPeer::GROWTH_AMOUNT;
+        }
+
+
+        return $this;
+    } // setGrowthAmount()
+
+    /**
+     * Set the value of [growth_percent] column.
+     *
+     * @param  double $v new value
+     * @return Subvention The current object (for fluent API support)
+     */
+    public function setGrowthPercent($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (double) $v;
+        }
+
+        if ($this->growth_percent !== $v) {
+            $this->growth_percent = $v;
+            $this->modifiedColumns[] = SubventionPeer::GROWTH_PERCENT;
+        }
+
+
+        return $this;
+    } // setGrowthPercent()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -262,6 +338,8 @@ abstract class BaseSubvention extends BaseObject implements Persistent
             $this->company_id = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
             $this->year = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
             $this->amount = ($row[$startcol + 3] !== null) ? (double) $row[$startcol + 3] : null;
+            $this->growth_amount = ($row[$startcol + 4] !== null) ? (double) $row[$startcol + 4] : null;
+            $this->growth_percent = ($row[$startcol + 5] !== null) ? (double) $row[$startcol + 5] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -271,7 +349,7 @@ abstract class BaseSubvention extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 4; // 4 = SubventionPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 6; // 6 = SubventionPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Subvention object", $e);
@@ -511,6 +589,12 @@ abstract class BaseSubvention extends BaseObject implements Persistent
         if ($this->isColumnModified(SubventionPeer::AMOUNT)) {
             $modifiedColumns[':p' . $index++]  = '`amount`';
         }
+        if ($this->isColumnModified(SubventionPeer::GROWTH_AMOUNT)) {
+            $modifiedColumns[':p' . $index++]  = '`growth_amount`';
+        }
+        if ($this->isColumnModified(SubventionPeer::GROWTH_PERCENT)) {
+            $modifiedColumns[':p' . $index++]  = '`growth_percent`';
+        }
 
         $sql = sprintf(
             'INSERT INTO `subvention` (%s) VALUES (%s)',
@@ -533,6 +617,12 @@ abstract class BaseSubvention extends BaseObject implements Persistent
                         break;
                     case '`amount`':
                         $stmt->bindValue($identifier, $this->amount, PDO::PARAM_STR);
+                        break;
+                    case '`growth_amount`':
+                        $stmt->bindValue($identifier, $this->growth_amount, PDO::PARAM_STR);
+                        break;
+                    case '`growth_percent`':
+                        $stmt->bindValue($identifier, $this->growth_percent, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -692,6 +782,12 @@ abstract class BaseSubvention extends BaseObject implements Persistent
             case 3:
                 return $this->getAmount();
                 break;
+            case 4:
+                return $this->getGrowthAmount();
+                break;
+            case 5:
+                return $this->getGrowthPercent();
+                break;
             default:
                 return null;
                 break;
@@ -725,6 +821,8 @@ abstract class BaseSubvention extends BaseObject implements Persistent
             $keys[1] => $this->getCompanyId(),
             $keys[2] => $this->getYear(),
             $keys[3] => $this->getAmount(),
+            $keys[4] => $this->getGrowthAmount(),
+            $keys[5] => $this->getGrowthPercent(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -781,6 +879,12 @@ abstract class BaseSubvention extends BaseObject implements Persistent
             case 3:
                 $this->setAmount($value);
                 break;
+            case 4:
+                $this->setGrowthAmount($value);
+                break;
+            case 5:
+                $this->setGrowthPercent($value);
+                break;
         } // switch()
     }
 
@@ -809,6 +913,8 @@ abstract class BaseSubvention extends BaseObject implements Persistent
         if (array_key_exists($keys[1], $arr)) $this->setCompanyId($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setYear($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setAmount($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setGrowthAmount($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setGrowthPercent($arr[$keys[5]]);
     }
 
     /**
@@ -824,6 +930,8 @@ abstract class BaseSubvention extends BaseObject implements Persistent
         if ($this->isColumnModified(SubventionPeer::COMPANY_ID)) $criteria->add(SubventionPeer::COMPANY_ID, $this->company_id);
         if ($this->isColumnModified(SubventionPeer::YEAR)) $criteria->add(SubventionPeer::YEAR, $this->year);
         if ($this->isColumnModified(SubventionPeer::AMOUNT)) $criteria->add(SubventionPeer::AMOUNT, $this->amount);
+        if ($this->isColumnModified(SubventionPeer::GROWTH_AMOUNT)) $criteria->add(SubventionPeer::GROWTH_AMOUNT, $this->growth_amount);
+        if ($this->isColumnModified(SubventionPeer::GROWTH_PERCENT)) $criteria->add(SubventionPeer::GROWTH_PERCENT, $this->growth_percent);
 
         return $criteria;
     }
@@ -890,6 +998,8 @@ abstract class BaseSubvention extends BaseObject implements Persistent
         $copyObj->setCompanyId($this->getCompanyId());
         $copyObj->setYear($this->getYear());
         $copyObj->setAmount($this->getAmount());
+        $copyObj->setGrowthAmount($this->getGrowthAmount());
+        $copyObj->setGrowthPercent($this->getGrowthPercent());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1009,6 +1119,8 @@ abstract class BaseSubvention extends BaseObject implements Persistent
         $this->company_id = null;
         $this->year = null;
         $this->amount = null;
+        $this->growth_amount = null;
+        $this->growth_percent = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;

@@ -36,6 +36,40 @@ class SubventionPeer extends BaseSubventionPeer
     }
 
     /**
+     * Retrieve biggest growth amount by year
+     *
+     * @param integer $year
+     * @param integer $limit
+     *
+     * @return \PropelObjectCollection
+     */
+    static public function retrieveBiggestGrowthAmountByYear($year, $limit = 10)
+    {
+        return SubventionQuery::create()
+            ->filterByYear($year)
+            ->orderByGrowthAmount(\Criteria::DESC)
+            ->limit($limit)
+            ->find();
+    }
+
+    /**
+     * Retrieve biggest growth percent by year
+     *
+     * @param integer $year
+     * @param integer $limit
+     *
+     * @return \PropelObjectCollection
+     */
+    static public function retrieveBiggestGrowthPercentByYear($year, $limit = 10)
+    {
+        return SubventionQuery::create()
+            ->filterByYear($year)
+            ->orderByGrowthPercent(\Criteria::DESC)
+            ->limit($limit)
+            ->find();
+    }
+
+    /**
      * Retrieve amount by year and zipcode
      *
      * @param integer $year

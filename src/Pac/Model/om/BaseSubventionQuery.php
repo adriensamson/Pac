@@ -26,11 +26,15 @@ use Pac\Model\SubventionQuery;
  * @method SubventionQuery orderByCompanyId($order = Criteria::ASC) Order by the company_id column
  * @method SubventionQuery orderByYear($order = Criteria::ASC) Order by the year column
  * @method SubventionQuery orderByAmount($order = Criteria::ASC) Order by the amount column
+ * @method SubventionQuery orderByGrowthAmount($order = Criteria::ASC) Order by the growth_amount column
+ * @method SubventionQuery orderByGrowthPercent($order = Criteria::ASC) Order by the growth_percent column
  *
  * @method SubventionQuery groupById() Group by the id column
  * @method SubventionQuery groupByCompanyId() Group by the company_id column
  * @method SubventionQuery groupByYear() Group by the year column
  * @method SubventionQuery groupByAmount() Group by the amount column
+ * @method SubventionQuery groupByGrowthAmount() Group by the growth_amount column
+ * @method SubventionQuery groupByGrowthPercent() Group by the growth_percent column
  *
  * @method SubventionQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method SubventionQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -46,11 +50,15 @@ use Pac\Model\SubventionQuery;
  * @method Subvention findOneByCompanyId(int $company_id) Return the first Subvention filtered by the company_id column
  * @method Subvention findOneByYear(int $year) Return the first Subvention filtered by the year column
  * @method Subvention findOneByAmount(double $amount) Return the first Subvention filtered by the amount column
+ * @method Subvention findOneByGrowthAmount(double $growth_amount) Return the first Subvention filtered by the growth_amount column
+ * @method Subvention findOneByGrowthPercent(double $growth_percent) Return the first Subvention filtered by the growth_percent column
  *
  * @method array findById(int $id) Return Subvention objects filtered by the id column
  * @method array findByCompanyId(int $company_id) Return Subvention objects filtered by the company_id column
  * @method array findByYear(int $year) Return Subvention objects filtered by the year column
  * @method array findByAmount(double $amount) Return Subvention objects filtered by the amount column
+ * @method array findByGrowthAmount(double $growth_amount) Return Subvention objects filtered by the growth_amount column
+ * @method array findByGrowthPercent(double $growth_percent) Return Subvention objects filtered by the growth_percent column
  *
  * @package    propel.generator.Pac.Model.om
  */
@@ -158,7 +166,7 @@ abstract class BaseSubventionQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `company_id`, `year`, `amount` FROM `subvention` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `company_id`, `year`, `amount`, `growth_amount`, `growth_percent` FROM `subvention` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -415,6 +423,90 @@ abstract class BaseSubventionQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(SubventionPeer::AMOUNT, $amount, $comparison);
+    }
+
+    /**
+     * Filter the query on the growth_amount column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByGrowthAmount(1234); // WHERE growth_amount = 1234
+     * $query->filterByGrowthAmount(array(12, 34)); // WHERE growth_amount IN (12, 34)
+     * $query->filterByGrowthAmount(array('min' => 12)); // WHERE growth_amount >= 12
+     * $query->filterByGrowthAmount(array('max' => 12)); // WHERE growth_amount <= 12
+     * </code>
+     *
+     * @param     mixed $growthAmount The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return SubventionQuery The current query, for fluid interface
+     */
+    public function filterByGrowthAmount($growthAmount = null, $comparison = null)
+    {
+        if (is_array($growthAmount)) {
+            $useMinMax = false;
+            if (isset($growthAmount['min'])) {
+                $this->addUsingAlias(SubventionPeer::GROWTH_AMOUNT, $growthAmount['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($growthAmount['max'])) {
+                $this->addUsingAlias(SubventionPeer::GROWTH_AMOUNT, $growthAmount['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(SubventionPeer::GROWTH_AMOUNT, $growthAmount, $comparison);
+    }
+
+    /**
+     * Filter the query on the growth_percent column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByGrowthPercent(1234); // WHERE growth_percent = 1234
+     * $query->filterByGrowthPercent(array(12, 34)); // WHERE growth_percent IN (12, 34)
+     * $query->filterByGrowthPercent(array('min' => 12)); // WHERE growth_percent >= 12
+     * $query->filterByGrowthPercent(array('max' => 12)); // WHERE growth_percent <= 12
+     * </code>
+     *
+     * @param     mixed $growthPercent The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return SubventionQuery The current query, for fluid interface
+     */
+    public function filterByGrowthPercent($growthPercent = null, $comparison = null)
+    {
+        if (is_array($growthPercent)) {
+            $useMinMax = false;
+            if (isset($growthPercent['min'])) {
+                $this->addUsingAlias(SubventionPeer::GROWTH_PERCENT, $growthPercent['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($growthPercent['max'])) {
+                $this->addUsingAlias(SubventionPeer::GROWTH_PERCENT, $growthPercent['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(SubventionPeer::GROWTH_PERCENT, $growthPercent, $comparison);
     }
 
     /**

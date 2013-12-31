@@ -37,13 +37,13 @@ abstract class BaseSubventionPeer
     const TM_CLASS = 'Pac\\Model\\map\\SubventionTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 6;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 6;
 
     /** the column name for the id field */
     const ID = 'subvention.id';
@@ -56,6 +56,12 @@ abstract class BaseSubventionPeer
 
     /** the column name for the amount field */
     const AMOUNT = 'subvention.amount';
+
+    /** the column name for the growth_amount field */
+    const GROWTH_AMOUNT = 'subvention.growth_amount';
+
+    /** the column name for the growth_percent field */
+    const GROWTH_PERCENT = 'subvention.growth_percent';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -76,12 +82,12 @@ abstract class BaseSubventionPeer
      * e.g. SubventionPeer::$fieldNames[SubventionPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Id', 'CompanyId', 'Year', 'Amount', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'companyId', 'year', 'amount', ),
-        BasePeer::TYPE_COLNAME => array (SubventionPeer::ID, SubventionPeer::COMPANY_ID, SubventionPeer::YEAR, SubventionPeer::AMOUNT, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'COMPANY_ID', 'YEAR', 'AMOUNT', ),
-        BasePeer::TYPE_FIELDNAME => array ('id', 'company_id', 'year', 'amount', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+        BasePeer::TYPE_PHPNAME => array ('Id', 'CompanyId', 'Year', 'Amount', 'GrowthAmount', 'GrowthPercent', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'companyId', 'year', 'amount', 'growthAmount', 'growthPercent', ),
+        BasePeer::TYPE_COLNAME => array (SubventionPeer::ID, SubventionPeer::COMPANY_ID, SubventionPeer::YEAR, SubventionPeer::AMOUNT, SubventionPeer::GROWTH_AMOUNT, SubventionPeer::GROWTH_PERCENT, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'COMPANY_ID', 'YEAR', 'AMOUNT', 'GROWTH_AMOUNT', 'GROWTH_PERCENT', ),
+        BasePeer::TYPE_FIELDNAME => array ('id', 'company_id', 'year', 'amount', 'growth_amount', 'growth_percent', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -91,12 +97,12 @@ abstract class BaseSubventionPeer
      * e.g. SubventionPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CompanyId' => 1, 'Year' => 2, 'Amount' => 3, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'companyId' => 1, 'year' => 2, 'amount' => 3, ),
-        BasePeer::TYPE_COLNAME => array (SubventionPeer::ID => 0, SubventionPeer::COMPANY_ID => 1, SubventionPeer::YEAR => 2, SubventionPeer::AMOUNT => 3, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'COMPANY_ID' => 1, 'YEAR' => 2, 'AMOUNT' => 3, ),
-        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'company_id' => 1, 'year' => 2, 'amount' => 3, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CompanyId' => 1, 'Year' => 2, 'Amount' => 3, 'GrowthAmount' => 4, 'GrowthPercent' => 5, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'companyId' => 1, 'year' => 2, 'amount' => 3, 'growthAmount' => 4, 'growthPercent' => 5, ),
+        BasePeer::TYPE_COLNAME => array (SubventionPeer::ID => 0, SubventionPeer::COMPANY_ID => 1, SubventionPeer::YEAR => 2, SubventionPeer::AMOUNT => 3, SubventionPeer::GROWTH_AMOUNT => 4, SubventionPeer::GROWTH_PERCENT => 5, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'COMPANY_ID' => 1, 'YEAR' => 2, 'AMOUNT' => 3, 'GROWTH_AMOUNT' => 4, 'GROWTH_PERCENT' => 5, ),
+        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'company_id' => 1, 'year' => 2, 'amount' => 3, 'growth_amount' => 4, 'growth_percent' => 5, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -174,11 +180,15 @@ abstract class BaseSubventionPeer
             $criteria->addSelectColumn(SubventionPeer::COMPANY_ID);
             $criteria->addSelectColumn(SubventionPeer::YEAR);
             $criteria->addSelectColumn(SubventionPeer::AMOUNT);
+            $criteria->addSelectColumn(SubventionPeer::GROWTH_AMOUNT);
+            $criteria->addSelectColumn(SubventionPeer::GROWTH_PERCENT);
         } else {
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.company_id');
             $criteria->addSelectColumn($alias . '.year');
             $criteria->addSelectColumn($alias . '.amount');
+            $criteria->addSelectColumn($alias . '.growth_amount');
+            $criteria->addSelectColumn($alias . '.growth_percent');
         }
     }
 

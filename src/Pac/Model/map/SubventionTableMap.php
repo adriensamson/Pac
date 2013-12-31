@@ -46,6 +46,8 @@ class SubventionTableMap extends TableMap
         $this->addForeignKey('company_id', 'CompanyId', 'INTEGER', 'company', 'id', false, null, null);
         $this->addColumn('year', 'Year', 'INTEGER', false, null, null);
         $this->addColumn('amount', 'Amount', 'DOUBLE', false, null, null);
+        $this->addColumn('growth_amount', 'GrowthAmount', 'DOUBLE', false, null, null);
+        $this->addColumn('growth_percent', 'GrowthPercent', 'DOUBLE', false, null, null);
         // validators
     } // initialize()
 
