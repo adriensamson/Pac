@@ -34,4 +34,27 @@ class SubventionPeer extends BaseSubventionPeer
             ->limit($limit)
             ->find();
     }
+
+    /**
+     * Retrieve amount by year and zipcode
+     *
+     * @param integer $year
+     * @param integer $zipcode
+     * @param integer $limit
+     *
+     * @return \PropelObjectCollection
+     */
+    static public function retrieveByYearAndZipcode($year, $zipcode, $limit = 10)
+    {
+        return SubventionQuery::create()
+            ->filterByYear($year)
+            ->useCompanyQuery()
+                ->filterByZipcode($zipcode)
+            ->endUse()
+            ->orderByAmount(\Criteria::DESC)
+            ->limit($limit)
+            ->find();
+    }
+
+
 }

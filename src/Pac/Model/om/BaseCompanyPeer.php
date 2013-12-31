@@ -54,8 +54,8 @@ abstract class BaseCompanyPeer
     /** the column name for the city field */
     const CITY = 'company.city';
 
-    /** the column name for the postal_code field */
-    const POSTAL_CODE = 'company.postal_code';
+    /** the column name for the zipcode field */
+    const ZIPCODE = 'company.zipcode';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -76,11 +76,11 @@ abstract class BaseCompanyPeer
      * e.g. CompanyPeer::$fieldNames[CompanyPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'City', 'PostalCode', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'name', 'city', 'postalCode', ),
-        BasePeer::TYPE_COLNAME => array (CompanyPeer::ID, CompanyPeer::NAME, CompanyPeer::CITY, CompanyPeer::POSTAL_CODE, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NAME', 'CITY', 'POSTAL_CODE', ),
-        BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'city', 'postal_code', ),
+        BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'City', 'Zipcode', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'name', 'city', 'zipcode', ),
+        BasePeer::TYPE_COLNAME => array (CompanyPeer::ID, CompanyPeer::NAME, CompanyPeer::CITY, CompanyPeer::ZIPCODE, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NAME', 'CITY', 'ZIPCODE', ),
+        BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'city', 'zipcode', ),
         BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
     );
 
@@ -91,11 +91,11 @@ abstract class BaseCompanyPeer
      * e.g. CompanyPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'City' => 2, 'PostalCode' => 3, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'name' => 1, 'city' => 2, 'postalCode' => 3, ),
-        BasePeer::TYPE_COLNAME => array (CompanyPeer::ID => 0, CompanyPeer::NAME => 1, CompanyPeer::CITY => 2, CompanyPeer::POSTAL_CODE => 3, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NAME' => 1, 'CITY' => 2, 'POSTAL_CODE' => 3, ),
-        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'city' => 2, 'postal_code' => 3, ),
+        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'City' => 2, 'Zipcode' => 3, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'name' => 1, 'city' => 2, 'zipcode' => 3, ),
+        BasePeer::TYPE_COLNAME => array (CompanyPeer::ID => 0, CompanyPeer::NAME => 1, CompanyPeer::CITY => 2, CompanyPeer::ZIPCODE => 3, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NAME' => 1, 'CITY' => 2, 'ZIPCODE' => 3, ),
+        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'city' => 2, 'zipcode' => 3, ),
         BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
     );
 
@@ -173,12 +173,12 @@ abstract class BaseCompanyPeer
             $criteria->addSelectColumn(CompanyPeer::ID);
             $criteria->addSelectColumn(CompanyPeer::NAME);
             $criteria->addSelectColumn(CompanyPeer::CITY);
-            $criteria->addSelectColumn(CompanyPeer::POSTAL_CODE);
+            $criteria->addSelectColumn(CompanyPeer::ZIPCODE);
         } else {
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.name');
             $criteria->addSelectColumn($alias . '.city');
-            $criteria->addSelectColumn($alias . '.postal_code');
+            $criteria->addSelectColumn($alias . '.zipcode');
         }
     }
 

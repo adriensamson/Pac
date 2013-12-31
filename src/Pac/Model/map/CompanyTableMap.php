@@ -46,7 +46,7 @@ class CompanyTableMap extends TableMap
         $this->addColumn('name', 'Name', 'VARCHAR', false, 255, null);
         $this->getColumn('name', false)->setPrimaryString(true);
         $this->addColumn('city', 'City', 'VARCHAR', false, 255, null);
-        $this->addColumn('postal_code', 'PostalCode', 'INTEGER', false, null, null);
+        $this->addColumn('zipcode', 'Zipcode', 'INTEGER', false, null, null);
         // validators
     } // initialize()
 

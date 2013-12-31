@@ -25,12 +25,12 @@ use Pac\Model\Subvention;
  * @method CompanyQuery orderById($order = Criteria::ASC) Order by the id column
  * @method CompanyQuery orderByName($order = Criteria::ASC) Order by the name column
  * @method CompanyQuery orderByCity($order = Criteria::ASC) Order by the city column
- * @method CompanyQuery orderByPostalCode($order = Criteria::ASC) Order by the postal_code column
+ * @method CompanyQuery orderByZipcode($order = Criteria::ASC) Order by the zipcode column
  *
  * @method CompanyQuery groupById() Group by the id column
  * @method CompanyQuery groupByName() Group by the name column
  * @method CompanyQuery groupByCity() Group by the city column
- * @method CompanyQuery groupByPostalCode() Group by the postal_code column
+ * @method CompanyQuery groupByZipcode() Group by the zipcode column
  *
  * @method CompanyQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method CompanyQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -45,12 +45,12 @@ use Pac\Model\Subvention;
  *
  * @method Company findOneByName(string $name) Return the first Company filtered by the name column
  * @method Company findOneByCity(string $city) Return the first Company filtered by the city column
- * @method Company findOneByPostalCode(int $postal_code) Return the first Company filtered by the postal_code column
+ * @method Company findOneByZipcode(int $zipcode) Return the first Company filtered by the zipcode column
  *
  * @method array findById(int $id) Return Company objects filtered by the id column
  * @method array findByName(string $name) Return Company objects filtered by the name column
  * @method array findByCity(string $city) Return Company objects filtered by the city column
- * @method array findByPostalCode(int $postal_code) Return Company objects filtered by the postal_code column
+ * @method array findByZipcode(int $zipcode) Return Company objects filtered by the zipcode column
  *
  * @package    propel.generator.Pac.Model.om
  */
@@ -158,7 +158,7 @@ abstract class BaseCompanyQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `name`, `city`, `postal_code` FROM `company` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `name`, `city`, `zipcode` FROM `company` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -348,17 +348,17 @@ abstract class BaseCompanyQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the postal_code column
+     * Filter the query on the zipcode column
      *
      * Example usage:
      * <code>
-     * $query->filterByPostalCode(1234); // WHERE postal_code = 1234
-     * $query->filterByPostalCode(array(12, 34)); // WHERE postal_code IN (12, 34)
-     * $query->filterByPostalCode(array('min' => 12)); // WHERE postal_code >= 12
-     * $query->filterByPostalCode(array('max' => 12)); // WHERE postal_code <= 12
+     * $query->filterByZipcode(1234); // WHERE zipcode = 1234
+     * $query->filterByZipcode(array(12, 34)); // WHERE zipcode IN (12, 34)
+     * $query->filterByZipcode(array('min' => 12)); // WHERE zipcode >= 12
+     * $query->filterByZipcode(array('max' => 12)); // WHERE zipcode <= 12
      * </code>
      *
-     * @param     mixed $postalCode The value to use as filter.
+     * @param     mixed $zipcode The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -366,16 +366,16 @@ abstract class BaseCompanyQuery extends ModelCriteria
      *
      * @return CompanyQuery The current query, for fluid interface
      */
-    public function filterByPostalCode($postalCode = null, $comparison = null)
+    public function filterByZipcode($zipcode = null, $comparison = null)
     {
-        if (is_array($postalCode)) {
+        if (is_array($zipcode)) {
             $useMinMax = false;
-            if (isset($postalCode['min'])) {
-                $this->addUsingAlias(CompanyPeer::POSTAL_CODE, $postalCode['min'], Criteria::GREATER_EQUAL);
+            if (isset($zipcode['min'])) {
+                $this->addUsingAlias(CompanyPeer::ZIPCODE, $zipcode['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($postalCode['max'])) {
-                $this->addUsingAlias(CompanyPeer::POSTAL_CODE, $postalCode['max'], Criteria::LESS_EQUAL);
+            if (isset($zipcode['max'])) {
+                $this->addUsingAlias(CompanyPeer::ZIPCODE, $zipcode['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -386,7 +386,7 @@ abstract class BaseCompanyQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(CompanyPeer::POSTAL_CODE, $postalCode, $comparison);
+        return $this->addUsingAlias(CompanyPeer::ZIPCODE, $zipcode, $comparison);
     }
 
     /**

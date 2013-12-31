@@ -23,6 +23,19 @@ class MainController implements ControllerProviderInterface
         })
         ->bind('home');
 
+        $controllers->match('/zipcode/{zipcode}', function (Request $request, Application $app, $zipcode) {
+            if ($request->getMethod() == 'POST') {
+                return $app->redirect($app['url_generator']->generate('by_zipcode', array('zipcode' => $request->request->get('zipcode'))));
+            }
+
+            return $app['twig']->render('zipcode.twig', array(
+                'zipcode'     => $zipcode,
+                'subventions' => SubventionPeer::retrieveByYearAndZipcode(2012, $zipcode, null),
+            ));
+        })
+        ->value('zipcode', null)
+        ->bind('by_zipcode');
+
         return $controllers;
     }
 }

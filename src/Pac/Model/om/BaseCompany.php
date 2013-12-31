@@ -66,10 +66,10 @@ abstract class BaseCompany extends BaseObject implements Persistent
     protected $city;
 
     /**
-     * The value for the postal_code field.
+     * The value for the zipcode field.
      * @var        int
      */
-    protected $postal_code;
+    protected $zipcode;
 
     /**
      * @var        PropelObjectCollection|Subvention[] Collection to store aggregation of Subvention objects.
@@ -137,14 +137,14 @@ abstract class BaseCompany extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [postal_code] column value.
+     * Get the [zipcode] column value.
      *
      * @return int
      */
-    public function getPostalCode()
+    public function getZipcode()
     {
 
-        return $this->postal_code;
+        return $this->zipcode;
     }
 
     /**
@@ -211,25 +211,25 @@ abstract class BaseCompany extends BaseObject implements Persistent
     } // setCity()
 
     /**
-     * Set the value of [postal_code] column.
+     * Set the value of [zipcode] column.
      *
      * @param  int $v new value
      * @return Company The current object (for fluent API support)
      */
-    public function setPostalCode($v)
+    public function setZipcode($v)
     {
         if ($v !== null && is_numeric($v)) {
             $v = (int) $v;
         }
 
-        if ($this->postal_code !== $v) {
-            $this->postal_code = $v;
-            $this->modifiedColumns[] = CompanyPeer::POSTAL_CODE;
+        if ($this->zipcode !== $v) {
+            $this->zipcode = $v;
+            $this->modifiedColumns[] = CompanyPeer::ZIPCODE;
         }
 
 
         return $this;
-    } // setPostalCode()
+    } // setZipcode()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -266,7 +266,7 @@ abstract class BaseCompany extends BaseObject implements Persistent
             $this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
             $this->name = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
             $this->city = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-            $this->postal_code = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
+            $this->zipcode = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -516,8 +516,8 @@ abstract class BaseCompany extends BaseObject implements Persistent
         if ($this->isColumnModified(CompanyPeer::CITY)) {
             $modifiedColumns[':p' . $index++]  = '`city`';
         }
-        if ($this->isColumnModified(CompanyPeer::POSTAL_CODE)) {
-            $modifiedColumns[':p' . $index++]  = '`postal_code`';
+        if ($this->isColumnModified(CompanyPeer::ZIPCODE)) {
+            $modifiedColumns[':p' . $index++]  = '`zipcode`';
         }
 
         $sql = sprintf(
@@ -539,8 +539,8 @@ abstract class BaseCompany extends BaseObject implements Persistent
                     case '`city`':
                         $stmt->bindValue($identifier, $this->city, PDO::PARAM_STR);
                         break;
-                    case '`postal_code`':
-                        $stmt->bindValue($identifier, $this->postal_code, PDO::PARAM_INT);
+                    case '`zipcode`':
+                        $stmt->bindValue($identifier, $this->zipcode, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -694,7 +694,7 @@ abstract class BaseCompany extends BaseObject implements Persistent
                 return $this->getCity();
                 break;
             case 3:
-                return $this->getPostalCode();
+                return $this->getZipcode();
                 break;
             default:
                 return null;
@@ -728,7 +728,7 @@ abstract class BaseCompany extends BaseObject implements Persistent
             $keys[0] => $this->getId(),
             $keys[1] => $this->getName(),
             $keys[2] => $this->getCity(),
-            $keys[3] => $this->getPostalCode(),
+            $keys[3] => $this->getZipcode(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -783,7 +783,7 @@ abstract class BaseCompany extends BaseObject implements Persistent
                 $this->setCity($value);
                 break;
             case 3:
-                $this->setPostalCode($value);
+                $this->setZipcode($value);
                 break;
         } // switch()
     }
@@ -812,7 +812,7 @@ abstract class BaseCompany extends BaseObject implements Persistent
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setCity($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setPostalCode($arr[$keys[3]]);
+        if (array_key_exists($keys[3], $arr)) $this->setZipcode($arr[$keys[3]]);
     }
 
     /**
@@ -827,7 +827,7 @@ abstract class BaseCompany extends BaseObject implements Persistent
         if ($this->isColumnModified(CompanyPeer::ID)) $criteria->add(CompanyPeer::ID, $this->id);
         if ($this->isColumnModified(CompanyPeer::NAME)) $criteria->add(CompanyPeer::NAME, $this->name);
         if ($this->isColumnModified(CompanyPeer::CITY)) $criteria->add(CompanyPeer::CITY, $this->city);
-        if ($this->isColumnModified(CompanyPeer::POSTAL_CODE)) $criteria->add(CompanyPeer::POSTAL_CODE, $this->postal_code);
+        if ($this->isColumnModified(CompanyPeer::ZIPCODE)) $criteria->add(CompanyPeer::ZIPCODE, $this->zipcode);
 
         return $criteria;
     }
@@ -893,7 +893,7 @@ abstract class BaseCompany extends BaseObject implements Persistent
     {
         $copyObj->setName($this->getName());
         $copyObj->setCity($this->getCity());
-        $copyObj->setPostalCode($this->getPostalCode());
+        $copyObj->setZipcode($this->getZipcode());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1207,7 +1207,7 @@ abstract class BaseCompany extends BaseObject implements Persistent
         $this->id = null;
         $this->name = null;
         $this->city = null;
-        $this->postal_code = null;
+        $this->zipcode = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;

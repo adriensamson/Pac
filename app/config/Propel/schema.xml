@@ -5,7 +5,7 @@
         <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
         <column name="name" type="varchar" primaryString="true" />
         <column name="city" type="varchar" />
-        <column name="postal_code" type="integer" />
+        <column name="zipcode" type="integer" />
     </table>
 
     <table name="subvention">

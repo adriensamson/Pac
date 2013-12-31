@@ -23,10 +23,10 @@ use Pac\Model\SubventionQuery;
 
 class ParseCommand extends Command
 {
-    const COMPANY_NAME        = "NOM PRENOM OU RAISON SOCIALE";
-    const COMPANY_CITY        = "LIBELLE DE LA COMMUNE DE RESIDENCE";
-    const COMPANY_POSTAL_CODE = "CODE POSTAL DE LA COMMUNE DE RESIDENCE";
-    const SUBVENTION_AMOUNT        = "MONTANT TOTAL";
+    const COMPANY_NAME      = "NOM PRENOM OU RAISON SOCIALE";
+    const COMPANY_CITY      = "LIBELLE DE LA COMMUNE DE RESIDENCE";
+    const COMPANY_ZIPCODE   = "CODE POSTAL DE LA COMMUNE DE RESIDENCE";
+    const SUBVENTION_AMOUNT = "MONTANT TOTAL";
 
     protected function configure()
     {
@@ -58,6 +58,7 @@ class ParseCommand extends Command
         while ($row = $reader->getRow()) {
             $company = CompanyQuery::create()
                 ->filterByName($row[self::COMPANY_NAME])
+                ->filterByZipcode($row[self::COMPANY_ZIPCODE])
                 ->findOne();
 
             // check if company already exists
@@ -66,7 +67,7 @@ class ParseCommand extends Command
                 $company
                     ->setName($row[self::COMPANY_NAME])
                     ->setCity($row[self::COMPANY_CITY])
-                    ->setPostalCode($row[self::COMPANY_POSTAL_CODE])
+                    ->setZipcode($row[self::COMPANY_ZIPCODE])
                     ->save();
             }
 
