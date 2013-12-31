@@ -4,16 +4,12 @@
 <h1>Zipcode</h1>
 
 {% if subventions|length %}
-<p>Présentation du site {{ zipcode }} {{ subventions|length }}</p>
+<p>Présentation du site {{ zipcode }} {{ subventions|length }} Sum {{ subventionsSum|number_format(2, ',', ' ') }}</p>
 {% else %}
 <p>bad zipcode {{ zipcode }} </p>
 {% endif %}
 
-
-<form action="" method="post">
-    <input type="text" name="zipcode" value="{{ zipcode }}" />
-    <button type="submit">Voir</button>
-</form>
+{% include 'forms/zipcode.twig' %}
 
 <table>
     <thead>

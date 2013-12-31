@@ -30,7 +30,8 @@ class MainController implements ControllerProviderInterface
 
             return $app['twig']->render('zipcode.twig', array(
                 'zipcode'     => $zipcode,
-                'subventions' => SubventionPeer::retrieveByYearAndZipcode(2012, $zipcode, null),
+                'subventionsSum' => SubventionPeer::retrieveAmountSumByYearAndZipcode(2012, $zipcode, null),
+                'subventions' => SubventionPeer::retrieveAmountByYearAndZipcode(2012, $zipcode, null),
             ));
         })
         ->value('zipcode', null)

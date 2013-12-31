@@ -1,0 +1,4 @@
+<form action="{{ path('by_zipcode') }}" method="post">
+    <input type="text" name="zipcode" value="{{ zipcode|default('') }}" />
+    <button type="submit">Voir</button>
+</form>

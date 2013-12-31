@@ -44,7 +44,7 @@ class SubventionPeer extends BaseSubventionPeer
      *
      * @return \PropelObjectCollection
      */
-    static public function retrieveByYearAndZipcode($year, $zipcode, $limit = 10)
+    static public function retrieveAmountByYearAndZipcode($year, $zipcode, $limit = 10)
     {
         return SubventionQuery::create()
             ->filterByYear($year)
@@ -56,5 +56,25 @@ class SubventionPeer extends BaseSubventionPeer
             ->find();
     }
 
-
+    /**
+     * Retrieve amount sum by year and zipcode
+     *
+     * @param integer $year
+     * @param integer $zipcode
+     * @param integer $limit
+     *
+     * @return \PropelObjectCollection
+     */
+    static public function retrieveAmountSumByYearAndZipcode($year, $zipcode, $limit = 10)
+    {
+        return SubventionQuery::create()
+            ->withColumn('SUM('.SubventionPeer::AMOUNT.')', 'Sum')
+            ->filterByYear($year)
+            ->useCompanyQuery()
+                ->filterByZipcode($zipcode)
+            ->endUse()
+            ->limit($limit)
+            ->select(array('Sum'))
+            ->findOne();
+    }
 }
