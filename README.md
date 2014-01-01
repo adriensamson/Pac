@@ -62,10 +62,18 @@ $ php composer.phar install
 $ ./vendor/bin/propel-gen app/config/Propel main
 ```
 
-### Import du dump précédemment généré :
+### Imporation des données
+
+Import du dump (vide) précédemment généré pour initialiser le projet :
 
 ```shell
 $ mysql -upac -ppac++ pac < app/config/Propel/sql/Pac.Model.schema.sql
+```
+
+ou, import du dump complet contenant toutes les données :
+
+```shell
+$ gunzip < app/resources/Pac.sql.gz | mysql -upac -ppac++ pac
 ```
 
 ### Configuration du runtime de Propel :
