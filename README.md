@@ -1,6 +1,6 @@
 # Description
 
-[open data](http://www.data.gouv.fr/fr/dataset/publication-des-montants-des-aides-percus-par-les-personnes-morales-au-titre-de-la-politiqu-00000000)
+Présentation de la répartition par personne morale et par commune ainsi que l'évolution, en montant et en pourcentage, des aides perçues au titre de la [Politique Agricole Commune](http://fr.wikipedia.org/wiki/Politique_agricole_commune) sur le territoire français en 2010, 2011 et 2012. Les données utilisées proviennent de la [plateforme ouverte des données publiques françaises](http://www.data.gouv.fr/fr/dataset/publication-des-montants-des-aides-percus-par-les-personnes-morales-au-titre-de-la-politiqu-00000000).
 
 # Installation
 
@@ -62,9 +62,11 @@ $ php composer.phar install
 $ ./vendor/bin/propel-gen app/config/Propel main
 ```
 
+Il faut exécuter 2 fois cette commande :disappointed_relieved:
+
 ### Imporation des données
 
-Import du dump (vide) précédemment généré pour initialiser le projet :
+Import du dump vide pour initialiser le projet :
 
 ```shell
 $ mysql -upac -ppac++ pac < app/config/Propel/sql/Pac.Model.schema.sql
