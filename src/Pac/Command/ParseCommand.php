@@ -44,7 +44,7 @@ class ParseCommand extends Command
         $csvFile = $input->getArgument('file');
 
         if (!in_array($year, array(2010, 2011, 2012))) {
-            throw new \Exception("Only year 2010, 2011 and 2013 are supported");
+            throw new \Exception("Only year 2010, 2011 and 2012 are supported");
         }
 
         if (!$csvFile) {
