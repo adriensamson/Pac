@@ -111,4 +111,40 @@ class SubventionPeer extends BaseSubventionPeer
             ->select(array('Sum'))
             ->findOne();
     }
+
+    static public function retrieveNextSubventionsFromZipcodeAndYear($year, $zipcode, $limit)
+    {
+        $upLimit = floor($zipcode / 1000) * 1000 + 1000;
+
+        return SubventionQuery::create()
+            ->filterByYear($year)
+            ->useCompanyQuery()
+                ->filterByZipcode($zipcode, \Criteria::GREATER_THAN)
+                ->filterByZipcode($upLimit, \Criteria::LESS_THAN)
+                ->orderByZipcode(\Criteria::ASC)
+                ->groupBy(CompanyPeer::ZIPCODE)
+            ->endUse()
+            ->limit($limit)
+            ->find();
+
+        return iterator_to_array($subventions);
+    }
+
+    static public function retrievePreviousSubventionsFromZipcodeAndYear($year, $zipcode, $limit)
+    {
+        $upLimit = floor($zipcode / 1000) * 1000;
+
+        $subventions = SubventionQuery::create()
+            ->filterByYear($year)
+            ->useCompanyQuery()
+                ->filterByZipcode($zipcode, \Criteria::LESS_THAN)
+                ->filterByZipcode($upLimit, \Criteria::GREATER_EQUAL)
+                ->orderByZipcode(\Criteria::DESC)
+                ->groupBy(CompanyPeer::ZIPCODE)
+            ->endUse()
+            ->limit($limit)
+            ->find();
+
+        return array_reverse(iterator_to_array($subventions));
+    }
 }

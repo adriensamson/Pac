@@ -51,6 +51,8 @@ class MainController implements ControllerProviderInterface
                 'zipcode'        => $zipcode,
                 'subventionsSum' => SubventionPeer::retrieveAmountSumByYearAndZipcode($year, $zipcode, null),
                 'subventions'    => SubventionPeer::retrieveAmountByYearAndZipcode($year, $zipcode, null),
+                'previous'       => SubventionPeer::retrievePreviousSubventionsFromZipcodeAndYear($year, $zipcode, 3),
+                'next'           => SubventionPeer::retrieveNextSubventionsFromZipcodeAndYear($year, $zipcode, 3),
             ));
 
             return new Response($content, 200, array('Cache-Control' => sprintf('s-maxage=%s, public', self::CACHE_MAXAGE_ZIPCODE)));

@@ -1,16 +1,18 @@
 {% extends "layout/_main.twig" %}
 
-{% block title %} - {{ "%05d"|format(zipcode) }}{% endblock %}
+{% set zipcode = zipcode %}
+
+{% block title %} - {{ zipcode }}{% endblock %}
 
 {% block content %}
 <div class="container-center">
     <div class="row">
         <br />
-        <h1>Code postal {{ "%05d"|format(zipcode) }}</h1>
+        <h1>Code postal {{ zipcode }}</h1>
         {% if subventions|length %}
-            <h4>Répartition et évolution des <strong>{{ subventions|length }}</strong> aides perçues au titre de la PAC sur le territoire dont le code postal est <strong>{{ "%05d"|format(zipcode) }}</strong> pour un montant total de <strong>{{ subventionsSum|number_format(2, ',', ' ') }} €</strong>.</h4>
+            <h4>Répartition et évolution des <strong>{{ subventions|length }}</strong> aides perçues au titre de la PAC sur le territoire dont le code postal est <strong>{{ zipcode }}</strong> pour un montant total de <strong>{{ subventionsSum|number_format(2, ',', ' ') }} €</strong>.</h4>
         {% else %}
-            <div class="alert alert-danger">Le code postal {{ "%05d"|format(zipcode) }} n'existe pas ou aucune aide n'a été allouée sur ce territoire.</div>
+            <div class="alert alert-danger">Le code postal {{ zipcode }} n'existe pas ou aucune aide n'a été allouée sur ce territoire.</div>
         {% endif %}
 
         {% include 'forms/_zipcode.twig' %}
@@ -37,6 +39,19 @@
                 {% endfor %}
             </table>
         {% endif %}
+
+        <div class="alert alert-info">
+            Vous pouvez aussi naviguer dans les territoires avoisinants :
+            {% for previousSubvention in previous %}
+                {% set prevZipcode = "%05d"|format(previousSubvention.company.zipcode) %}
+                <a href="{{ path('by_zipcode', { 'zipcode': prevZipcode }) }}" title="Voir les aides perçues dans le {{ prevZipcode }}">{{ prevZipcode }}</a> -
+            {% endfor %}
+            <strong>{{ zipcode }}</strong>
+            {% for nextSubvention in next %}
+                {% set prevZipcode = "%05d"|format(nextSubvention.company.zipcode) %}
+                - <a href="{{ path('by_zipcode', { 'zipcode': prevZipcode }) }}" title="Voir les aides perçues dans le {{ prevZipcode }}">{{ prevZipcode }}</a>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock %}
