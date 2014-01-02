@@ -8,4 +8,4 @@ $app = require __DIR__.'/../app/bootstrap.php';
 require __DIR__.'/../app/prod.php';
 require __DIR__.'/../src/controllers.php';
 
-$app->run();
+$app['http_cache']->run();
