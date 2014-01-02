@@ -7,7 +7,7 @@
         <h1 class="jumbo-header">MaPAC</h1>
         <p class="motto">Répartition et évolution des aides perçues au titre de la PAC sur le territoire français.</p>
         <br />
-        {% include 'forms/zipcode.twig' %}
+        {% include 'forms/_zipcode.twig' %}
     </div>
 </div>
 
@@ -37,7 +37,7 @@
         </table>
 
         <br />
-        <h3 class="light">Progressions (€) les plus importantes en {{ year }}</h3>
+        <h3 class="light">Progressions les plus importantes entre {{ year - 1 }} et {{ year }} en €</h3>
 
         <table class="table table-condensed table-striped">
             <thead>
@@ -59,7 +59,7 @@
         </table>
 
         <br />
-        <h3 class="light">Progressions (%) les plus importantes en {{ year }}</h3>
+        <h3 class="light">Progressions les plus importantes entre {{ year - 1 }} et {{ year }} en %</h3>
 
         <table class="table table-condensed table-striped">
             <thead>

@@ -11,7 +11,7 @@
             <div class="alert alert-danger">Le code postal {{ "%05d"|format(zipcode) }} n'existe pas ou aucune aide n'a été allouée sur ce territoire.</div>
         {% endif %}
 
-        {% include 'forms/zipcode.twig' %}
+        {% include 'forms/_zipcode.twig' %}
 
         {% if subventions|length %}
             <table class="table table-condensed table-striped">

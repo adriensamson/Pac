@@ -38,8 +38,8 @@ class MainController implements ControllerProviderInterface
         ->bind('home');
 
         $controllers->match('/zipcode/{zipcode}', function (Request $request, Application $app, $zipcode) {
-            if ($request->getMethod() == 'POST') {
-                $url = $app['url_generator']->generate('by_zipcode', array('zipcode' => $request->request->get('zipcode')));
+            if ($request->query->get('zipcode')) {
+                $url = $app['url_generator']->generate('by_zipcode', array('zipcode' => $request->query->get('zipcode')));
 
                 return new RedirectResponse($url, 302, array('Cache-Control' => sprintf('s-maxage=%s, public', self::CACHE_MAXAGE_ZIPCODE_REDIRECT)));
             }
