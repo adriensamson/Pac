@@ -29,9 +29,10 @@
                 </tr>
             </thead>
             {% for subvention in biggestAmount %}
+            {% set zipcode = "%05d"|format(subvention.company.zipcode) %}
             <tr>
                 <td>{{ subvention.company }}</td>
-                <td>{{ "%05d"|format(subvention.company.zipcode) }}</td>
+                <td><a href="{{ path('by_zipcode', { 'zipcode': zipcode }) }}" title="Voir les aides perçues dans le {{ zipcode }}">{{ zipcode }}</a></td>
                 <td>{{ subvention.company.city }}</td>
                 <td class="amount">{{ subvention.amount|number_format(2, ',', ' ') }}</td>
             </tr>
@@ -51,9 +52,10 @@
                 </tr>
             </thead>
             {% for subvention in biggestGrowthAmount %}
+            {% set zipcode = "%05d"|format(subvention.company.zipcode) %}
             <tr>
                 <td>{{ subvention.company }}</td>
-                <td>{{ "%05d"|format(subvention.company.zipcode) }}</td>
+                <td><a href="{{ path('by_zipcode', { 'zipcode': zipcode }) }}" title="Voir les aides perçues dans le {{ zipcode }}">{{ zipcode }}</a></td>
                 <td>{{ subvention.company.city }}</td>
                 <td class="amount">{% if subvention.growthAmount != '' %}{{ subvention.growthAmount|number_format(2, ',', ' ') }}{% endif %}</td>
             </tr>
@@ -73,9 +75,10 @@
                 </tr>
             </thead>
             {% for subvention in biggestGrowthPercent %}
+            {% set zipcode = "%05d"|format(subvention.company.zipcode) %}
             <tr>
                 <td>{{ subvention.company }}</td>
-                <td>{{ "%05d"|format(subvention.company.zipcode) }}</td>
+                <td><a href="{{ path('by_zipcode', { 'zipcode': zipcode }) }}" title="Voir les aides perçues dans le {{ zipcode }}">{{ zipcode }}</a></td>
                 <td>{{ subvention.company.city }}</td>
                 <td class="amount">{% if subvention.growthPercent != '' %}{{ subvention.growthPercent|number_format(1, ',', ' ') }}{% endif %}</td>
             </tr>
