@@ -21,18 +21,18 @@
                     <tr>
                         <th>Nom ou raison sociale</th>
                         <th>Commune</th>
-                        <th>Montant</th>
-                        <th>Evolution / {{ year - 1 }} (€)</th>
-                        <th>Evolution / {{ year - 1 }} (%)</th>
+                        <th class="amount">Montant en €</th>
+                        <th class="amount">Evolution / {{ year - 1 }} en €</th>
+                        <th class="amount">Evolution / {{ year - 1 }} en %</th>
                     </tr>
                 </thead>
                 {% for subvention in subventions %}
                 <tr>
                     <td>{{ subvention.company }}</td>
                     <td>{{ subvention.company.city }}</td>
-                    <td>{{ subvention.amount|number_format(2, ',', ' ') }}</td>
-                    <td>{% if subvention.growthAmount != '' %}{{ subvention.growthAmount|number_format(2, ',', ' ') }}{% endif %}</td>
-                    <td>{% if subvention.growthPercent != '' %}{{ subvention.growthPercent }}{% endif %}</td>
+                    <td class="amount">{{ subvention.amount|number_format(2, ',', ' ') }}</td>
+                    <td class="amount">{% if subvention.growthAmount != '' %}{{ subvention.growthAmount|number_format(2, ',', ' ') }}{% endif %}</td>
+                    <td class="amount">{% if subvention.growthPercent != '' %}{{ subvention.growthPercent|number_format(1, ',', ' ') }}{% endif %}</td>
                 </tr>
                 {% endfor %}
             </table>

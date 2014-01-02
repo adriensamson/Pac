@@ -25,7 +25,7 @@
                     <th>Nom ou raison sociale</th>
                     <th>Code postal</th>
                     <th>Commune</th>
-                    <th>Montant en €</th>
+                    <th class="amount">Montant en €</th>
                 </tr>
             </thead>
             {% for subvention in biggestAmount %}
@@ -33,7 +33,7 @@
                 <td>{{ subvention.company }}</td>
                 <td>{{ "%05d"|format(subvention.company.zipcode) }}</td>
                 <td>{{ subvention.company.city }}</td>
-                <td>{{ subvention.amount|number_format(2, ',', ' ') }}</td>
+                <td class="amount">{{ subvention.amount|number_format(2, ',', ' ') }}</td>
             </tr>
             {% endfor %}
         </table>
@@ -47,7 +47,7 @@
                     <th>Nom ou raison sociale</th>
                     <th>Code postal</th>
                     <th>Commune</th>
-                    <th>Progression en €</th>
+                    <th class="amount">Progression en €</th>
                 </tr>
             </thead>
             {% for subvention in biggestGrowthAmount %}
@@ -55,7 +55,7 @@
                 <td>{{ subvention.company }}</td>
                 <td>{{ "%05d"|format(subvention.company.zipcode) }}</td>
                 <td>{{ subvention.company.city }}</td>
-                <td>{% if subvention.growthAmount != '' %}{{ subvention.growthAmount|number_format(2, ',', ' ') }}{% endif %}</td>
+                <td class="amount">{% if subvention.growthAmount != '' %}{{ subvention.growthAmount|number_format(2, ',', ' ') }}{% endif %}</td>
             </tr>
             {% endfor %}
         </table>
@@ -69,7 +69,7 @@
                     <th>Nom ou raison sociale</th>
                     <th>Code postal</th>
                     <th>Commune</th>
-                    <th>Progression en %</th>
+                    <th class="amount">Progression en %</th>
                 </tr>
             </thead>
             {% for subvention in biggestGrowthPercent %}
@@ -77,7 +77,7 @@
                 <td>{{ subvention.company }}</td>
                 <td>{{ "%05d"|format(subvention.company.zipcode) }}</td>
                 <td>{{ subvention.company.city }}</td>
-                <td>{% if subvention.growthPercent != '' %}{{ subvention.growthPercent }}{% endif %}</td>
+                <td class="amount">{% if subvention.growthPercent != '' %}{{ subvention.growthPercent|number_format(1, ',', ' ') }}{% endif %}</td>
             </tr>
             {% endfor %}
         </table>
