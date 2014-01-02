@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "243dcda294758aa5ec0b34dffb9e46fc",
+    "hash": "6a8dfb85ba125bac0addf2b596eae663",
     "packages": [
         {
             "name": "jwage/easy-csv",
@@ -152,16 +152,16 @@
         },
         {
             "name": "pimple/pimple",
-            "version": "1.1.x-dev",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Pimple.git",
-                "reference": "2019c145fe393923f3441b23f29bbdfaa5c58c4d"
+                "reference": "471c7d7c52ad6594e17b8ec33efdd1be592b5d83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Pimple/zipball/2019c145fe393923f3441b23f29bbdfaa5c58c4d",
-                "reference": "2019c145fe393923f3441b23f29bbdfaa5c58c4d",
+                "url": "https://api.github.com/repos/fabpot/Pimple/zipball/471c7d7c52ad6594e17b8ec33efdd1be592b5d83",
+                "reference": "471c7d7c52ad6594e17b8ec33efdd1be592b5d83",
                 "shasum": ""
             },
             "require": {
@@ -194,7 +194,7 @@
                 "container",
                 "dependency injection"
             ],
-            "time": "2013-11-22 08:30:29"
+            "time": "2013-09-19 04:53:08"
         },
         {
             "name": "propel/propel-service-provider",
@@ -244,16 +244,16 @@
         },
         {
             "name": "propel/propel1",
-            "version": "dev-master",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/propelorm/Propel.git",
-                "reference": "1eda8f318ef1e056a30b17ac7ddd0cf6bf0d4a07"
+                "reference": "09058f1443bc287e550b9342a4379aac2e0a0b8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/propelorm/Propel/zipball/1eda8f318ef1e056a30b17ac7ddd0cf6bf0d4a07",
-                "reference": "1eda8f318ef1e056a30b17ac7ddd0cf6bf0d4a07",
+                "url": "https://api.github.com/repos/propelorm/Propel/zipball/09058f1443bc287e550b9342a4379aac2e0a0b8f",
+                "reference": "09058f1443bc287e550b9342a4379aac2e0a0b8f",
                 "shasum": ""
             },
             "require": {
@@ -303,20 +303,20 @@
                 "orm",
                 "persistence"
             ],
-            "time": "2013-12-31 17:31:18"
+            "time": "2013-10-21 12:52:56"
         },
         {
             "name": "silex/silex",
-            "version": "1.0.x-dev",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/silexphp/Silex.git",
-                "reference": "53b9381b91af850b5f7d47ade5762f1531c3b686"
+                "reference": "89d5ed3cbfebc83145c9c345e286fee190a271b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silexphp/Silex/zipball/53b9381b91af850b5f7d47ade5762f1531c3b686",
-                "reference": "53b9381b91af850b5f7d47ade5762f1531c3b686",
+                "url": "https://api.github.com/repos/silexphp/Silex/zipball/89d5ed3cbfebc83145c9c345e286fee190a271b7",
+                "reference": "89d5ed3cbfebc83145c9c345e286fee190a271b7",
                 "shasum": ""
             },
             "require": {
@@ -385,11 +385,11 @@
             "keywords": [
                 "microframework"
             ],
-            "time": "2013-12-03 18:11:38"
+            "time": "2013-10-30 08:45:28"
         },
         {
             "name": "symfony/class-loader",
-            "version": "2.1.x-dev",
+            "version": "v2.1.13",
             "target-dir": "Symfony/Component/ClassLoader",
             "source": {
                 "type": "git",
@@ -434,7 +434,7 @@
         },
         {
             "name": "symfony/config",
-            "version": "2.1.x-dev",
+            "version": "v2.1.13",
             "target-dir": "Symfony/Component/Config",
             "source": {
                 "type": "git",
@@ -476,7 +476,7 @@
         },
         {
             "name": "symfony/console",
-            "version": "2.1.x-dev",
+            "version": "v2.1.13",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
@@ -518,7 +518,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "2.1.x-dev",
+            "version": "v2.1.13",
             "target-dir": "Symfony/Component/EventDispatcher",
             "source": {
                 "type": "git",
@@ -567,7 +567,7 @@
         },
         {
             "name": "symfony/finder",
-            "version": "2.1.x-dev",
+            "version": "v2.1.13",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
@@ -609,7 +609,7 @@
         },
         {
             "name": "symfony/form",
-            "version": "2.1.x-dev",
+            "version": "v2.1.13",
             "target-dir": "Symfony/Component/Form",
             "source": {
                 "type": "git",
@@ -662,7 +662,7 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "2.1.x-dev",
+            "version": "v2.1.13",
             "target-dir": "Symfony/Component/HttpFoundation",
             "source": {
                 "type": "git",
@@ -705,7 +705,7 @@
         },
         {
             "name": "symfony/http-kernel",
-            "version": "2.1.x-dev",
+            "version": "v2.1.13",
             "target-dir": "Symfony/Component/HttpKernel",
             "source": {
                 "type": "git",
@@ -767,7 +767,7 @@
         },
         {
             "name": "symfony/locale",
-            "version": "2.1.x-dev",
+            "version": "v2.1.13",
             "target-dir": "Symfony/Component/Locale",
             "source": {
                 "type": "git",
@@ -812,7 +812,7 @@
         },
         {
             "name": "symfony/monolog-bridge",
-            "version": "2.1.x-dev",
+            "version": "v2.1.13",
             "target-dir": "Symfony/Bridge/Monolog",
             "source": {
                 "type": "git",
@@ -856,7 +856,7 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "2.1.x-dev",
+            "version": "v2.1.13",
             "target-dir": "Symfony/Component/OptionsResolver",
             "source": {
                 "type": "git",
@@ -903,17 +903,17 @@
         },
         {
             "name": "symfony/routing",
-            "version": "2.3.x-dev",
+            "version": "v2.3.8",
             "target-dir": "Symfony/Component/Routing",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Routing.git",
-                "reference": "87d6b4bc7dc64576c5df76700940cc4b96e81979"
+                "reference": "f3622da652fc6a73ce9d85dbee4ec7ef425c8349"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Routing/zipball/87d6b4bc7dc64576c5df76700940cc4b96e81979",
-                "reference": "87d6b4bc7dc64576c5df76700940cc4b96e81979",
+                "url": "https://api.github.com/repos/symfony/Routing/zipball/f3622da652fc6a73ce9d85dbee4ec7ef425c8349",
+                "reference": "f3622da652fc6a73ce9d85dbee4ec7ef425c8349",
                 "shasum": ""
             },
             "require": {
@@ -957,11 +957,11 @@
             ],
             "description": "Symfony Routing Component",
             "homepage": "http://symfony.com",
-            "time": "2013-12-31 15:41:26"
+            "time": "2013-12-14 11:06:34"
         },
         {
             "name": "symfony/twig-bridge",
-            "version": "2.1.x-dev",
+            "version": "v2.1.13",
             "target-dir": "Symfony/Bridge/Twig",
             "source": {
                 "type": "git",
@@ -1020,7 +1020,7 @@
         },
         {
             "name": "symfony/validator",
-            "version": "2.1.x-dev",
+            "version": "v2.1.13",
             "target-dir": "Symfony/Component/Validator",
             "source": {
                 "type": "git",
@@ -1072,7 +1072,7 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "2.1.x-dev",
+            "version": "v2.1.13",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
@@ -1114,16 +1114,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "dev-master",
+            "version": "v1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "27f3e0fc1efd1dbaf6d10598d148d7ec3070b51d"
+                "reference": "85e4ff98000157ff753d934b9f13659a953f5666"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/27f3e0fc1efd1dbaf6d10598d148d7ec3070b51d",
-                "reference": "27f3e0fc1efd1dbaf6d10598d148d7ec3070b51d",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/85e4ff98000157ff753d934b9f13659a953f5666",
+                "reference": "85e4ff98000157ff753d934b9f13659a953f5666",
                 "shasum": ""
             },
             "require": {
@@ -1159,7 +1159,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-12-27 14:37:02"
+            "time": "2013-12-06 07:47:10"
         }
     ],
     "packages-dev": [
