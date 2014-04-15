@@ -1,6 +1,6 @@
 # Description
 
-Présentation de la répartition par personne morale et par commune ainsi que l'évolution, en montant et en pourcentage, des aides perçues au titre de la [Politique Agricole Commune](http://fr.wikipedia.org/wiki/Politique_agricole_commune) sur le territoire français en 2010, 2011 et 2012. Les données utilisées proviennent de la [plateforme ouverte des données publiques françaises](http://www.data.gouv.fr/fr/dataset/publication-des-montants-des-aides-percus-par-les-personnes-morales-au-titre-de-la-politiqu-00000000).
+Présentation de la répartition par personne morale et par commune ainsi que l'évolution, en montant et en pourcentage, des aides perçues au titre de la [Politique Agricole Commune](http://fr.wikipedia.org/wiki/Politique_agricole_commune) sur le territoire français en 2010, 2011 et 2012. Les données utilisées proviennent de la [plateforme ouverte des données publiques françaises](http://www.data.gouv.fr/fr/dataset/aides-percues-par-les-personnes-morales-au-titre-de-la-politique-agricole-commune).
 
 # Installation
 
