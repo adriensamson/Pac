@@ -85,7 +85,7 @@ $ cp app/config/Propel/runtime-conf.xml.dist app/config/Propel/runtime-conf.xml
 ```
 Il faut ensuite éditer pour configurer avec les paramètres de connexion MySQL
 
-### Imporation des données :
+### Importation des données :
 
 ```shell
 $ ./console parse 2010
