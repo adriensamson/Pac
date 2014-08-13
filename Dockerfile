@@ -20,11 +20,11 @@ WORKDIR /var/www
 
 RUN composer install
 RUN chmod +x /var/www/vendor/propel/propel1/generator/bin/phing.php
-RUN ./vendor/bin/propel-gen app/config/Propel main
-RUN ./vendor/bin/propel-gen app/config/Propel main
-RUN cat app/config/Propel/sql/Pac.Model.schema.sql | sqlite3 app/db.sqlite
 RUN cp app/config/Propel/runtime-conf.xml.dist app/config/Propel/runtime-conf.xml
 RUN sed -i "s@<dsn>.*@<dsn>sqlite:/var/www/app/db.sqlite</dsn>@;/<user>/d;/<password>/d" app/config/Propel/runtime-conf.xml
+RUN sed -i "s@propel\.database.*@propel.database=sqlite@" app/config/Propel/build.properties
+RUN ./vendor/bin/propel-gen app/config/Propel main
+RUN cat app/config/Propel/sql/Pac.Model.schema.sql | sqlite3 app/db.sqlite
 
 RUN ./console parse 2010
 RUN ./console parse 2011
